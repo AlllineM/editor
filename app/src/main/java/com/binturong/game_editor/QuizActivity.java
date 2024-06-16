@@ -114,10 +114,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         AppCompatImageButton gift = findViewById(R.id.gift);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
 
-        liveView1 = (ImageView)findViewById(R.id.live1);
-        liveView2 = (ImageView)findViewById(R.id.live2);
-        liveView3 = (ImageView)findViewById(R.id.live3);
-        liveView4 = (ImageView)findViewById(R.id.live4);
+        setLiveView();
 
         homeHead = findViewById(R.id.homeHead);
         settingsHead = findViewById(R.id.settingsHead);
@@ -164,6 +161,13 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         changeGiftReadyVisibility();
 
         setAddBanner();
+    }
+
+    private void setLiveView() {
+        liveView1 = (ImageView)findViewById(R.id.live1);
+        liveView2 = (ImageView)findViewById(R.id.live2);
+        liveView3 = (ImageView)findViewById(R.id.live3);
+        liveView4 = (ImageView)findViewById(R.id.live4);
     }
 
     private void setKeyboardButtons() {
