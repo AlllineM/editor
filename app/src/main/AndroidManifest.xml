@@ -23,6 +23,9 @@
             android:name=".QuizActivity"
             android:exported="false" />
         <activity
+            android:name=".EditorActivity"
+            android:exported="false" />
+        <activity
             android:name=".ResultActivity"
             android:exported="false" />
         <activity

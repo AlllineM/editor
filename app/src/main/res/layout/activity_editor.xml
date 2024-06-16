@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wooden_fon"
+    tools:context=".EditorActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp">
+
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/quizzes_layout"
+            android:layout_below="@id/surfaceView"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_level"
+                android:tag="0"
+                app:backgroundTint="@color/md_theme_seed"
+                android:textColor="@color/md_theme_onPrimary"
+                android:layout_margin="5dp"
+                android:text="Сохранить"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/public_level"
+                android:tag="0"
+                app:backgroundTint="@color/md_theme_seed"
+                android:textColor="@color/md_theme_onPrimary"
+                android:layout_margin="5dp"
+                android:text="Опубликовать"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clear_level"
+                android:tag="0"
+                app:backgroundTint="@color/md_theme_seed"
+                android:textColor="@color/md_theme_onPrimary"
+                android:layout_margin="5dp"
+                android:text="Очистить всё"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
