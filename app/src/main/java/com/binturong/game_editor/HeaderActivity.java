@@ -27,7 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
 
-public class HeaderActivity extends AppCompatActivity {
+public class HeaderActivity extends BaseActivity {
 
     TextView resultTextView;
     TextView recordTextView;
