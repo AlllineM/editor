@@ -38,9 +38,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private TextView scoreTv;
 
     private ImageView liveView1, liveView2, liveView3, liveView4;
-
-    private AppCompatImageButton homeHead, settingsHead;
-
     private SurfaceHolder surfaceHolder;
 
     // Доступные значения: right, left, top, bottom
@@ -110,22 +107,27 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         maxScore = sharedPreferences.getInt("maxScore", 0);
 
         setKeyboardButtons();
-
-        AppCompatImageButton gift = findViewById(R.id.gift);
-        AppCompatImageButton giftReady = findViewById(R.id.giftReady);
-
+        setHeaderButtons();
         setLiveView();
-
-        homeHead = findViewById(R.id.homeHead);
-        settingsHead = findViewById(R.id.settingsHead);
 
         surfaceView.getHolder().addCallback(this);
 
+        changeGiftVisibility();
+        changeGiftReadyVisibility();
+
+        setAddBanner();
+    }
+
+    private void setHeaderButtons() {
+        AppCompatImageButton homeHead = findViewById(R.id.homeHead);
+        AppCompatImageButton settingsHead = findViewById(R.id.settingsHead);
+        AppCompatImageButton gift = findViewById(R.id.gift);
+        AppCompatImageButton giftReady = findViewById(R.id.giftReady);
 
         gift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               showUpdateDialog(QuizActivity.this);
+                showUpdateDialog(QuizActivity.this);
             }
         });
 
@@ -156,11 +158,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                 startActivity(settingsIntent);
             }
         });
-
-        changeGiftVisibility();
-        changeGiftReadyVisibility();
-
-        setAddBanner();
     }
 
     private void setLiveView() {
