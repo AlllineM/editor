@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wooden_fon"
+    tools:context=".MainActivity">
+
+    <include android:id="@+id/header"
+        layout="@layout/activity_header"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentTop="true"/>
+
+    <RelativeLayout
+        android:id="@+id/banner_placeholder"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="6dp"/>
+
+    <com.yandex.mobile.ads.banner.BannerAdView
+        android:id="@+id/banner"
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp"
+        android:layout_below="@id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/quizzes_layout"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/quiz_1"
+                android:tag="0"
+                app:backgroundTint="@color/md_theme_seed"
+                android:textColor="@color/md_theme_onPrimary"
+                android:layout_margin="5dp"
+                android:textSize="20sp"
+                android:text="Играть"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

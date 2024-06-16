@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/md_theme_primaryContainer"
+    tools:context=".HeaderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="left"
+        android:layout_marginTop="5dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/homeHead"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/md_theme_primaryContainer"
+            android:src="@drawable/home"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/settingsHead"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:background="@color/md_theme_primaryContainer"
+            android:src="@drawable/settings"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/gift"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:background="@color/md_theme_primaryContainer"
+            android:src="@drawable/gift"
+            android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/giftReady"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:background="@color/md_theme_primaryContainer"
+            android:src="@drawable/live"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</RelativeLayout>
