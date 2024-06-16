@@ -113,13 +113,11 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }
 
         if (Objects.equals(mode, "level")) {
-            Log.d("---", "----1");
             currentLevel = sharedPreferences.getInt("currentLevel", 2);
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     String response = getLevel(currentLevel);
-                    Log.d("response", response);
                     JSONArray blocks = parseResponse(response);
                     for (int i = 0; i < blocks.length(); i++) {
                         try {
@@ -275,7 +273,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private String getLevel(int currentLevel) {
         StringBuilder result = new StringBuilder();
         HttpURLConnection urlConnection = null;
-        Log.d("---", "----2");
 
         try {
             URL url = new URL("https://test-constructor.ru/api/v.0/level/get/one");
@@ -308,8 +305,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         } finally {
             urlConnection.disconnect();
         }
-
-        Log.d("---", "----3");
 
         return result.toString();
     }
@@ -352,7 +347,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         liveCount = 3;
         if (isExtraLiveAvailable()) {
             liveCount = 4;
-            Log.d("live", Integer.toString(liveCount));
             liveView4.setVisibility(View.VISIBLE);
         } else {
             liveView4.setVisibility(View.INVISIBLE);
