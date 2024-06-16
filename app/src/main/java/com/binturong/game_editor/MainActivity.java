@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 
 public class MainActivity extends HeaderActivity implements View.OnClickListener {
 
-    Button quiz1, play;
+    Button quiz1, play, levelCreate;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -20,8 +20,17 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
 
         quiz1 = findViewById(R.id.quiz_1);
         play = findViewById(R.id.play);
+        levelCreate = findViewById(R.id.level_create);
+
         quiz1.setOnClickListener(this);
         play.setOnClickListener(this);
+        levelCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editorIntent = new Intent(MainActivity.this, EditorActivity.class);
+                startActivity(editorIntent);
+            }
+        });
 
         AppCompatImageButton settingsHead = findViewById(R.id.settingsHead);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
@@ -53,11 +62,12 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
 
     public void onClick(View view) {
         Button clickedButton = (Button) view;
+
         Intent quizIntent = new Intent(this, QuizActivity.class);
 
         if (clickedButton.getId() == R.id.quiz_1) {
             quizIntent.putExtra("mode", "eternal");
-        } else {
+        } else if (clickedButton.getId() == R.id.quiz_1) {
             quizIntent.putExtra("mode", "level");
         }
 
