@@ -31,6 +31,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -111,10 +112,19 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }
 
         if (Objects.equals(mode, "level")) {
+            Log.d("---", "----1");
             currentLevel = sharedPreferences.getInt("currentLevel", 1);
-            String response = getLevel();
-            String level = parseResponse(response);
-            Log.d("bloks", level);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String response = getLevel();
+                    Log.d("response", response);
+                }
+            });
+            thread.start();
+
+            //String blocks = parseResponse(response);
+            //Log.d("blocks", blocks);
         }
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -254,10 +264,25 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private String getLevel() {
         StringBuilder result = new StringBuilder();
         HttpURLConnection urlConnection = null;
+        Log.d("---", "----2");
 
         try {
             URL url = new URL("https://test-constructor.ru/api/v.0/level/get/one");
             urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setRequestProperty("Accept", "application/json");
+            urlConnection.setDoOutput(true);
+
+            JSONObject params = new JSONObject();
+            params.put("level", 1);
+            String jsonInputString = params.toString();
+
+            try(OutputStream os = urlConnection.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -272,6 +297,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         } finally {
             urlConnection.disconnect();
         }
+
+        Log.d("---", "----3");
 
         return result.toString();
     }
