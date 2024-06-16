@@ -24,6 +24,7 @@ import com.yandex.mobile.ads.banner.BannerAdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
 import com.yandex.mobile.ads.common.AdRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,8 +120,19 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                 public void run() {
                     String response = getLevel(currentLevel);
                     Log.d("response", response);
-                    String blocks = parseResponse(response);
-                    Log.d("blocks", blocks);
+                    JSONArray blocks = parseResponse(response);
+                    for (int i = 0; i < blocks.length(); i++) {
+                        try {
+                            JSONObject coordinates = blocks.getJSONObject(i);
+                            Log.d("coordinate", coordinates.toString());
+                            blockPointsList.add(new SnakePoints(
+                                    pointsSize * coordinates.getInt("x"),
+                                    pointsSize * coordinates.getInt("y")
+                            ));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                 }
             });
             thread.start();
@@ -302,16 +314,16 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         return result.toString();
     }
 
-    private String parseResponse(String response) {
+    private JSONArray parseResponse(String response) {
         try {
             //{"status":200,"result":[{"id":1,"blocks":[{"x":1,"y":2}]}]}
             JSONObject jsonResponse = new JSONObject(response);
             if (jsonResponse.getInt("status") != 200) {
-                return "0";
+                return new JSONArray();
             }
             JSONObject result = new JSONObject(jsonResponse.getString("result"));
 
-            return result.getString("blocks");
+            return new JSONArray(result.getString("blocks"));
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -365,6 +377,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     }
 
     private void setBlockPointsList() {
+        //отрисовка рамок
         for (int i = 1; i < surfaceSize / pointsSize + 2; i = i + 2) {
             //отрисовка горизонтальных рамок
             blockPointsList.add(new SnakePoints(pointsSize * i, pointsSize));
