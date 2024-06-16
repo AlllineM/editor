@@ -14,7 +14,7 @@ import com.yandex.mobile.ads.common.AdRequest;
 
 public class MainActivity extends HeaderActivity implements View.OnClickListener {
 
-    Button quiz1;
+    Button quiz1, play;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -23,7 +23,9 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         setContentView(R.layout.activity_main);
 
         quiz1 = findViewById(R.id.quiz_1);
+        play = findViewById(R.id.play);
         quiz1.setOnClickListener(this);
+        play.setOnClickListener(this);
 
         AppCompatImageButton settingsHead = findViewById(R.id.settingsHead);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
