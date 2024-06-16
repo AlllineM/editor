@@ -42,13 +42,24 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/quiz_1"
+                android:id="@+id/play"
                 android:tag="0"
                 app:backgroundTint="@color/md_theme_seed"
                 android:textColor="@color/md_theme_onPrimary"
                 android:layout_margin="5dp"
                 android:textSize="20sp"
                 android:text="Играть"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/quiz_1"
+                android:tag="0"
+                app:backgroundTint="@color/md_theme_seed"
+                android:textColor="@color/md_theme_onPrimary"
+                android:layout_margin="5dp"
+                android:textSize="20sp"
+                android:text="<Бесконечная игра>"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

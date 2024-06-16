@@ -85,10 +85,17 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     boolean isVibrateOn = true;
 
+    String mode = "level";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mode = extras.getString("mode");
+        }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
