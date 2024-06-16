@@ -117,14 +117,13 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String response = getLevel();
+                    String response = getLevel(currentLevel);
                     Log.d("response", response);
+                    String blocks = parseResponse(response);
+                    Log.d("blocks", blocks);
                 }
             });
             thread.start();
-
-            //String blocks = parseResponse(response);
-            //Log.d("blocks", blocks);
         }
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -261,7 +260,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     }
 
     //todo: отрефакторить, но потом)
-    private String getLevel() {
+    private String getLevel(int currentLevel) {
         StringBuilder result = new StringBuilder();
         HttpURLConnection urlConnection = null;
         Log.d("---", "----2");
@@ -275,7 +274,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             urlConnection.setDoOutput(true);
 
             JSONObject params = new JSONObject();
-            params.put("level", 1);
+            params.put("level", currentLevel);
             String jsonInputString = params.toString();
 
             try(OutputStream os = urlConnection.getOutputStream()) {
