@@ -39,7 +39,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     private ImageView liveView1, liveView2, liveView3, liveView4;
 
-    private AppCompatImageButton pause, homeHead, settingsHead;
+    private AppCompatImageButton homeHead, settingsHead;
 
     private SurfaceHolder surfaceHolder;
 
@@ -119,7 +119,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         liveView3 = (ImageView)findViewById(R.id.live3);
         liveView4 = (ImageView)findViewById(R.id.live4);
 
-        pause = findViewById(R.id.pause);
         homeHead = findViewById(R.id.homeHead);
         settingsHead = findViewById(R.id.settingsHead);
 
@@ -137,22 +136,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             @Override
             public void onClick(View view) {
                 showExtraLiveDialog(QuizActivity.this);
-            }
-        });
-
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (paused) {
-                    pause.setImageResource(R.drawable.pause);
-                    moveSnake();
-                } else {
-                    pause.setImageResource(R.drawable.play);
-                    timer.purge();
-                    timer.cancel();
-                }
-
-                paused = !paused;
             }
         });
 
@@ -188,11 +171,28 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         final AppCompatImageButton bottomBtn = findViewById(R.id.bottomBtn);
         final AppCompatImageButton leftBtn = findViewById(R.id.leftBtn);
         final AppCompatImageButton rightBtn = findViewById(R.id.rightBtn);
+        AppCompatImageButton pause = findViewById(R.id.pause);
 
         topBtn.setOnClickListener(this);
         bottomBtn.setOnClickListener(this);
         leftBtn.setOnClickListener(this);
         rightBtn.setOnClickListener(this);
+
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (paused) {
+                    pause.setImageResource(R.drawable.pause);
+                    moveSnake();
+                } else {
+                    pause.setImageResource(R.drawable.play);
+                    timer.purge();
+                    timer.cancel();
+                }
+
+                paused = !paused;
+            }
+        });
     }
 
     @Override
