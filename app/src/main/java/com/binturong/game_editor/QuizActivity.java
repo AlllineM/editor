@@ -114,7 +114,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
         if (Objects.equals(mode, "level")) {
             Log.d("---", "----1");
-            currentLevel = sharedPreferences.getInt("currentLevel", 1);
+            currentLevel = sharedPreferences.getInt("currentLevel", 2);
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
