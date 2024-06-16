@@ -51,7 +51,7 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         changeGiftReadyVisibility();
 
         BannerAdView banner =  findViewById(R.id.banner);
-        banner.setAdUnitId("R-M-9304200-1");
+        banner.setAdUnitId("R-M-9403186-1");
         banner.setAdSize(BannerAdSize.fixedSize(this, 320, 50));
         AdRequest adRequest = new AdRequest.Builder().build();
         banner.loadAd(adRequest);
