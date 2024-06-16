@@ -96,26 +96,30 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
+
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         isVibrateOn = sharedPreferences.getBoolean("vibration", true);
 
-        surfaceView = findViewById(R.id.surfaceView);
-        surfaceView.setZOrderOnTop(true);
-        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-
         scoreTv = findViewById(R.id.scoreTv);
         maxScore = sharedPreferences.getInt("maxScore", 0);
+
+        setSurfaceView();
 
         setKeyboardButtons();
         setHeaderButtons();
         setLiveView();
 
-        surfaceView.getHolder().addCallback(this);
-
         changeGiftVisibility();
         changeGiftReadyVisibility();
 
         setAddBanner();
+    }
+
+    private void setSurfaceView() {
+        surfaceView = findViewById(R.id.surfaceView);
+        surfaceView.setZOrderOnTop(true);
+        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        surfaceView.getHolder().addCallback(this);
     }
 
     private void setHeaderButtons() {
