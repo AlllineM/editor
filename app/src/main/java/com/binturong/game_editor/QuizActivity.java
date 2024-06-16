@@ -188,11 +188,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         changeGiftVisibility();
         changeGiftReadyVisibility();
 
-        BannerAdView banner =  findViewById(R.id.banner);
-        banner.setAdUnitId("R-M-9403186-1");
-        banner.setAdSize(BannerAdSize.fixedSize(this, 320, 50));
-        AdRequest adRequest = new AdRequest.Builder().build();
-        banner.loadAd(adRequest);
+        setAddBanner();
     }
 
     @Override
