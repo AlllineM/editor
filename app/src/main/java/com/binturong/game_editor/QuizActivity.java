@@ -24,8 +24,18 @@ import com.yandex.mobile.ads.banner.BannerAdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
 import com.yandex.mobile.ads.common.AdRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -84,26 +94,34 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     String mode = "level";
 
+    int currentLevel = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = sharedPreferences.edit();
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mode = extras.getString("mode");
         }
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        editor = sharedPreferences.edit();
+        if (Objects.equals(mode, "level")) {
+            currentLevel = sharedPreferences.getInt("currentLevel", 1);
+            String response = getLevel();
+            String level = parseResponse(response);
+            Log.d("bloks", level);
+        }
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         isVibrateOn = sharedPreferences.getBoolean("vibration", true);
 
         scoreTv = findViewById(R.id.scoreTv);
         maxScore = sharedPreferences.getInt("maxScore", 0);
-
-        setSurfaceView();
 
         setKeyboardButtons();
         setHeaderButtons();
@@ -113,6 +131,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         changeGiftReadyVisibility();
 
         setAddBanner();
+
+        setSurfaceView();
     }
 
     private void setSurfaceView() {
@@ -227,6 +247,48 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             if (!movingPosition.equals("left")) {
                 movingPosition = "right";
             }
+        }
+    }
+
+    //todo: отрефакторить, но потом)
+    private String getLevel() {
+        StringBuilder result = new StringBuilder();
+        HttpURLConnection urlConnection = null;
+
+        try {
+            URL url = new URL("https://test-constructor.ru/api/v.0/level/get/one");
+            urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            urlConnection.disconnect();
+        }
+
+        return result.toString();
+    }
+
+    private String parseResponse(String response) {
+        try {
+            //{"status":200,"result":[{"id":1,"blocks":[{"x":1,"y":2}]}]}
+            JSONObject jsonResponse = new JSONObject(response);
+            if (jsonResponse.getInt("status") != 200) {
+                return "0";
+            }
+            JSONObject result = new JSONObject(jsonResponse.getString("result"));
+
+            return result.getString("blocks");
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
     }
 
