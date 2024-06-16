@@ -109,10 +109,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         scoreTv = findViewById(R.id.scoreTv);
         maxScore = sharedPreferences.getInt("maxScore", 0);
 
-        final AppCompatImageButton topBtn = findViewById(R.id.topBtn);
-        final AppCompatImageButton bottomBtn = findViewById(R.id.bottomBtn);
-        final AppCompatImageButton leftBtn = findViewById(R.id.leftBtn);
-        final AppCompatImageButton rightBtn = findViewById(R.id.rightBtn);
+        setKeyboardButtons();
 
         AppCompatImageButton gift = findViewById(R.id.gift);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
@@ -180,15 +177,22 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             }
         });
 
-        topBtn.setOnClickListener(this);
-        bottomBtn.setOnClickListener(this);
-        leftBtn.setOnClickListener(this);
-        rightBtn.setOnClickListener(this);
-
         changeGiftVisibility();
         changeGiftReadyVisibility();
 
         setAddBanner();
+    }
+
+    private void setKeyboardButtons() {
+        final AppCompatImageButton topBtn = findViewById(R.id.topBtn);
+        final AppCompatImageButton bottomBtn = findViewById(R.id.bottomBtn);
+        final AppCompatImageButton leftBtn = findViewById(R.id.leftBtn);
+        final AppCompatImageButton rightBtn = findViewById(R.id.rightBtn);
+
+        topBtn.setOnClickListener(this);
+        bottomBtn.setOnClickListener(this);
+        leftBtn.setOnClickListener(this);
+        rightBtn.setOnClickListener(this);
     }
 
     @Override
