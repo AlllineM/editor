@@ -63,6 +63,13 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         clearLevel = findViewById(R.id.clear_level);
 
         setHeaderButtons();
+
+        clearLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         saveLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,44 +161,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                         bigBlockPointsList.add(new SnakePoints(xPosition, yPosition));
                     }
 
-                    //отрисовка блоков
-                    canvas = surfaceHolder.lockCanvas();
-                    canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
-
-                    //отрисовка рамки
-                    for (int i = 0; i < blockPointsList.size(); i++) {
-                        canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
-                    }
-
-                    //отрисовка больших блоков
-                    for (int i = 0; i < bigBlockPointsList.size(); i++) {
-                        //большой блок - квадрат из 4 мелких блоков
-                        canvas.drawCircle(
-                                bigBlockPointsList.get(i).getPositionX(),
-                                bigBlockPointsList.get(i).getPositionY(),
-                                pointsSize,
-                                createPointColor("block")
-                        );
-                        canvas.drawCircle(
-                                bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
-                                bigBlockPointsList.get(i).getPositionY(),
-                                pointsSize,
-                                createPointColor("block")
-                        );
-                        canvas.drawCircle(
-                                bigBlockPointsList.get(i).getPositionX(),
-                                bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
-                                pointsSize,
-                                createPointColor("block")
-                        );
-                        canvas.drawCircle(
-                                bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
-                                bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
-                                pointsSize,
-                                createPointColor("block")
-                        );
-                    }
-                    surfaceHolder.unlockCanvasAndPost(canvas);
+                    drawBlocks();
                 }
 
                 return onTouchEvent(event);
@@ -242,6 +212,46 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         });
     }
 
+    private void drawBlocks() {
+        //отрисовка блоков
+        canvas = surfaceHolder.lockCanvas();
+        canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+
+        //отрисовка рамки
+        for (int i = 0; i < blockPointsList.size(); i++) {
+            canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
+        }
+
+        //отрисовка больших блоков
+        for (int i = 0; i < bigBlockPointsList.size(); i++) {
+            //большой блок - квадрат из 4 мелких блоков
+            canvas.drawCircle(
+                    bigBlockPointsList.get(i).getPositionX(),
+                    bigBlockPointsList.get(i).getPositionY(),
+                    pointsSize,
+                    createPointColor("block")
+            );
+            canvas.drawCircle(
+                    bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
+                    bigBlockPointsList.get(i).getPositionY(),
+                    pointsSize,
+                    createPointColor("block")
+            );
+            canvas.drawCircle(
+                    bigBlockPointsList.get(i).getPositionX(),
+                    bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
+                    pointsSize,
+                    createPointColor("block")
+            );
+            canvas.drawCircle(
+                    bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
+                    bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
+                    pointsSize,
+                    createPointColor("block")
+            );
+        }
+        surfaceHolder.unlockCanvasAndPost(canvas);
+    }
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
         this.surfaceHolder = surfaceHolder;
