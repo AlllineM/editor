@@ -66,7 +66,7 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         Intent quizIntent = new Intent(this, QuizActivity.class);
 
         if (clickedButton.getId() == R.id.quiz_1) {
-            quizIntent.putExtra("mode", "eternal");
+            quizIntent.putExtra("mode", "classic");
         } else if (clickedButton.getId() == R.id.quiz_1) {
             quizIntent.putExtra("mode", "level");
         }
