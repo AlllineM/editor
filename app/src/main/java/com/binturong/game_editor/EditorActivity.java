@@ -1,5 +1,6 @@
 package com.binturong.game_editor;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -51,6 +52,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
     //Цвет еды/одного звена змеи
     private Paint pointColor = null;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,12 +125,77 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
         setAddBanner();
         setSurfaceView();
+
+        surfaceView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    int x = (int) event.getX();
+                    int y = (int) event.getY();
+
+                    //чтобы все блоки рисовались ровно по сетке, а не точно в рандомной точке нажатия
+                    int blockSize = 4 * pointsSize;
+                    int xPosition = x / blockSize;
+                    int yPosition = y / blockSize;
+                    xPosition = xPosition * blockSize + pointsSize;
+                    yPosition = yPosition * blockSize;
+
+                    //если блок с такими координатами уже существует, убираем его
+                    boolean isBlockExist = false;
+                    for (int i = 0; i < bigBlockPointsList.size(); i++) {
+                        if (bigBlockPointsList.get(i).getPositionX() == xPosition &&
+                                bigBlockPointsList.get(i).getPositionY() == yPosition) {
+                            isBlockExist = true;
+                            bigBlockPointsList.remove(i);
+                            break;
+                        }
+                    }
+                    //если блока нет, добавили
+                    if (!isBlockExist) {
+                        bigBlockPointsList.add(new SnakePoints(xPosition, yPosition));
+                    }
+
+                    //отрисовка блоков
+                    canvas = surfaceHolder.lockCanvas();
+                    canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+                    for (int i = 0; i < bigBlockPointsList.size(); i++) {
+                        //большой блок - квадрат из 4 мелких блоков
+                        canvas.drawCircle(
+                                bigBlockPointsList.get(i).getPositionX(),
+                                bigBlockPointsList.get(i).getPositionY(),
+                                pointsSize,
+                                createPointColor("block")
+                        );
+                        canvas.drawCircle(
+                                bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
+                                bigBlockPointsList.get(i).getPositionY(),
+                                pointsSize,
+                                createPointColor("block")
+                        );
+                        canvas.drawCircle(
+                                bigBlockPointsList.get(i).getPositionX(),
+                                bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
+                                pointsSize,
+                                createPointColor("block")
+                        );
+                        canvas.drawCircle(
+                                bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
+                                bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
+                                pointsSize,
+                                createPointColor("block")
+                        );
+                    }
+                    surfaceHolder.unlockCanvasAndPost(canvas);
+                }
+
+                return onTouchEvent(event);
+            }
+        });
     }
 
     private void setSurfaceView() {
         surfaceView = findViewById(R.id.surfaceViewEditor);
-        surfaceView.setZOrderOnTop(true);
-        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+//        surfaceView.setZOrderOnTop(true);
+//        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceView.getHolder().addCallback(this);
     }
 
@@ -167,70 +234,69 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             }
         });
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-
-            //чтобы все блоки рисовались ровно по сетке, а не точно в рандомной точке нажатия
-            int blockSize = 4 * pointsSize;
-            int xPosition = x / blockSize;
-            int yPosition = y / blockSize;
-            xPosition = xPosition * blockSize + pointsSize;
-            yPosition = yPosition * blockSize - 3 * pointsSize;
-
-            //если блок с такими координатами уже существует, убираем его
-            boolean isBlockExist = false;
-            for (int i = 0; i < bigBlockPointsList.size(); i++) {
-                if (bigBlockPointsList.get(i).getPositionX() == xPosition &&
-                        bigBlockPointsList.get(i).getPositionY() == yPosition) {
-                    isBlockExist = true;
-                    bigBlockPointsList.remove(i);
-                    break;
-                }
-            }
-            //если блока нет, добавили
-            if (!isBlockExist) {
-                bigBlockPointsList.add(new SnakePoints(xPosition, yPosition));
-            }
-
-            //отрисовка блоков
-            canvas = surfaceHolder.lockCanvas();
-            canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
-            for (int i = 0; i < bigBlockPointsList.size(); i++) {
-                //большой блок - квадрат из 4 мелких блоков
-                canvas.drawCircle(
-                        bigBlockPointsList.get(i).getPositionX(),
-                        bigBlockPointsList.get(i).getPositionY(),
-                        pointsSize,
-                        createPointColor("block")
-                );
-                canvas.drawCircle(
-                        bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
-                        bigBlockPointsList.get(i).getPositionY(),
-                        pointsSize,
-                        createPointColor("block")
-                );
-                canvas.drawCircle(
-                        bigBlockPointsList.get(i).getPositionX(),
-                        bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
-                        pointsSize,
-                        createPointColor("block")
-                );
-                canvas.drawCircle(
-                        bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
-                        bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
-                        pointsSize,
-                        createPointColor("block")
-                );
-            }
-            surfaceHolder.unlockCanvasAndPost(canvas);
-        }
-
-        return super.onTouchEvent(event);
-    }
+//            @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            int x = (int) event.getX();
+//            int y = (int) event.getY();
+//
+//            //чтобы все блоки рисовались ровно по сетке, а не точно в рандомной точке нажатия
+//            int blockSize = 4 * pointsSize;
+//            int xPosition = x / blockSize;
+//            int yPosition = y / blockSize;
+//            xPosition = xPosition * blockSize + pointsSize;
+//            yPosition = yPosition * blockSize - 3 * pointsSize;
+//
+//            //если блок с такими координатами уже существует, убираем его
+//            boolean isBlockExist = false;
+//            for (int i = 0; i < bigBlockPointsList.size(); i++) {
+//                if (bigBlockPointsList.get(i).getPositionX() == xPosition &&
+//                        bigBlockPointsList.get(i).getPositionY() == yPosition) {
+//                    isBlockExist = true;
+//                    bigBlockPointsList.remove(i);
+//                    break;
+//                }
+//            }
+//            //если блока нет, добавили
+//            if (!isBlockExist) {
+//                bigBlockPointsList.add(new SnakePoints(xPosition, yPosition));
+//            }
+//
+//            //отрисовка блоков
+//            canvas = surfaceHolder.lockCanvas();
+//            canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+//            for (int i = 0; i < bigBlockPointsList.size(); i++) {
+//                //большой блок - квадрат из 4 мелких блоков
+//                canvas.drawCircle(
+//                        bigBlockPointsList.get(i).getPositionX(),
+//                        bigBlockPointsList.get(i).getPositionY(),
+//                        pointsSize,
+//                        createPointColor("block")
+//                );
+//                canvas.drawCircle(
+//                        bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
+//                        bigBlockPointsList.get(i).getPositionY(),
+//                        pointsSize,
+//                        createPointColor("block")
+//                );
+//                canvas.drawCircle(
+//                        bigBlockPointsList.get(i).getPositionX(),
+//                        bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
+//                        pointsSize,
+//                        createPointColor("block")
+//                );
+//                canvas.drawCircle(
+//                        bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
+//                        bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
+//                        pointsSize,
+//                        createPointColor("block")
+//                );
+//            }
+//            surfaceHolder.unlockCanvasAndPost(canvas);
+//        }
+//
+//        return super.onTouchEvent(event);
+//    }
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
