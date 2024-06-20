@@ -15,6 +15,8 @@ import com.yandex.mobile.ads.banner.BannerAdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
 import com.yandex.mobile.ads.common.AdRequest;
 
+import java.util.Objects;
+
 public class ResultActivity extends HeaderActivity implements View.OnClickListener {
 
     Button home;
@@ -26,6 +28,8 @@ public class ResultActivity extends HeaderActivity implements View.OnClickListen
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+
+    String mode = "";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -48,14 +52,24 @@ public class ResultActivity extends HeaderActivity implements View.OnClickListen
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int score = extras.getInt("score");
-            String resultText = "Результат: " + score;
-            resultTextView.setText(resultText);
-        }
+            mode = extras.getString("mode");
 
-        int maxScore = sharedPreferences.getInt("maxScore", 0);
-        String recordText = "Личный рекорд: " + maxScore;
-        recordTextView.setText(recordText);
+            if (Objects.equals(mode, "level")) {
+                resultTextView.setText("Уровень пройден!");
+                resultTextView.setTextSize(35);
+
+                recordTextView.setText("");
+                play.setText("Продолжить");
+            } else {
+                int score = extras.getInt("score");
+                String resultText = "Результат: " + score;
+                resultTextView.setText(resultText);
+
+                int maxScore = sharedPreferences.getInt("maxScore", 0);
+                String recordText = "Личный рекорд: " + maxScore;
+                recordTextView.setText(recordText);
+            }
+        }
 
         changeGiftVisibility();
         changeGiftReadyVisibility();

@@ -471,6 +471,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                         @Override
                         public void run() {
                             Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
+                            resultIntent.putExtra("mode", "level");
                             resultIntent.putExtra("score", score);
                             startActivity(resultIntent);
                         }
