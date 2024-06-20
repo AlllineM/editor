@@ -187,7 +187,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                 timer.purge();
                 timer.cancel();
 
-                finish();
+                Intent mainIntent = new Intent(QuizActivity.this, MainActivity.class);
+                startActivity(mainIntent);
             }
         });
 

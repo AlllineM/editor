@@ -228,7 +228,8 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         homeHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent mainIntent = new Intent(EditorActivity.this, MainActivity.class);
+                startActivity(mainIntent);
             }
         });
 
