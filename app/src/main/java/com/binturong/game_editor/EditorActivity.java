@@ -1,5 +1,6 @@
 package com.binturong.game_editor;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,6 +15,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,6 +59,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         publicLevel = findViewById(R.id.public_level);
         clearLevel = findViewById(R.id.clear_level);
 
+        setHeaderButtons();
         saveLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,6 +117,44 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     }
                 });
                 thread.start();
+            }
+        });
+
+        setAddBanner();
+    }
+
+    private void setHeaderButtons() {
+        AppCompatImageButton homeHead = findViewById(R.id.homeHead);
+        AppCompatImageButton settingsHead = findViewById(R.id.settingsHead);
+        AppCompatImageButton gift = findViewById(R.id.gift);
+        AppCompatImageButton giftReady = findViewById(R.id.giftReady);
+
+        gift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showUpdateDialog(EditorActivity.this);
+            }
+        });
+
+        giftReady.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showExtraLiveDialog(EditorActivity.this);
+            }
+        });
+
+        homeHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        settingsHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent settingsIntent = new Intent(EditorActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
             }
         });
     }
