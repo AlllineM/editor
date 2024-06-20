@@ -459,6 +459,25 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                         break;
                 }
 
+                //todo: дааа, рефакторинг реально нужен %)
+                //Если набрано нужное количество очков
+                if (score == 1) {
+                    timer.purge();
+                    timer.cancel();
+
+                    updateRecord();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
+                            resultIntent.putExtra("score", score);
+                            startActivity(resultIntent);
+                        }
+                    });
+                    return;
+                }
+
                 //Если змейка врезалась
                 if (checkGameOver(headPositionX, headPositionY)) {
                     liveCount--;
@@ -587,11 +606,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }
 
         if (liveCount <= 0) {
-            return true;
-        }
-
-        //Если набрано нужное количество очков
-        if (score == 1) {
             return true;
         }
 
