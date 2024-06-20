@@ -26,56 +26,48 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
-    <RelativeLayout
+    <SurfaceView
+        android:id="@+id/surfaceViewEditor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/banner_placeholder"
-        android:padding="6dp">
+        android:layout_below="@+id/banner_placeholder"/>
 
-        <SurfaceView
-            android:id="@+id/surfaceView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/quizzes_layout"
+        android:layout_below="@id/surfaceViewEditor"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/quizzes_layout"
-            android:layout_below="@id/surfaceView"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:id="@+id/save_level"
+            android:tag="0"
+            app:backgroundTint="@color/md_theme_seed"
+            android:textColor="@color/md_theme_onPrimary"
+            android:layout_margin="5dp"
+            android:text="Сохранить"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_level"
-                android:tag="0"
-                app:backgroundTint="@color/md_theme_seed"
-                android:textColor="@color/md_theme_onPrimary"
-                android:layout_margin="5dp"
-                android:text="Сохранить"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/public_level"
+            android:tag="0"
+            app:backgroundTint="@color/md_theme_seed"
+            android:textColor="@color/md_theme_onPrimary"
+            android:layout_margin="5dp"
+            android:text="Опубликовать"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/public_level"
-                android:tag="0"
-                app:backgroundTint="@color/md_theme_seed"
-                android:textColor="@color/md_theme_onPrimary"
-                android:layout_margin="5dp"
-                android:text="Опубликовать"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/clear_level"
-                android:tag="0"
-                app:backgroundTint="@color/md_theme_seed"
-                android:textColor="@color/md_theme_onPrimary"
-                android:layout_margin="5dp"
-                android:text="Очистить всё"/>
-        </LinearLayout>
-
-    </RelativeLayout>
-
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/clear_level"
+            android:tag="0"
+            app:backgroundTint="@color/md_theme_seed"
+            android:textColor="@color/md_theme_onPrimary"
+            android:layout_margin="5dp"
+            android:text="Очистить всё"/>
+    </LinearLayout>
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,9 +52,6 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-
-        surfaceView = findViewById(R.id.surfaceView);
-        surfaceView.getHolder().addCallback(this);
 
         saveLevel = findViewById(R.id.save_level);
         publicLevel = findViewById(R.id.public_level);
@@ -121,6 +119,14 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         });
 
         setAddBanner();
+        setSurfaceView();
+    }
+
+    private void setSurfaceView() {
+        surfaceView = findViewById(R.id.surfaceViewEditor);
+        surfaceView.setZOrderOnTop(true);
+        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        surfaceView.getHolder().addCallback(this);
     }
 
     private void setHeaderButtons() {
