@@ -113,23 +113,36 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
         if (Objects.equals(mode, "level")) {
             //currentLevel = sharedPreferences.getInt("currentLevel", 1);
-            currentLevel = 1;
+            currentLevel = 100;
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     String response = getLevel(currentLevel);
-                    JSONArray blocks = parseResponse(response);
-                    for (int i = 0; i < blocks.length(); i++) {
-                        try {
-                            JSONObject coordinates = blocks.getJSONObject(i);
-                            Log.d("coordinate", coordinates.toString());
-                            blockPointsList.add(new SnakePoints(
-                                    pointsSize * coordinates.getInt("x"),
-                                    pointsSize * coordinates.getInt("y")
-                            ));
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
+
+                    try {
+                        if (isResponseStatusOk(response)) {
+                            JSONArray blocks = parseResponse(response);
+                            for (int i = 0; i < blocks.length(); i++) {
+                                try {
+                                    JSONObject coordinates = blocks.getJSONObject(i);
+                                    Log.d("coordinate", coordinates.toString());
+                                    blockPointsList.add(new SnakePoints(
+                                            pointsSize * coordinates.getInt("x"),
+                                            pointsSize * coordinates.getInt("y")
+                                    ));
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        } else {
+                            //если уровни кончились
+                            Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
+                            resultIntent.putExtra("mode", "level");
+                            resultIntent.putExtra("done", true);
+                            startActivity(resultIntent);
                         }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             });
@@ -308,6 +321,13 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }
 
         return result.toString();
+    }
+
+    private boolean isResponseStatusOk(String response) throws JSONException {
+        //{"status":200,"result":[{"id":1,"blocks":[{"x":1,"y":2}]}]}
+        JSONObject jsonResponse = new JSONObject(response);
+
+        return jsonResponse.getInt("status") == 200;
     }
 
     private JSONArray parseResponse(String response) {

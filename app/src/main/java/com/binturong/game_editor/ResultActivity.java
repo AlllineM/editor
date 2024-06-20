@@ -55,17 +55,36 @@ public class ResultActivity extends HeaderActivity implements View.OnClickListen
             mode = extras.getString("mode");
 
             if (Objects.equals(mode, "level")) {
-                recordTextView.setText("");
-
-                boolean success = extras.getBoolean("success");
-                if (success) {
-                    resultTextView.setText("Уровень пройден!");
-                    resultTextView.setTextSize(35);
-                    play.setText("Продолжить");
-                } else {
-                    resultTextView.setText("Уровень не пройден");
+                boolean done = extras.getBoolean("done", false);
+                if (done) {
+                    resultTextView.setText("Вы прошли все уровни");
                     resultTextView.setTextSize(25);
-                    play.setText("Еще раз");
+                    recordTextView.setText("Поздравляем! Вы прошли игру до конца. " +
+                            "Новые уровни появятся в понедельник. " +
+                            "Сейчас вы можете играть в классическом режиме");
+                    play.setText("Играть");
+                    play.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent playIntent = new Intent(ResultActivity.this, QuizActivity.class);
+                            playIntent.putExtra("mode", "classic");
+                            startActivity(playIntent);
+                        }
+                    });
+                } else {
+                    boolean success = extras.getBoolean("success");
+                    if (success) {
+                        resultTextView.setText("Уровень пройден!");
+                        resultTextView.setTextSize(35);
+                        recordTextView.setText("");
+                        play.setText("Продолжить");
+                    } else {
+                        resultTextView.setText("Уровень не пройден");
+                        resultTextView.setTextSize(25);
+                        recordTextView.setText("");
+                        play.setText("Еще раз");
+                    }
+                    play.setOnClickListener(this);
                 }
             } else {
                 int score = extras.getInt("score");
@@ -75,13 +94,13 @@ public class ResultActivity extends HeaderActivity implements View.OnClickListen
                 int maxScore = sharedPreferences.getInt("maxScore", 0);
                 String recordText = "Личный рекорд: " + maxScore;
                 recordTextView.setText(recordText);
+
+                play.setOnClickListener(this);
             }
         }
 
         changeGiftVisibility();
         changeGiftReadyVisibility();
-
-        play.setOnClickListener(this);
         homeHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
