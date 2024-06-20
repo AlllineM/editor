@@ -71,7 +71,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private int snakeMovingSpeed = 700;
 
     //todo: убрать дублирование
-    private static final int surfaceSizeInPoints = 45;
+    private static final int surfaceSizeInPoints = 43;
     private int surfaceSize;
 
     //координаты рандомной точки еды

@@ -40,7 +40,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
 
-    private static final int surfaceSizeInPoints = 45;
+    private static final int surfaceSizeInPoints = 43;
     private int surfaceSize;
     private static int pointsSize;
     private static final int defaultTailPints = 3;
