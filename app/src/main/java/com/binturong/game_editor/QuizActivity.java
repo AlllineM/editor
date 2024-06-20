@@ -461,8 +461,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                 }
 
                 //todo: дааа, рефакторинг реально нужен %)
-                //Если набрано нужное количество очков
-                if (score == 1) {
+                //Если режим уровней и набрано нужное количество очков
+                if (Objects.equals(mode, "level") && score == 1) {
                     timer.purge();
                     timer.cancel();
 
