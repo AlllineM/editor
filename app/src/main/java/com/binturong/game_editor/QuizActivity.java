@@ -472,7 +472,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                         public void run() {
                             Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
                             resultIntent.putExtra("mode", "level");
-                            resultIntent.putExtra("score", score);
+                            resultIntent.putExtra("success", true);
                             startActivity(resultIntent);
                         }
                     });
@@ -498,7 +498,13 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                         @Override
                         public void run() {
                             Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
-                            resultIntent.putExtra("score", score);
+
+                            if (Objects.equals(mode, "level")) {
+                                resultIntent.putExtra("mode", "level");
+                                resultIntent.putExtra("success", false);
+                            } else {
+                                resultIntent.putExtra("score", score);
+                            }
                             startActivity(resultIntent);
                         }
                     });

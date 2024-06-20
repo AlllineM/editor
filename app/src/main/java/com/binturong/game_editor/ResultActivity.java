@@ -55,11 +55,18 @@ public class ResultActivity extends HeaderActivity implements View.OnClickListen
             mode = extras.getString("mode");
 
             if (Objects.equals(mode, "level")) {
-                resultTextView.setText("Уровень пройден!");
-                resultTextView.setTextSize(35);
-
                 recordTextView.setText("");
-                play.setText("Продолжить");
+
+                boolean success = extras.getBoolean("success");
+                if (success) {
+                    resultTextView.setText("Уровень пройден!");
+                    resultTextView.setTextSize(35);
+                    play.setText("Продолжить");
+                } else {
+                    resultTextView.setText("Уровень не пройден");
+                    resultTextView.setTextSize(25);
+                    play.setText("Еще раз");
+                }
             } else {
                 int score = extras.getInt("score");
                 String resultText = "Результат: " + score;
