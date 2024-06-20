@@ -38,6 +38,9 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     Button saveLevel, publicLevel, clearLevel;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
+
+    private static final int surfaceSizeInPoints = 45;
+    private int surfaceSize;
     private static int pointsSize;
     private static final int defaultTailPints = 3;
 
@@ -246,9 +249,10 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     }
 
     private void init() {
-        int surfaceWidth = surfaceView.getWidth();
-        pointsSize = surfaceWidth / 45;
-        surfaceView.getHolder().setFixedSize(surfaceWidth, surfaceWidth);
+        surfaceSize = surfaceView.getWidth(); //квадрат по ширине экрана
+        pointsSize = surfaceSize / surfaceSizeInPoints;
+        surfaceView.getHolder().setFixedSize(surfaceSize, surfaceSize);
+
         setBlockPointsList();
 
         canvas = surfaceHolder.lockCanvas();
@@ -256,7 +260,12 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
         //отрисовка блоков
         for (int i = 0; i < blockPointsList.size(); i++) {
-            canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
+            canvas.drawCircle(
+                    blockPointsList.get(i).getPositionX(),
+                    blockPointsList.get(i).getPositionY(),
+                    pointsSize,
+                    createPointColor("block")
+            );
         }
 
         surfaceHolder.unlockCanvasAndPost(canvas);
