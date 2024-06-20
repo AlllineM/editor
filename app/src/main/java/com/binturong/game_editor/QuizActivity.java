@@ -106,14 +106,14 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mode = extras.getString("mode");
         }
 
         if (Objects.equals(mode, "level")) {
-            currentLevel = sharedPreferences.getInt("currentLevel", 1);
+            //currentLevel = sharedPreferences.getInt("currentLevel", 1);
+            currentLevel = 1;
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
