@@ -7,9 +7,29 @@
     android:background="@drawable/wooden_fon"
     tools:context=".EditorActivity">
 
+    <include android:id="@+id/header"
+        layout="@layout/activity_header"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentTop="true"/>
+
+    <RelativeLayout
+        android:id="@+id/banner_placeholder"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="6dp"/>
+
+    <com.yandex.mobile.ads.banner.BannerAdView
+        android:id="@+id/banner"
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/banner_placeholder"
         android:padding="6dp">
 
         <SurfaceView
