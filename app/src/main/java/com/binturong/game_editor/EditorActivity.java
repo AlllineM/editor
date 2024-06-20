@@ -96,12 +96,14 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                             con.setRequestProperty("Accept", "application/json");
                             con.setDoOutput(true);
 
-
-                            JSONObject block = new JSONObject();
-                            block.put("x", 5);
-                            block.put("y", 6);
                             JSONArray blocks = new JSONArray();
-                            blocks.put(block);
+                            for (SnakePoints block : bigBlockPointsList) {
+                                JSONObject jsonBlock = new JSONObject();
+                                jsonBlock.put("x", block.getPositionX() / pointsSize);
+                                jsonBlock.put("y", block.getPositionY() / pointsSize);
+
+                                blocks.put(jsonBlock);
+                            }
 
                             JSONObject params = new JSONObject();
                             params.put("blocks", blocks);
