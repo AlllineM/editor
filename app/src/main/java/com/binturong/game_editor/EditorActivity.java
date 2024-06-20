@@ -96,12 +96,27 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                             con.setRequestProperty("Accept", "application/json");
                             con.setDoOutput(true);
 
+                            //todo: рефакторинг конечно нужен уже сильно)
                             JSONArray blocks = new JSONArray();
                             for (SnakePoints block : bigBlockPointsList) {
                                 JSONObject jsonBlock = new JSONObject();
                                 jsonBlock.put("x", block.getPositionX() / pointsSize);
                                 jsonBlock.put("y", block.getPositionY() / pointsSize);
+                                blocks.put(jsonBlock);
 
+                                jsonBlock = new JSONObject();
+                                jsonBlock.put("x", block.getPositionX() / pointsSize + 2);
+                                jsonBlock.put("y", block.getPositionY() / pointsSize);
+                                blocks.put(jsonBlock);
+
+                                jsonBlock = new JSONObject();
+                                jsonBlock.put("x", block.getPositionX() / pointsSize);
+                                jsonBlock.put("y", block.getPositionY() / pointsSize + 2);
+                                blocks.put(jsonBlock);
+
+                                jsonBlock = new JSONObject();
+                                jsonBlock.put("x", block.getPositionX() / pointsSize + 2);
+                                jsonBlock.put("y", block.getPositionY() / pointsSize + 2);
                                 blocks.put(jsonBlock);
                             }
 
