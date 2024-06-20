@@ -34,7 +34,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
     private final List<SnakePoints> blockPointsList = new ArrayList<>();
     //Вспомогательный массив с блоками 2 * 2, чисто для редактора
-    private final List<SnakePoints> bigBlockPointsList = new ArrayList<>();
+    private List<SnakePoints> bigBlockPointsList = new ArrayList<>();
 
     Button saveLevel, publicLevel, clearLevel;
     private SurfaceView surfaceView;
@@ -67,7 +67,19 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         clearLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //очищаем список больших блоков
+                bigBlockPointsList = new ArrayList<>();
 
+                //очищаем все и заново рисуем только рамку
+                canvas = surfaceHolder.lockCanvas();
+                canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+
+                //отрисовка рамки
+                for (int i = 0; i < blockPointsList.size(); i++) {
+                    canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
+                }
+
+                surfaceHolder.unlockCanvasAndPost(canvas);
             }
         });
         saveLevel.setOnClickListener(new View.OnClickListener() {
