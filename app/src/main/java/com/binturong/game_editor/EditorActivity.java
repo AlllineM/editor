@@ -46,7 +46,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private static final int defaultTailPints = 3;
 
     private static final int snakeColor = Color.GREEN;
-    private static final int blockColor = Color.DKGRAY;
+    private static final int blockColor = Color.parseColor("#3DBFF2");
     private static final int meatColor = Color.YELLOW;
     private Canvas canvas = null;
 
@@ -137,7 +137,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     int xPosition = x / blockSize;
                     int yPosition = y / blockSize;
                     xPosition = xPosition * blockSize + pointsSize;
-                    yPosition = yPosition * blockSize;
+                    yPosition = yPosition * blockSize + pointsSize;
 
                     //если блок с такими координатами уже существует, убираем его
                     boolean isBlockExist = false;
@@ -194,8 +194,8 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
     private void setSurfaceView() {
         surfaceView = findViewById(R.id.surfaceViewEditor);
-//        surfaceView.setZOrderOnTop(true);
-//        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        surfaceView.setZOrderOnTop(true);
+        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceView.getHolder().addCallback(this);
     }
 
@@ -234,69 +234,6 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             }
         });
     }
-//            @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//            int x = (int) event.getX();
-//            int y = (int) event.getY();
-//
-//            //чтобы все блоки рисовались ровно по сетке, а не точно в рандомной точке нажатия
-//            int blockSize = 4 * pointsSize;
-//            int xPosition = x / blockSize;
-//            int yPosition = y / blockSize;
-//            xPosition = xPosition * blockSize + pointsSize;
-//            yPosition = yPosition * blockSize - 3 * pointsSize;
-//
-//            //если блок с такими координатами уже существует, убираем его
-//            boolean isBlockExist = false;
-//            for (int i = 0; i < bigBlockPointsList.size(); i++) {
-//                if (bigBlockPointsList.get(i).getPositionX() == xPosition &&
-//                        bigBlockPointsList.get(i).getPositionY() == yPosition) {
-//                    isBlockExist = true;
-//                    bigBlockPointsList.remove(i);
-//                    break;
-//                }
-//            }
-//            //если блока нет, добавили
-//            if (!isBlockExist) {
-//                bigBlockPointsList.add(new SnakePoints(xPosition, yPosition));
-//            }
-//
-//            //отрисовка блоков
-//            canvas = surfaceHolder.lockCanvas();
-//            canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
-//            for (int i = 0; i < bigBlockPointsList.size(); i++) {
-//                //большой блок - квадрат из 4 мелких блоков
-//                canvas.drawCircle(
-//                        bigBlockPointsList.get(i).getPositionX(),
-//                        bigBlockPointsList.get(i).getPositionY(),
-//                        pointsSize,
-//                        createPointColor("block")
-//                );
-//                canvas.drawCircle(
-//                        bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
-//                        bigBlockPointsList.get(i).getPositionY(),
-//                        pointsSize,
-//                        createPointColor("block")
-//                );
-//                canvas.drawCircle(
-//                        bigBlockPointsList.get(i).getPositionX(),
-//                        bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
-//                        pointsSize,
-//                        createPointColor("block")
-//                );
-//                canvas.drawCircle(
-//                        bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
-//                        bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
-//                        pointsSize,
-//                        createPointColor("block")
-//                );
-//            }
-//            surfaceHolder.unlockCanvasAndPost(canvas);
-//        }
-//
-//        return super.onTouchEvent(event);
-//    }
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
@@ -350,6 +287,16 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     }
 
     private void setBlockPointsList() {
+        //отрисовка рамок
+        for (int i = 1; i < surfaceSize / pointsSize + 2; i = i + 2) {
+            //отрисовка горизонтальных рамок
+            blockPointsList.add(new SnakePoints(pointsSize * i, pointsSize));
+            blockPointsList.add(new SnakePoints(pointsSize * i, pointsSize * surfaceSizeInPoints));
+            //отрисовка вертикальных рамок
+            blockPointsList.add(new SnakePoints(pointsSize, pointsSize * i));
+            blockPointsList.add(new SnakePoints(pointsSize * surfaceSizeInPoints, pointsSize * i));
+        }
+
         blockPointsList.add(new SnakePoints(pointsSize * 3, pointsSize * 5));
         blockPointsList.add(new SnakePoints(pointsSize * 3, pointsSize * 7));
         blockPointsList.add(new SnakePoints(pointsSize * 5, pointsSize * 5));
