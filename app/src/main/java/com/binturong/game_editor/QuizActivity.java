@@ -590,10 +590,10 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             return true;
         }
 
-//        //Если набрано нужное количество очков
-//        if (score == 1) {
-//            return true;
-//        }
+        //Если набрано нужное количество очков
+        if (score == 1) {
+            return true;
+        }
 
         return false;
     }
