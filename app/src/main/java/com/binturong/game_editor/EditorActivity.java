@@ -157,6 +157,13 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     //отрисовка блоков
                     canvas = surfaceHolder.lockCanvas();
                     canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+
+                    //отрисовка рамки
+                    for (int i = 0; i < blockPointsList.size(); i++) {
+                        canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
+                    }
+
+                    //отрисовка больших блоков
                     for (int i = 0; i < bigBlockPointsList.size(); i++) {
                         //большой блок - квадрат из 4 мелких блоков
                         canvas.drawCircle(
@@ -296,11 +303,6 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             blockPointsList.add(new SnakePoints(pointsSize, pointsSize * i));
             blockPointsList.add(new SnakePoints(pointsSize * surfaceSizeInPoints, pointsSize * i));
         }
-
-        blockPointsList.add(new SnakePoints(pointsSize * 3, pointsSize * 5));
-        blockPointsList.add(new SnakePoints(pointsSize * 3, pointsSize * 7));
-        blockPointsList.add(new SnakePoints(pointsSize * 5, pointsSize * 5));
-        blockPointsList.add(new SnakePoints(pointsSize * 5, pointsSize * 7));
     }
 
     private void setBigBlockPointsList() {
