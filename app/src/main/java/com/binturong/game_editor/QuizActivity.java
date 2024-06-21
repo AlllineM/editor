@@ -55,7 +55,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     // Доступные значения: right, left, top, bottom
     private String movingPosition = "right";
 
-    private int score = 0;
+    private int score = 0, targetScore = 10;
     private int maxScore;
 
     private static int pointsSize;
@@ -120,7 +120,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             if (!setLevelData()) {
                 return;
             }
-            scoreTv.setText("0/10");
+            scoreTv.setText("0/" + targetScore);
             levelView.setVisibility(View.VISIBLE);
             levelView.setText("уровень " + currentLevel);
         } else {
@@ -296,7 +296,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         snakePointsList.clear();
         setBlockPointsList();
         if (Objects.equals(mode, "level")) {
-            scoreTv.setText("0/10");
+            scoreTv.setText("0/" + targetScore);
             levelView.setVisibility(View.VISIBLE);
             levelView.setText("уровень " + currentLevel);
         } else {
@@ -437,7 +437,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
                 //todo: дааа, рефакторинг реально нужен %)
                 //Если режим уровней и набрано нужное количество очков
-                if (Objects.equals(mode, "level") && score == 1) {
+                if (Objects.equals(mode, "level") && score == targetScore) {
                     timer.purge();
                     timer.cancel();
 
@@ -557,7 +557,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             @Override
             public void run() {
                 if (Objects.equals(mode, "level")) {
-                    scoreTv.setText(String.valueOf(score) + "/10");
+                    scoreTv.setText(score + "/" + targetScore);
                 } else {
                     scoreTv.setText(String.valueOf(score));
                 }
