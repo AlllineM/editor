@@ -2,7 +2,9 @@ package com.binturong.game_editor;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,12 +26,17 @@ import java.net.URL;
 public class MainActivity extends HeaderActivity implements View.OnClickListener {
 
     Button quiz1, play, levelCreate;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = sharedPreferences.edit();
 
         setLevels();
 
@@ -105,7 +112,18 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
     }
 
     private void saveLevels(JSONArray levels) {
-
+        try {
+            for (int i=0; i < levels.length(); i++) {
+                JSONObject level = levels.getJSONObject(i);
+                editor.putString(
+                        "level_" + level.getInt("id"),
+                        level.getString("blocks")
+                );
+            }
+            editor.commit();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
     private JSONArray parseResponse(String response) {
         try {
