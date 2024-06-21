@@ -122,7 +122,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             }
             scoreTv.setText("0/10");
             levelView.setVisibility(View.VISIBLE);
-            levelView.setText("Уровень " + currentLevel);
+            levelView.setText("уровень " + currentLevel);
         } else {
             levelView.setVisibility(View.GONE);
         }
@@ -298,7 +298,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         if (Objects.equals(mode, "level")) {
             scoreTv.setText("0/10");
             levelView.setVisibility(View.VISIBLE);
-            levelView.setText("Уровень " + currentLevel);
+            levelView.setText("уровень " + currentLevel);
         } else {
             scoreTv.setText("0");
             levelView.setVisibility(View.GONE);
