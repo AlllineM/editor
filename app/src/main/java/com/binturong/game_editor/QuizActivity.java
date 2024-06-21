@@ -113,40 +113,60 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
         if (Objects.equals(mode, "level")) {
             //currentLevel = sharedPreferences.getInt("currentLevel", 1);
-            currentLevel = 100;
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String response = getLevel(currentLevel);
+            currentLevel = 2;
+            try {
+                String blocksString = sharedPreferences.getString("level_" + currentLevel, "");
 
+                JSONArray blocks = new JSONArray(blocksString);
+                for (int i = 0; i < blocks.length(); i++) {
                     try {
-                        if (isResponseStatusOk(response)) {
-                            JSONArray blocks = parseResponse(response);
-                            for (int i = 0; i < blocks.length(); i++) {
-                                try {
-                                    JSONObject coordinates = blocks.getJSONObject(i);
-                                    Log.d("coordinate", coordinates.toString());
-                                    blockPointsList.add(new SnakePoints(
-                                            pointsSize * coordinates.getInt("x"),
-                                            pointsSize * coordinates.getInt("y")
-                                    ));
-                                } catch (JSONException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                        } else {
-                            //если уровни кончились
-                            Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
-                            resultIntent.putExtra("mode", "level");
-                            resultIntent.putExtra("done", true);
-                            startActivity(resultIntent);
-                        }
+                        JSONObject coordinates = blocks.getJSONObject(i);
+                        Log.d("coordinate", coordinates.toString());
+                        blockPointsList.add(new SnakePoints(
+                                pointsSize * coordinates.getInt("x"),
+                                pointsSize * coordinates.getInt("y")
+                        ));
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
                 }
-            });
-            thread.start();
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+//            Thread thread = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    String response = getLevel(currentLevel);
+//
+//                    try {
+//                        if (isResponseStatusOk(response)) {
+//                            JSONArray blocks = parseResponse(response);
+//                            for (int i = 0; i < blocks.length(); i++) {
+//                                try {
+//                                    JSONObject coordinates = blocks.getJSONObject(i);
+//                                    Log.d("coordinate", coordinates.toString());
+//                                    blockPointsList.add(new SnakePoints(
+//                                            pointsSize * coordinates.getInt("x"),
+//                                            pointsSize * coordinates.getInt("y")
+//                                    ));
+//                                } catch (JSONException e) {
+//                                    throw new RuntimeException(e);
+//                                }
+//                            }
+//                        } else {
+//                            //если уровни кончились
+//                            Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
+//                            resultIntent.putExtra("mode", "level");
+//                            resultIntent.putExtra("done", true);
+//                            startActivity(resultIntent);
+//                        }
+//                    } catch (JSONException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//            });
+//            thread.start();
         }
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
