@@ -95,9 +95,30 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
             public void run() {
                 String response = getLevels();
                 Log.d("response1", response);
+                JSONArray levels = parseResponse(response);
+                if (levels.length() > 0) {
+                    saveLevels(levels);
+                }
             }
         });
         thread.start();
+    }
+
+    private void saveLevels(JSONArray levels) {
+
+    }
+    private JSONArray parseResponse(String response) {
+        try {
+            //{"status":200,"result":[{"id":1,"blocks":[{"x":1,"y":2}]}]}
+            JSONObject jsonResponse = new JSONObject(response);
+            if (jsonResponse.getInt("status") != 200) {
+                return new JSONArray();
+            }
+            return new JSONArray(jsonResponse.getString("result"));
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String getLevels() {
