@@ -38,6 +38,7 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
 
+        //todo: Для тестов, убрать)
         editor.putInt("currentLevel", 1);
         editor.commit();
 

@@ -47,7 +47,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private List<SnakePoints> snakePointsList = new ArrayList<>();
     private final List<SnakePoints> blockPointsList = new ArrayList<>();
     private SurfaceView surfaceView;
-    private TextView scoreTv;
+    private TextView scoreTv, levelView;
 
     private ImageView liveView1, liveView2, liveView3, liveView4;
     private SurfaceHolder surfaceHolder;
@@ -109,6 +109,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         scoreTv = findViewById(R.id.scoreTv);
         maxScore = sharedPreferences.getInt("maxScore", 0);
 
+        levelView = findViewById(R.id.level_view);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mode = extras.getString("mode");
@@ -119,6 +121,10 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                 return;
             }
             scoreTv.setText("0/10");
+            levelView.setVisibility(View.VISIBLE);
+            levelView.setText("Уровень " + currentLevel);
+        } else {
+            levelView.setVisibility(View.GONE);
         }
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -291,8 +297,11 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         setBlockPointsList();
         if (Objects.equals(mode, "level")) {
             scoreTv.setText("0/10");
+            levelView.setVisibility(View.VISIBLE);
+            levelView.setText("Уровень " + currentLevel);
         } else {
             scoreTv.setText("0");
+            levelView.setVisibility(View.GONE);
         }
 
         score = 0;
