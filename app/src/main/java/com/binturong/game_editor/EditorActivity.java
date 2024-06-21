@@ -122,7 +122,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
                             JSONObject params = new JSONObject();
                             params.put("blocks", blocks);
-                            params.put("user_token", 5);
+                            params.put("user_token", 3);
 
                             String jsonInputString = params.toString();
 
