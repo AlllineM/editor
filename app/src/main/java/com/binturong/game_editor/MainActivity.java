@@ -38,6 +38,9 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
 
+        editor.putInt("currentLevel", 1);
+        editor.commit();
+
         setLevels();
 
         quiz1 = findViewById(R.id.quiz_1);

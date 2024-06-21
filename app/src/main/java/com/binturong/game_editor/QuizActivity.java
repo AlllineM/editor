@@ -106,6 +106,9 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
 
+        scoreTv = findViewById(R.id.scoreTv);
+        maxScore = sharedPreferences.getInt("maxScore", 0);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mode = extras.getString("mode");
@@ -115,13 +118,11 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             if (!setLevelData()) {
                 return;
             }
+            scoreTv.setText("0/10");
         }
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         isVibrateOn = sharedPreferences.getBoolean("vibration", true);
-
-        scoreTv = findViewById(R.id.scoreTv);
-        maxScore = sharedPreferences.getInt("maxScore", 0);
 
         setKeyboardButtons();
         setHeaderButtons();
@@ -288,7 +289,12 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
         snakePointsList.clear();
         setBlockPointsList();
-        scoreTv.setText("0");
+        if (Objects.equals(mode, "level")) {
+            scoreTv.setText("0/10");
+        } else {
+            scoreTv.setText("0");
+        }
+
         score = 0;
 
         makeNewSnake();
@@ -541,7 +547,11 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                scoreTv.setText(String.valueOf(score));
+                if (Objects.equals(mode, "level")) {
+                    scoreTv.setText(String.valueOf(score) + "/10");
+                } else {
+                    scoreTv.setText(String.valueOf(score));
+                }
             }
         });
     }
