@@ -302,8 +302,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
      * @return
      */
     private boolean setLevelData() {
-        //currentLevel = sharedPreferences.getInt("currentLevel", 1);
-        currentLevel = 2;
+        currentLevel = sharedPreferences.getInt("currentLevel", 1);
+        //currentLevel = 2;
         try {
             String blocksString = sharedPreferences.getString("level_" + currentLevel, "");
 
