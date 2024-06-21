@@ -112,61 +112,9 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }
 
         if (Objects.equals(mode, "level")) {
-            //currentLevel = sharedPreferences.getInt("currentLevel", 1);
-            currentLevel = 2;
-            try {
-                String blocksString = sharedPreferences.getString("level_" + currentLevel, "");
-
-                JSONArray blocks = new JSONArray(blocksString);
-                for (int i = 0; i < blocks.length(); i++) {
-                    try {
-                        JSONObject coordinates = blocks.getJSONObject(i);
-                        Log.d("coordinate", coordinates.toString());
-                        blockPointsList.add(new SnakePoints(
-                                pointsSize * coordinates.getInt("x"),
-                                pointsSize * coordinates.getInt("y")
-                        ));
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
+            if (!setLevelData()) {
+                return;
             }
-
-//            Thread thread = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    String response = getLevel(currentLevel);
-//
-//                    try {
-//                        if (isResponseStatusOk(response)) {
-//                            JSONArray blocks = parseResponse(response);
-//                            for (int i = 0; i < blocks.length(); i++) {
-//                                try {
-//                                    JSONObject coordinates = blocks.getJSONObject(i);
-//                                    Log.d("coordinate", coordinates.toString());
-//                                    blockPointsList.add(new SnakePoints(
-//                                            pointsSize * coordinates.getInt("x"),
-//                                            pointsSize * coordinates.getInt("y")
-//                                    ));
-//                                } catch (JSONException e) {
-//                                    throw new RuntimeException(e);
-//                                }
-//                            }
-//                        } else {
-//                            //если уровни кончились
-//                            Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
-//                            resultIntent.putExtra("mode", "level");
-//                            resultIntent.putExtra("done", true);
-//                            startActivity(resultIntent);
-//                        }
-//                    } catch (JSONException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-//            });
-//            thread.start();
         }
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -303,69 +251,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }
     }
 
-    //todo: отрефакторить, но потом)
-    private String getLevel(int currentLevel) {
-        StringBuilder result = new StringBuilder();
-        HttpURLConnection urlConnection = null;
-
-        try {
-            URL url = new URL("https://test-constructor.ru/api/v.0/level/get/one");
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Accept", "application/json");
-            urlConnection.setDoOutput(true);
-
-            JSONObject params = new JSONObject();
-            params.put("level", currentLevel);
-            String jsonInputString = params.toString();
-
-            try(OutputStream os = urlConnection.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            urlConnection.disconnect();
-        }
-
-        return result.toString();
-    }
-
-    private boolean isResponseStatusOk(String response) throws JSONException {
-        //{"status":200,"result":[{"id":1,"blocks":[{"x":1,"y":2}]}]}
-        JSONObject jsonResponse = new JSONObject(response);
-
-        return jsonResponse.getInt("status") == 200;
-    }
-
-    private JSONArray parseResponse(String response) {
-        try {
-            //{"status":200,"result":[{"id":1,"blocks":[{"x":1,"y":2}]}]}
-            JSONObject jsonResponse = new JSONObject(response);
-            if (jsonResponse.getInt("status") != 200) {
-                return new JSONArray();
-            }
-            JSONObject result = new JSONObject(jsonResponse.getString("result"));
-
-            return new JSONArray(result.getString("blocks"));
-
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
         this.surfaceHolder = surfaceHolder;
@@ -409,6 +294,41 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         makeNewSnake();
         addPoint();
         moveSnake();
+    }
+
+    /**
+     * Устанавливает данные блоков уровня. И если что-то пошло не так, возвращает false
+     * //todo: тоже рефакторить)
+     * @return
+     */
+    private boolean setLevelData() {
+        //currentLevel = sharedPreferences.getInt("currentLevel", 1);
+        currentLevel = 2;
+        try {
+            String blocksString = sharedPreferences.getString("level_" + currentLevel, "");
+
+            if (blocksString.isEmpty()) {
+                //если уровни кончились
+                Intent resultIntent = new Intent(QuizActivity.this, ResultActivity.class);
+                resultIntent.putExtra("mode", "level");
+                resultIntent.putExtra("done", true);
+                startActivity(resultIntent);
+                return false;
+            }
+
+            JSONArray blocks = new JSONArray(blocksString);
+            for (int i = 0; i < blocks.length(); i++) {
+                JSONObject coordinates = blocks.getJSONObject(i);
+                Log.d("coordinate", coordinates.toString());
+                blockPointsList.add(new SnakePoints(
+                        pointsSize * coordinates.getInt("x"),
+                        pointsSize * coordinates.getInt("y")
+                ));
+            }
+            return true;
+        } catch (JSONException e) {
+            return false;
+        }
     }
 
     private void setBlockPointsList() {
