@@ -100,12 +100,15 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                //todo: Сильно нужен рефакторинг, но сейчас влом)
                 String response = getLevels();
                 Log.d("response1", response);
                 JSONArray levels = parseResponse(response);
                 if (levels.length() > 0) {
                     saveLevels(levels);
                 }
+                String test = sharedPreferences.getString("level_2", "");
+                Log.d("test", test);
             }
         });
         thread.start();
