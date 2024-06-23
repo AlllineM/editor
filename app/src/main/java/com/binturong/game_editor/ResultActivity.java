@@ -73,13 +73,16 @@ public class ResultActivity extends HeaderActivity implements View.OnClickListen
                     });
                 } else {
                     boolean success = extras.getBoolean("success");
+                    //костыльно как-то, todo: нужен рефакторинг
+                    int finishedLevel = sharedPreferences.getInt("currentLevel", 1);
                     if (success) {
-                        resultTextView.setText("Уровень пройден!");
+                        finishedLevel--; //жесть костыли))
+                        resultTextView.setText("Уровень " + finishedLevel + " пройден!");
                         resultTextView.setTextSize(35);
                         recordTextView.setText("");
                         play.setText("Продолжить");
                     } else {
-                        resultTextView.setText("Уровень не пройден");
+                        resultTextView.setText("Уровень " + finishedLevel +" не пройден");
                         resultTextView.setTextSize(25);
                         recordTextView.setText("");
                         play.setText("Еще раз");
