@@ -55,7 +55,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     // Доступные значения: right, left, top, bottom
     private String movingPosition = "right";
 
-    private int score = 0, targetScore = 10;
+    private int score = 0, targetScore = 1;
     private int maxScore;
 
     private static int pointsSize;
