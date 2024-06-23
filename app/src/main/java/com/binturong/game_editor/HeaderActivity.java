@@ -55,7 +55,6 @@ public class HeaderActivity extends BaseActivity {
         gift = findViewById(R.id.gift);
 
         checkIfNeedUpdate();
-        Log.d("header", "header");
     }
 
     public void showUpdateDialog(Activity context) {
@@ -125,19 +124,15 @@ public class HeaderActivity extends BaseActivity {
                 String lastVersion = parseResponse(response);
 
                 boolean localIsNeedUpdate = sharedPreferences.getBoolean("isNeedUpdate", false);
-                Log.d("localIsNeedUpdate", Boolean.toString(localIsNeedUpdate));
                 isNeedUpdate = isNeedUpdate(lastVersion);
-                Log.d("isNeedUpdate", Boolean.toString(isNeedUpdate));
 
                 //Если чел обновился(раньше апдейт был нужен, а теперь нет)
                 if (localIsNeedUpdate && !isNeedUpdate) {
                     //выдаем жизнь
                     editor.putBoolean("isExtraLiveAvailable", true);
                     long timestampLong = System.currentTimeMillis();
-                    Log.d("sdf", Long.toString(timestampLong));
 
                     long deadLine = timestampLong + 1000 * 60 * 15;
-                    Log.d("sdf", Long.toString(deadLine));
                     editor.putLong("giftDeadLine", deadLine);
                 }
 
@@ -220,14 +215,7 @@ public class HeaderActivity extends BaseActivity {
     //Смотрит на сохраненный таймстамп - когда срок подарка выйдет
     public boolean isExtraLiveAvailable() {
         long deadLine = sharedPreferences.getLong("giftDeadLine", 0);
-        Log.d("deadLine", Long.toString(deadLine));
 
-        long nowTimestamp = System.currentTimeMillis();
-        Log.d("nowTimestamp", Long.toString(nowTimestamp));
-
-
-        boolean result = System.currentTimeMillis() < deadLine;
-
-        return result;
+        return System.currentTimeMillis() < deadLine;
     }
 }

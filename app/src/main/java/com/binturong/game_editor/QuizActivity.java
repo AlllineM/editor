@@ -341,7 +341,6 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             JSONArray blocks = new JSONArray(blocksString);
             for (int i = 0; i < blocks.length(); i++) {
                 JSONObject coordinates = blocks.getJSONObject(i);
-                Log.d("coordinate", coordinates.toString());
                 blockPointsList.add(new SnakePoints(
                         pointsSize * coordinates.getInt("x"),
                         pointsSize * coordinates.getInt("y")
