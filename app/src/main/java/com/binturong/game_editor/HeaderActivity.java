@@ -191,7 +191,7 @@ public class HeaderActivity extends BaseActivity {
              * @return
              */
             private boolean isNeedUpdate(String lastVersion) {
-                return !Objects.equals(lastVersion, "0.0");
+                return !Objects.equals(lastVersion, "0.1");
             }
         });
         thread.start();

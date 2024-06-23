@@ -34,10 +34,6 @@ public class SettingsActivity extends HeaderActivity implements View.OnClickList
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
 
-        //todo: Для тестов, убрать)
-        editor.putInt("currentLevel", 1);
-        editor.commit();
-
         Button play = findViewById(R.id.play);
         AppCompatImageButton gift = findViewById(R.id.gift);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
