@@ -70,7 +70,7 @@ public class HeaderActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse("https://www.rustore.ru/catalog/app/com.binturong.snake"));
+                intent.setData(Uri.parse("https://www.rustore.ru/catalog/app/com.binturong.game_editor"));
                 startActivity(intent);
             }
         });
