@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -100,6 +101,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     int currentLevel = 1;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +115,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         maxScore = sharedPreferences.getInt("maxScore", 0);
 
         levelView = findViewById(R.id.level_view);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.crunch);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -410,6 +415,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
                 //Если змея съела еду)
                 if (headPositionX == positionX && headPositionY == positionY) {
+                    mediaPlayer.start();
                     growShake();
                     addPoint();
                     //ну такое, рекурсия, но посмотрим, может норм
