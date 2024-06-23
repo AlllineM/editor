@@ -1,4 +1,5 @@
 <resources>
+    <color name="md_theme_block">#43AEB5</color>
     <color name="md_theme_purple">#BC3DF2</color>
     <color name="md_theme_seed">#24A413</color>
     <color name="md_theme_primary">#406835</color>

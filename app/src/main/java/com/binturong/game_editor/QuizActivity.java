@@ -62,10 +62,10 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     private static final int defaultTailPints = 3;
 
-    private static final int snakeColor = Color.parseColor("#C1EFAF");
+    private static final int snakeColor = Color.parseColor("#406835");
     //private static final int blockColor = Color.parseColor("#5BF244");
     //private static final int blockColor = Color.parseColor("#3DBFF2");
-    private static final int blockColor = Color.parseColor("#406835");
+    private static final int blockColor = Color.parseColor("#43AEB5");
     //private static final int meatColor = Color.parseColor("#F241C3");
     private static final int meatColor = Color.parseColor("#DA342E");
 
