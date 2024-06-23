@@ -46,13 +46,13 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
 
         quiz1.setOnClickListener(this);
         play.setOnClickListener(this);
-        levelCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent editorIntent = new Intent(MainActivity.this, EditorActivity.class);
-                startActivity(editorIntent);
-            }
-        });
+//        levelCreate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent editorIntent = new Intent(MainActivity.this, EditorActivity.class);
+//                startActivity(editorIntent);
+//            }
+//        });
 
         AppCompatImageButton settingsHead = findViewById(R.id.settingsHead);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
