@@ -100,7 +100,7 @@
             android:id="@+id/topBtn"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:background="@color/md_theme_seed"
+            android:background="@color/md_theme_primary"
             android:src="@drawable/up"/>
 
         <LinearLayout
@@ -115,7 +115,7 @@
                 android:id="@+id/leftBtn"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
-                android:background="@color/md_theme_seed"
+                android:background="@color/md_theme_primary"
                 android:src="@drawable/left"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -131,7 +131,7 @@
                 android:id="@+id/rightBtn"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
-                android:background="@color/md_theme_seed"
+                android:background="@color/md_theme_primary"
                 android:src="@drawable/right"/>
 
         </LinearLayout>
@@ -140,7 +140,7 @@
             android:id="@+id/bottomBtn"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:background="@color/md_theme_seed"
+            android:background="@color/md_theme_primary"
             android:src="@drawable/down"/>
     </LinearLayout>
 
