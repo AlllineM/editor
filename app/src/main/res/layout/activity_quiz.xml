@@ -124,7 +124,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/md_theme_primaryContainer"
+                android:background="@color/md_theme_primary"
                 android:src="@drawable/pause"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
