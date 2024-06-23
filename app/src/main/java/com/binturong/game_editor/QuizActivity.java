@@ -71,7 +71,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private static final int meatColor = Color.parseColor("#DA342E");
 
     //Допустимые значение 1 - 1000
-    private int snakeMovingSpeed = 700;
+    private int snakeMovingSpeed = 805;
 
     //todo: убрать дублирование
     private static final int surfaceSizeInPoints = 43;
@@ -559,7 +559,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         score++;
         updateRecord();
 
-        snakeMovingSpeed = snakeMovingSpeed + 15;
+        snakeMovingSpeed = snakeMovingSpeed + 8;
 
         runOnUiThread(new Runnable() {
             @Override
