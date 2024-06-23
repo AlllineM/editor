@@ -82,5 +82,12 @@
             android:layout_margin="5dp"
             android:textSize="20sp"
             android:text="Играть"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_theme_onSecondaryContainer"
+            android:textSize="14sp"
+            android:text="Используемые звуки: crunch 6.wav by theplax -- https://freesound.org/s/608644/ -- License: Attribution 4.0"/>
     </LinearLayout>
 </RelativeLayout>
