@@ -71,7 +71,7 @@
                 android:layout_margin="5dp"
                 android:textSize="20sp"
                 android:enabled="false"
-                android:text="Создать свой уровень"/>
+                android:text="Создать свой уровень (скоро)"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
