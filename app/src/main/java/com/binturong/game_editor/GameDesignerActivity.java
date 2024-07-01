@@ -77,4 +77,8 @@ public class GameDesignerActivity extends HeaderActivity implements View.OnClick
             startActivity(playIntent);
         }
     }
+
+    public void getLevels() {
+        sendGET("level/get/all-base");
+    }
 }
