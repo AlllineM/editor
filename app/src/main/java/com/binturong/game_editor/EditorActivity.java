@@ -27,6 +27,7 @@ import java.util.List;
 
 public class EditorActivity extends HeaderActivity implements SurfaceHolder.Callback {
 
+    private int levelId = -1;
     private final List<SnakePoints> blockPointsList = new ArrayList<>();
     //Вспомогательный массив с блоками 2 * 2, чисто для редактора
     private List<SnakePoints> bigBlockPointsList = new ArrayList<>();
@@ -84,7 +85,15 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     @Override
                     public void run() {
                         try {
-                            String result = sendPOST("level/create", prepareLevelData("create"));
+                            String levelData = prepareLevelData("draft");
+                            String result;
+                            if (levelId == -1) {
+                                //если уровень новый, создаем
+                                result = sendPOST("level/create", levelData);
+                            } else {
+                                //иначе редактируем старый
+                                result = sendPOST("level/edit", levelData);
+                            }
                             Log.d("result", result);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -102,7 +111,15 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     @Override
                     public void run() {
                         try {
-                            String result = sendPOST("level/publish", prepareLevelData("publish"));
+                            String levelData = prepareLevelData("publish");
+                            String result;
+                            if (levelId == -1) {
+                                //если уровень новый, создаем
+                                result = sendPOST("level/create", levelData);
+                            } else {
+                                //иначе редактируем старый
+                                result = sendPOST("level/edit", levelData);
+                            }
                             Log.d("result", result);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -208,7 +225,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
      * @return
      * @throws JSONException
      */
-    public String prepareLevelData(String action) throws JSONException {
+    public String prepareLevelData(String type) throws JSONException {
         JSONArray blocks = new JSONArray();
         for (SnakePoints block : bigBlockPointsList) {
             JSONObject jsonBlock = new JSONObject();
@@ -233,9 +250,12 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         }
 
         JSONObject params = new JSONObject();
+        if (levelId != -1) {
+            params.put("level_id", levelId);
+        }
         params.put("blocks", blocks);
         params.put("user_token", 0);
-        params.put("action", action);
+        params.put("type", type);
 
         return params.toString();
     }
