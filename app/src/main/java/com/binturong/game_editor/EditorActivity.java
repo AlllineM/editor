@@ -254,7 +254,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             params.put("level_id", levelId);
         }
         params.put("blocks", blocks);
-        params.put("user_token", 0);
+        params.put("user_token", sharedPreferences.getString("userToken", "0"));
         params.put("type", type);
 
         return params.toString();
