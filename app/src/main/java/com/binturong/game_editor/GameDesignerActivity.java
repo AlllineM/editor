@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
-public class GameDesignerActivity extends HeaderActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class GameDesignerActivity extends HeaderActivity implements View.OnClickListener {
 
     Button home;
 
@@ -34,12 +33,6 @@ public class GameDesignerActivity extends HeaderActivity implements View.OnClick
         AppCompatImageButton gift = findViewById(R.id.gift);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
         AppCompatImageButton homeHead = findViewById(R.id.homeHead);
-
-        vibrationButton = findViewById(R.id.vibrationButton);
-        vibrationButton.setOnCheckedChangeListener(this);
-
-        boolean isVibrateOn = sharedPreferences.getBoolean("vibration", true);
-        vibrationButton.setChecked(isVibrateOn);
 
         changeGiftVisibility();
         changeGiftReadyVisibility();
@@ -83,11 +76,5 @@ public class GameDesignerActivity extends HeaderActivity implements View.OnClick
             Intent playIntent = new Intent(this, QuizActivity.class);
             startActivity(playIntent);
         }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        editor.putBoolean("vibration", isChecked);
-        editor.commit();
     }
 }
