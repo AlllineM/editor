@@ -89,41 +89,10 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     @Override
                     public void run() {
                         try {
-                            URL url = new URL ("https://test-constructor.ru/api/v.0/level/create");
-                            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                            con.setRequestMethod("POST");
-                            con.setRequestProperty("Content-Type", "application/json");
-                            con.setRequestProperty("Accept", "application/json");
-                            con.setDoOutput(true);
-
-                            String jsonInputString = prepareLevelData();
-
-                            Log.d("log", "log1");
-
-                            try(OutputStream os = con.getOutputStream()) {
-                                byte[] input = jsonInputString.getBytes("utf-8");
-                                os.write(input, 0, input.length);
-                            }
-                            Log.d("log", "log2");
-
-                            try(BufferedReader br = new BufferedReader(
-                                    new InputStreamReader(con.getInputStream(), "utf-8"))) {
-                                StringBuilder response = new StringBuilder();
-                                String responseLine = null;
-                                while ((responseLine = br.readLine()) != null) {
-                                    response.append(responseLine.trim());
-                                }
-                                Log.d("resp", response.toString());
-                            }
-                            catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            Log.d("log", "log3");
-
-                            con.disconnect();
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            String result = sendPOST("level/create", prepareLevelData());
+                            Log.d("result", result);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
                         }
                     }
                 });
