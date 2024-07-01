@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import org.json.JSONArray;
@@ -86,15 +87,33 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     public void run() {
                         try {
                             String levelData = prepareLevelData("draft");
-                            String result;
+                            String response;
                             if (levelId == -1) {
                                 //если уровень новый, создаем
-                                result = sendPOST("level/create", levelData);
+                                response = sendPOST("level/create", levelData);
                             } else {
                                 //иначе редактируем старый
-                                result = sendPOST("level/edit", levelData);
+                                response = sendPOST("level/edit", levelData);
                             }
-                            Log.d("result", result);
+                            Log.d("result", response);
+
+                            //todo: тоже рефакторинг уже просится)
+                            AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
+                            if (isResponseOk(response)) {
+                                builder.setTitle("Уровень сохранен в черновики");
+                                builder.setMessage("Посмотреть свои уровни вы можете в профиле");
+                                builder.setCancelable(true);
+                            } else {
+                                builder.setTitle("Что-то пошло не так");
+                                builder.setMessage("Пожалуйста проверьте подключение к интернету и попробуйте позже");
+                                builder.setCancelable(true);
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    builder.show();
+                                }
+                            });
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -112,15 +131,33 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     public void run() {
                         try {
                             String levelData = prepareLevelData("publish");
-                            String result;
+                            String response;
                             if (levelId == -1) {
                                 //если уровень новый, создаем
-                                result = sendPOST("level/create", levelData);
+                                response = sendPOST("level/create", levelData);
                             } else {
                                 //иначе редактируем старый
-                                result = sendPOST("level/edit", levelData);
+                                response = sendPOST("level/edit", levelData);
                             }
-                            Log.d("result", result);
+                            Log.d("result", response);
+
+                            //todo: тоже рефакторинг уже просится)
+                            AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
+                            if (isResponseOk(response)) {
+                                builder.setTitle("Уровень отправлен на модерацию");
+                                builder.setMessage("Модерация занимает до 2ух суток. Посмотреть свои уровни и их статус вы можете в профиле");
+                                builder.setCancelable(true);
+                            } else {
+                                builder.setTitle("Что-то пошло не так");
+                                builder.setMessage("Пожалуйста проверьте подключение к интернету и попробуйте позже");
+                                builder.setCancelable(true);
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    builder.show();
+                                }
+                            });
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }

@@ -10,6 +10,10 @@ import com.yandex.mobile.ads.banner.BannerAdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
 import com.yandex.mobile.ads.common.AdRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -106,5 +110,20 @@ public class BaseActivity extends AppCompatActivity {
         byte[] randomBytes = new byte[24];
         secureRandom.nextBytes(randomBytes);
         return base64Encoder.encodeToString(randomBytes);
+    }
+
+    /**
+     * Проверяет, вернул ли сервер 200 (внутренний статус запроса, помимо http)
+     * @param response
+     * @return
+     */
+    public boolean isResponseOk(String response) {
+        try {
+            //{"status":200,"result":"что_угодно"}
+            JSONObject jsonResponse = new JSONObject(response);
+            return jsonResponse.getInt("status") == 200;
+        } catch (JSONException e) {
+            return false;
+        }
     }
 }

@@ -77,7 +77,6 @@ public class HeaderActivity extends BaseActivity {
     }
 
     public void showExtraLiveDialog(Activity context) {
-        //Диалог для обновление игры
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         //счетчик, сколько осталось, лол)
