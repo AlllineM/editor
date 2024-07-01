@@ -22,11 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +31,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     //Вспомогательный массив с блоками 2 * 2, чисто для редактора
     private List<SnakePoints> bigBlockPointsList = new ArrayList<>();
 
-    Button saveLevel, publicLevel, clearLevel;
+    Button saveLevel, publishLevel, clearLevel;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
 
@@ -59,7 +54,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         setContentView(R.layout.activity_editor);
 
         saveLevel = findViewById(R.id.save_level);
-        publicLevel = findViewById(R.id.public_level);
+        publishLevel = findViewById(R.id.publish_level);
         clearLevel = findViewById(R.id.clear_level);
 
         setHeaderButtons();
@@ -89,7 +84,25 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     @Override
                     public void run() {
                         try {
-                            String result = sendPOST("level/create", prepareLevelData());
+                            String result = sendPOST("level/create", prepareLevelData("create"));
+                            Log.d("result", result);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+                thread.start();
+            }
+        });
+
+        publishLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Thread thread = new Thread(new Runnable(){
+                    @Override
+                    public void run() {
+                        try {
+                            String result = sendPOST("level/publish", prepareLevelData("publish"));
                             Log.d("result", result);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -195,7 +208,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
      * @return
      * @throws JSONException
      */
-    public String prepareLevelData() throws JSONException {
+    public String prepareLevelData(String action) throws JSONException {
         JSONArray blocks = new JSONArray();
         for (SnakePoints block : bigBlockPointsList) {
             JSONObject jsonBlock = new JSONObject();
@@ -222,6 +235,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         JSONObject params = new JSONObject();
         params.put("blocks", blocks);
         params.put("user_token", 0);
+        params.put("action", action);
 
         return params.toString();
     }
