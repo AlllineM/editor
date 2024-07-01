@@ -66,12 +66,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/level_create"
                 android:tag="0"
-                app:backgroundTint="@color/md_theme_inversePrimary"
+                app:backgroundTint="@color/md_theme_primary"
                 android:textColor="@color/md_theme_onPrimary"
                 android:layout_margin="5dp"
                 android:textSize="20sp"
-                android:enabled="false"
-                android:text="Создать свой уровень (скоро)"/>
+                android:text="Создать свой уровень"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
