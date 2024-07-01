@@ -35,6 +35,7 @@ public class SettingsActivity extends HeaderActivity implements View.OnClickList
         editor = sharedPreferences.edit();
 
         Button play = findViewById(R.id.play);
+        Button gameDesigner = findViewById(R.id.game_designer);
         AppCompatImageButton gift = findViewById(R.id.gift);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
         AppCompatImageButton homeHead = findViewById(R.id.homeHead);
@@ -49,6 +50,14 @@ public class SettingsActivity extends HeaderActivity implements View.OnClickList
         changeGiftReadyVisibility();
 
         play.setOnClickListener(this);
+
+        gameDesigner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent gameDesignerIntent = new Intent(SettingsActivity.this, GameDesignerActivity.class);
+                startActivity(gameDesignerIntent);
+            }
+        });
         homeHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -126,4 +126,9 @@ public class BaseActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    //todo: Надо что-то типа этого запилить)
+    public void showInfoAlert() {
+
+    }
 }
