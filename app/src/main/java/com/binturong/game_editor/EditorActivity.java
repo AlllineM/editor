@@ -242,6 +242,12 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(EditorActivity.this, MainActivity.class));
+        super.onBackPressed();
+    }
+
     private void drawBlocks() {
         //отрисовка блоков
         canvas = surfaceHolder.lockCanvas();

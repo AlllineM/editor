@@ -75,6 +75,12 @@ public class SettingsActivity extends HeaderActivity implements View.OnClickList
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+        super.onBackPressed();
+    }
+
+    @Override
     public void onClick(View view) {
         Button clickedButton = (Button) view;
         if (clickedButton.getId() == R.id.play) {

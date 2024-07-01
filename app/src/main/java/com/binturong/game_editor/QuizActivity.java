@@ -236,6 +236,14 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     }
 
     @Override
+    public void onBackPressed() {
+        timer.purge();
+        timer.cancel();
+        startActivity(new Intent(QuizActivity.this, MainActivity.class));
+        super.onBackPressed();
+    }
+
+    @Override
     public void onClick(View view) {
         if (paused) return;
 

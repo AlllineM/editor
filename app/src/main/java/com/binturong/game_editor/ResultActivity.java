@@ -138,6 +138,12 @@ public class ResultActivity extends HeaderActivity implements View.OnClickListen
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ResultActivity.this, MainActivity.class));
+        super.onBackPressed();
+    }
+
+    @Override
     public void onClick(View view) {
         Button clickedButton = (Button) view;
         if (clickedButton.getId() == R.id.play) {
