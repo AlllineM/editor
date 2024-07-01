@@ -106,7 +106,6 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
                 if (levels.length() > 0) {
                     saveLevels(levels);
                 }
-                String test = sharedPreferences.getString("level_2", "");
             }
         });
         thread.start();
@@ -141,28 +140,6 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
     }
 
     private String getLevels() {
-        StringBuilder result = new StringBuilder();
-        HttpURLConnection urlConnection = null;
-
-        try {
-            URL url = new URL("https://test-constructor.ru/api/v.0/level/get/all-base");
-            urlConnection = (HttpURLConnection) url.openConnection();
-
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            urlConnection.disconnect();
-        }
-
-        return result.toString();
+        return sendGET("level/get/all-base");
     }
 }
