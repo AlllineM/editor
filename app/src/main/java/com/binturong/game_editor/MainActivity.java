@@ -29,6 +29,7 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
 
+        setUserToken();
         setLevels();
 
         quiz1 = findViewById(R.id.quiz_1);
@@ -85,6 +86,15 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         }
 
         startActivity(quizIntent);
+    }
+
+    private void setUserToken() {
+        String userToken = sharedPreferences.getString("userToken", "");
+        if (userToken.isEmpty()) {
+            userToken = generateNewToken();
+            editor.putString("userToken", userToken);
+            editor.commit();
+        }
     }
 
     private void setLevels() {
