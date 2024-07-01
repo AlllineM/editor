@@ -16,10 +16,10 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -96,35 +96,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                             con.setRequestProperty("Accept", "application/json");
                             con.setDoOutput(true);
 
-                            //todo: рефакторинг конечно нужен уже сильно)
-                            JSONArray blocks = new JSONArray();
-                            for (SnakePoints block : bigBlockPointsList) {
-                                JSONObject jsonBlock = new JSONObject();
-                                jsonBlock.put("x", block.getPositionX() / pointsSize);
-                                jsonBlock.put("y", block.getPositionY() / pointsSize);
-                                blocks.put(jsonBlock);
-
-                                jsonBlock = new JSONObject();
-                                jsonBlock.put("x", block.getPositionX() / pointsSize + 2);
-                                jsonBlock.put("y", block.getPositionY() / pointsSize);
-                                blocks.put(jsonBlock);
-
-                                jsonBlock = new JSONObject();
-                                jsonBlock.put("x", block.getPositionX() / pointsSize);
-                                jsonBlock.put("y", block.getPositionY() / pointsSize + 2);
-                                blocks.put(jsonBlock);
-
-                                jsonBlock = new JSONObject();
-                                jsonBlock.put("x", block.getPositionX() / pointsSize + 2);
-                                jsonBlock.put("y", block.getPositionY() / pointsSize + 2);
-                                blocks.put(jsonBlock);
-                            }
-
-                            JSONObject params = new JSONObject();
-                            params.put("blocks", blocks);
-                            params.put("user_token", 3);
-
-                            String jsonInputString = params.toString();
+                            String jsonInputString = prepareLevelData();
 
                             Log.d("log", "log1");
 
@@ -246,6 +218,43 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     public void onBackPressed() {
         startActivity(new Intent(EditorActivity.this, MainActivity.class));
         super.onBackPressed();
+    }
+
+    /**
+     * Подготавливает данные уровня для сохранения
+     * todo: рефакторинг конечно нужен)
+     * @return
+     * @throws JSONException
+     */
+    public String prepareLevelData() throws JSONException {
+        JSONArray blocks = new JSONArray();
+        for (SnakePoints block : bigBlockPointsList) {
+            JSONObject jsonBlock = new JSONObject();
+            jsonBlock.put("x", block.getPositionX() / pointsSize);
+            jsonBlock.put("y", block.getPositionY() / pointsSize);
+            blocks.put(jsonBlock);
+
+            jsonBlock = new JSONObject();
+            jsonBlock.put("x", block.getPositionX() / pointsSize + 2);
+            jsonBlock.put("y", block.getPositionY() / pointsSize);
+            blocks.put(jsonBlock);
+
+            jsonBlock = new JSONObject();
+            jsonBlock.put("x", block.getPositionX() / pointsSize);
+            jsonBlock.put("y", block.getPositionY() / pointsSize + 2);
+            blocks.put(jsonBlock);
+
+            jsonBlock = new JSONObject();
+            jsonBlock.put("x", block.getPositionX() / pointsSize + 2);
+            jsonBlock.put("y", block.getPositionY() / pointsSize + 2);
+            blocks.put(jsonBlock);
+        }
+
+        JSONObject params = new JSONObject();
+        params.put("blocks", blocks);
+        params.put("user_token", 0);
+
+        return params.toString();
     }
 
     private void drawBlocks() {
