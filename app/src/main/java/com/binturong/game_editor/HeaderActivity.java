@@ -141,28 +141,7 @@ public class HeaderActivity extends BaseActivity {
             }
 
             private String getLastVersion() {
-                StringBuilder result = new StringBuilder();
-                HttpURLConnection urlConnection = null;
-
-                try {
-                    URL url = new URL("https://test-constructor.ru/api/v.0/version/get");
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    urlConnection.disconnect();
-                }
-
-                return result.toString();
+                return sendGET("version/get");
             }
 
             private String parseResponse(String response) {
@@ -186,7 +165,7 @@ public class HeaderActivity extends BaseActivity {
              * @return
              */
             private boolean isNeedUpdate(String lastVersion) {
-                return !Objects.equals(lastVersion, "0.1");
+                return !Objects.equals(lastVersion, "0.0");
             }
         });
         thread.start();
