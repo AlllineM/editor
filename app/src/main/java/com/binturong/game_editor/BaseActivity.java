@@ -73,13 +73,10 @@ public class BaseActivity extends AppCompatActivity {
             con.setRequestProperty("Accept", "application/json");
             con.setDoOutput(true);
 
-            Log.d("log", "log1");
-
             try(OutputStream os = con.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
-            Log.d("log", "log2");
 
             try(BufferedReader br = new BufferedReader(
                     new InputStreamReader(con.getInputStream(), "utf-8"))) {
@@ -87,12 +84,10 @@ public class BaseActivity extends AppCompatActivity {
                 while ((responseLine = br.readLine()) != null) {
                     response.append(responseLine.trim());
                 }
-                Log.d("resp", response.toString());
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
-            Log.d("log", "log3");
 
             con.disconnect();
 
