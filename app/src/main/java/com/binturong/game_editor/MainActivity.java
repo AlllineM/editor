@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         catchSound = MediaPlayer.create(this, R.raw.crunch);
 
         sound = new MediaPlayer();
-        AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.rain);
+        AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.crunch);
         try {
             sound.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             afd.close();
@@ -61,12 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onClick(View view) {
-        Log.d("result", "4");
-
         Button clickedButton = (Button) view;
         int clickedButtonId = clickedButton.getId();
-
-        Log.d("result", "5");
 
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
@@ -75,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (volumeK > 10) {
                 Log.d("result", "gotcha");
+                sound.stop();
             }
 
             // Intent quizIntent = new Intent(this, QuizActivity.class);
@@ -84,32 +81,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onPrepared(MediaPlayer player) {
-        player.start();
-        //soundStart();
+        sound.setVolume(0, 0);
+        sound.start();
+        changeVolume();
     }
 
-    private void soundStart() {
+    private void changeVolume() {
         Log.d("result", "7");
+
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Log.d("result", "8");
+                Log.d("volumeK", String.valueOf(volumeK));
+
                 float volume = (float) (volumeK * 0.05);
+
+                Log.d("volume", String.valueOf(volume));
                 sound.setVolume(volume, volume);
-                sound.start();
                 volumeK = volumeK + 1;
-                Log.d("result", "9");
 
                 if (volumeK > 19) {
-                    Log.d("result", "10");
+                    Log.d("volumeK", String.valueOf(volumeK));
                     timer.purge();
                     timer.cancel();
-                    soundStart();
+
+                    //todo: ploho
+                    // sound.stop();
                 }
                 Log.d("result", "11");
             }
         }, 5000, 5000);
-        sound.stop();
     }
 }
