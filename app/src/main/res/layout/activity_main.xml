@@ -7,70 +7,25 @@
     android:background="@drawable/wooden_fon_new"
     tools:context=".MainActivity">
 
-    <include android:id="@+id/header"
-        layout="@layout/activity_header"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:layout_alignParentTop="true"/>
-
-    <RelativeLayout
-        android:id="@+id/banner_placeholder"
-        android:layout_below="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:padding="6dp"/>
-
-    <com.yandex.mobile.ads.banner.BannerAdView
-        android:id="@+id/banner"
-        android:layout_below="@id/header"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp"
-        android:layout_below="@id/header">
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/quizzes_layout"
             android:layout_centerInParent="true"
             android:orientation="vertical">
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/play"
                 android:tag="0"
                 app:backgroundTint="@color/md_theme_primary"
-                android:textColor="@color/md_theme_onPrimary"
-                android:layout_margin="5dp"
-                android:textSize="20sp"
-                android:text="Играть"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/quiz_1"
-                android:tag="0"
-                app:backgroundTint="@color/md_theme_primary"
-                android:textColor="@color/md_theme_onPrimary"
-                android:layout_margin="5dp"
-                android:textSize="20sp"
-                android:text="Классическая змейка"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/level_create"
-                android:tag="0"
-                app:backgroundTint="@color/md_theme_primary"
-                android:textColor="@color/md_theme_onPrimary"
-                android:layout_margin="5dp"
-                android:textSize="20sp"
-                android:text="Создать свой уровень"/>
+                android:textColor="@color/md_theme_onPrimary"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
