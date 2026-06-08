@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer sound, catchSound;
 
 
     @SuppressLint("ResourceAsColor")
@@ -30,10 +30,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
-        mediaPlayer = MediaPlayer.create(this, R.raw.crunch);
+        catchSound = MediaPlayer.create(this, R.raw.crunch);
+        sound = MediaPlayer.create(this, R.raw.rain);
 
         mainButton = findViewById(R.id.main_button);
         mainButton.setOnClickListener(this);
+
+        sound.setVolume(0, 0);
+        sound.start();
+        for (int i = 0; i < 10; i++) {
+            float coordinate = (float) (i * 0.1);
+            sound.setVolume(coordinate, coordinate);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        sound.stop();
     }
 
     public void onClick(View view) {
@@ -47,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
 
-            mediaPlayer.start();
+            catchSound.start();
 
             // Intent quizIntent = new Intent(this, QuizActivity.class);
           //  startActivity(quizIntent);
