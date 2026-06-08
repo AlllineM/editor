@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onPrepared(MediaPlayer player) {
-        soundStart();
+        player.start();
+        //soundStart();
     }
 
     private void soundStart() {
