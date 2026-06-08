@@ -3,6 +3,7 @@ package com.binturong.game_editor;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -18,6 +19,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    private MediaPlayer mediaPlayer;
+
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
+        mediaPlayer = MediaPlayer.create(this, R.raw.crunch);
 
         mainButton = findViewById(R.id.main_button);
         mainButton.setOnClickListener(this);
@@ -42,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
 
+            mediaPlayer.start();
 
-
-           // Intent quizIntent = new Intent(this, QuizActivity.class);
+            // Intent quizIntent = new Intent(this, QuizActivity.class);
           //  startActivity(quizIntent);
         }
         Log.d("result", "6");
