@@ -20,23 +20,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("result", "1");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("result", "2");
-
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
 
-        Log.d("result", "3");
-
-
         mainButton = findViewById(R.id.main_button);
         mainButton.setOnClickListener(this);
-        Log.d("result", "7");
-
     }
 
     public void onClick(View view) {
