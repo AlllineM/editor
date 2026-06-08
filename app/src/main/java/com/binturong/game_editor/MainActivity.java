@@ -3,6 +3,8 @@ package com.binturong.game_editor;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +14,10 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor editor;
 
     private MediaPlayer sound, catchSound;
+    private Timer timer;
+
+    private int volumeK;
 
 
     @SuppressLint("ResourceAsColor")
@@ -36,18 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainButton = findViewById(R.id.main_button);
         mainButton.setOnClickListener(this);
 
-        sound.setVolume(0, 0);
-        sound.start();
-        for (int i = 0; i < 10; i++) {
-            float coordinate = (float) (i * 0.1);
-            sound.setVolume(coordinate, coordinate);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        sound.stop();
+        volumeK = 0;
     }
 
     public void onClick(View view) {
@@ -67,6 +65,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
           //  startActivity(quizIntent);
         }
         Log.d("result", "6");
+    }
+
+    private void soundStart() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                float volume = (float) (volumeK * 0.1);
+                sound.setVolume(volume, volume);
+                sound.start();
+                volumeK = volumeK++;
+            }
+        }, 1000, 1000);
+        sound.stop();
     }
 
 }
