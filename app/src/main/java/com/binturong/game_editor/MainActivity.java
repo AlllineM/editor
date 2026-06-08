@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.d("result", "3");
 
+
         mainButton = findViewById(R.id.main_button);
+        mainButton.setOnClickListener(this);
         Log.d("result", "7");
 
     }
