@@ -22,7 +22,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/play"
+                android:id="@+id/main_button"
                 android:tag="0"
                 app:backgroundTint="@color/md_theme_primary"
                 android:textColor="@color/md_theme_onPrimary"/>
