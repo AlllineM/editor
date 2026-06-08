@@ -1,6 +1,7 @@
 package com.binturong.game_editor;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,14 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
+
+
+
+           // Intent quizIntent = new Intent(this, QuizActivity.class);
+          //  startActivity(quizIntent);
         }
         Log.d("result", "6");
-
-
-//        Intent quizIntent = new Intent(this, QuizActivity.class);
-//        quizIntent.putExtra("mode", "classic");
-//
-//        startActivity(quizIntent);
     }
 
 }
