@@ -50,13 +50,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setSettings() {
         count = 0;
         volumeK = 0;
-        timerSpeed = 700;
-        maxStep = 80;
-        catchStep = 40;
+        timerSpeed = 500;
+        catchStep = 30;
         catchDistance = 1;
+        buttonVolume = 0.05F;
 
-        buttonVolume = 0.3F;
-        stepSize = 0.025F;
+        maxStep = catchStep * 2;
+        stepSize = (float) 1 / catchStep;
+        Log.d("stepSize", String.valueOf(stepSize));
 
         startCatchStep = catchStep - catchDistance;
         endCatchStep = catchStep + catchDistance;
@@ -96,22 +97,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //если поймал
                 Log.d("result", "gotcha");
                 catchSoundPlayer.start();
-                mainSoundPlayer.stop();
-                timer.purge();
-                timer.cancel();
+                restartMainSound();
             }
         }
     }
 
     public void onPrepared(MediaPlayer player) {
         Log.d("result", "onPrepared");
+        startMainSound();
+        Log.d("result", "onPrepared");
+    }
 
-        float volume = volumeK * stepSize;
-        Log.d("volume", String.valueOf(volume));
-        mainSoundPlayer.setVolume(volume, volume);
+    public void startMainSound() {
+        count = 0;
+        volumeK = 0;
+        mainSoundPlayer.setVolume(0, 0);
         mainSoundPlayer.start();
         changeVolume();
-        Log.d("result", "onPrepared");
+    }
+
+    public void restartMainSound() {
+        mainSoundPlayer.stop();
+        timer.purge();
+        timer.cancel();
+        startMainSound();
     }
 
     private void changeVolume() {
@@ -122,10 +131,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("count", String.valueOf(count));
                 Log.d("volumeK", String.valueOf(volumeK));
 
-                if (count > maxStep) {
-                    timer.purge();
-                    timer.cancel();
-                    mainSoundPlayer.stop();
+                if (count >= maxStep) {
+                    restartMainSound();
                 } else {
                     if (count < catchStep) {
                         volumeK = volumeK + 1;
