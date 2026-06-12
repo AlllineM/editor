@@ -26,15 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MediaPlayer mainSoundPlayer, catchSoundPlayer, missSoundPlayer;
     private Timer timer;
 
-    private int
-            volumeK = 20, //
-            timerSpeed = 1200,
-            maxStep = 39,
-            catchStep = 30;
+    private int volumeK,timerSpeed, maxStep, catchStep, catchDistance, startCatchStep, endCatchStep;
 
-    private float
-            buttonVolume = 0.4F,
-            stepSize = 0.025F;
+    private float buttonVolume, stepSize;
 
 
     @SuppressLint("ResourceAsColor")
@@ -49,7 +43,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainButton = findViewById(R.id.main_button);
         mainButton.setOnClickListener(this);
 
+        setSettings(); //этот метод обязательно вызвать первым
         setPlayers();
+    }
+
+    public void setSettings() {
+        volumeK = 1;
+        timerSpeed = 700;
+        maxStep = 80;
+        catchStep = 40;
+        catchDistance = 1;
+
+        buttonVolume = 0.3F;
+        stepSize = 0.025F;
+
+        startCatchStep = catchStep - catchDistance;
+        endCatchStep = catchStep + catchDistance;
     }
 
     public void setPlayers() {
@@ -78,9 +87,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
 
-            if (volumeK < catchStep) {
+            if (volumeK > maxStep) return;
+
+            if (volumeK < startCatchStep || volumeK > endCatchStep) { //если не долетел или перелетел)
                 missSoundPlayer.start();
             } else {
+                //если поймал
                 Log.d("result", "gotcha");
                 catchSoundPlayer.start();
                 mainSoundPlayer.stop();
@@ -88,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 timer.cancel();
             }
         }
-        Log.d("result", "6");
     }
 
     public void onPrepared(MediaPlayer player) {
@@ -103,27 +114,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void changeVolume() {
-        Log.d("result", "7");
-
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Log.d("volumeK", String.valueOf(volumeK));
 
-                float volume = volumeK * stepSize;
-
-                Log.d("volume", String.valueOf(volume));
-                mainSoundPlayer.setVolume(volume, volume);
-                volumeK = volumeK + 1;
-
                 if (volumeK > maxStep) {
                     Log.d("volumeK", String.valueOf(volumeK));
                     timer.purge();
                     timer.cancel();
                     mainSoundPlayer.stop();
+                } else {
+                    if (volumeK < catchStep) {
+                        volumeK = volumeK + 1;
+                    } else {
+                        volumeK = volumeK - 1;
+                    }
+                    float volume = volumeK * stepSize;
+                    Log.d("volume", String.valueOf(volume));
+                    mainSoundPlayer.setVolume(volume, volume);
                 }
-                Log.d("result", "11");
             }
         }, timerSpeed, timerSpeed);
     }
