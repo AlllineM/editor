@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MediaPlayer mainSoundPlayer, catchSoundPlayer, missSoundPlayer;
     private Timer timer;
 
-    private int volumeK,timerSpeed, maxStep, catchStep, catchDistance, startCatchStep, endCatchStep;
+    private int count, volumeK,timerSpeed, maxStep, catchStep, catchDistance, startCatchStep, endCatchStep;
 
     private float buttonVolume, stepSize;
 
@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void setSettings() {
-        volumeK = 1;
+        count = 0;
+        volumeK = 0;
         timerSpeed = 700;
         maxStep = 80;
         catchStep = 40;
@@ -87,9 +88,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
 
-            if (volumeK > maxStep) return;
+            if (count > maxStep) return;
 
-            if (volumeK < startCatchStep || volumeK > endCatchStep) { //если не долетел или перелетел)
+            if (count < startCatchStep || count > endCatchStep) { //если не долетел или перелетел)
                 missSoundPlayer.start();
             } else {
                 //если поймал
@@ -118,15 +119,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                Log.d("count", String.valueOf(count));
                 Log.d("volumeK", String.valueOf(volumeK));
 
-                if (volumeK > maxStep) {
-                    Log.d("volumeK", String.valueOf(volumeK));
+                if (count > maxStep) {
                     timer.purge();
                     timer.cancel();
                     mainSoundPlayer.stop();
                 } else {
-                    if (volumeK < catchStep) {
+                    if (count < catchStep) {
                         volumeK = volumeK + 1;
                     } else {
                         volumeK = volumeK - 1;
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d("volume", String.valueOf(volume));
                     mainSoundPlayer.setVolume(volume, volume);
                 }
+                count = count + 1;
             }
         }, timerSpeed, timerSpeed);
     }
