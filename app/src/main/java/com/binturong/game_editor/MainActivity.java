@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    private MediaPlayer sound, catchSound;
+    private MediaPlayer sound; //, catchSound;
     private Timer timer;
 
     private int volumeK;
@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainButton.setOnClickListener(this);
 
         volumeK = 0;
-        catchSound = MediaPlayer.create(this, R.raw.crunch);
+      //  catchSound = MediaPlayer.create(this, R.raw.crunch);
 
         sound = new MediaPlayer();
-        AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.crunch);
+        AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.rain);
         try {
             sound.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             afd.close();
@@ -67,7 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
 
-            catchSound.start();
+            float volume = (float) (volumeK * 0.05);
+            Log.d("volume", String.valueOf(volume));
+//            catchSound.setVolume(volume, volume);
+//            catchSound.start();
 
             if (volumeK > 10) {
                 Log.d("result", "gotcha");
@@ -81,9 +84,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onPrepared(MediaPlayer player) {
-        sound.setVolume(0, 0);
+        Log.d("result", "onPrepared");
+
+        float volume = (float) (volumeK * 0.05);
+        Log.d("volume", String.valueOf(volume));
+        sound.setVolume(volume, volume);
         sound.start();
         changeVolume();
+        Log.d("result", "onPrepared");
     }
 
     private void changeVolume() {
