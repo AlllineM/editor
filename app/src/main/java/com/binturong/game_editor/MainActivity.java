@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         missSoundPlayer.setVolume(buttonVolume, buttonVolume);
 
         mainSoundPlayer = new MediaPlayer();
+        mainSoundPlayer.setOnPreparedListener(this::onPrepared);
+
         AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.rain);
         try {
             mainSoundPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
@@ -78,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        mainSoundPlayer.setOnPreparedListener(this::onPrepared);
         mainSoundPlayer.prepareAsync();
     }
 
@@ -117,10 +118,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void restartMainSound() {
-        mainSoundPlayer.stop();
         timer.purge();
         timer.cancel();
-        startMainSound();
+
+        mainSoundPlayer.stop();
+        mainSoundPlayer.reset();
+
+        AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.rain);
+        try {
+            mainSoundPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            afd.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        mainSoundPlayer.prepareAsync();
     }
 
     private void changeVolume() {
