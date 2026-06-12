@@ -1,11 +1,8 @@
 package com.binturong.game_editor;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,7 +13,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,10 +23,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    private MediaPlayer sound, catchSound;
+    private MediaPlayer mainSoundPlayer, catchSoundPlayer, missSoundPlayer;
     private Timer timer;
 
     private int volumeK;
+
+    private float buttonVolume;
 
 
     @SuppressLint("ResourceAsColor")
@@ -45,19 +43,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainButton = findViewById(R.id.main_button);
         mainButton.setOnClickListener(this);
 
-        volumeK = 0;
-        catchSound = MediaPlayer.create(this, R.raw.crunch);
+        catchSoundPlayer = MediaPlayer.create(this, R.raw.crunch);
+        missSoundPlayer = MediaPlayer.create(this, R.raw.flap);
+        buttonVolume = 0.2F;
+        catchSoundPlayer.setVolume(buttonVolume, buttonVolume);
+        missSoundPlayer.setVolume(buttonVolume, buttonVolume);
 
-        sound = new MediaPlayer();
+        volumeK = 0;
+        mainSoundPlayer = new MediaPlayer();
         AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.rain);
         try {
-            sound.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            mainSoundPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             afd.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        sound.setOnPreparedListener(this::onPrepared);
-        sound.prepareAsync();
+        mainSoundPlayer.setOnPreparedListener(this::onPrepared);
+        mainSoundPlayer.prepareAsync();
     }
 
     public void onClick(View view) {
@@ -67,14 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
 
-            float volume = (float) (volumeK * 0.05);
-            Log.d("volume", String.valueOf(volume));
-            catchSound.setVolume(volume, volume);
-            catchSound.start();
-
-            if (volumeK > 10) {
+            if (volumeK < 10) {
+                missSoundPlayer.start();
+            } else {
                 Log.d("result", "gotcha");
-                sound.stop();
+                catchSoundPlayer.start();
+                mainSoundPlayer.stop();
             }
 
             // Intent quizIntent = new Intent(this, QuizActivity.class);
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         float volume = (float) (volumeK * 0.05);
         Log.d("volume", String.valueOf(volume));
-        sound.setVolume(volume, volume);
-        sound.start();
+        mainSoundPlayer.setVolume(volume, volume);
+        mainSoundPlayer.start();
         changeVolume();
         Log.d("result", "onPrepared");
     }
@@ -106,16 +106,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 float volume = (float) (volumeK * 0.05);
 
                 Log.d("volume", String.valueOf(volume));
-                sound.setVolume(volume, volume);
+                mainSoundPlayer.setVolume(volume, volume);
                 volumeK = volumeK + 1;
 
                 if (volumeK > 19) {
                     Log.d("volumeK", String.valueOf(volumeK));
                     timer.purge();
                     timer.cancel();
-
-                    //todo: ploho
-                    // sound.stop();
+                    mainSoundPlayer.stop();
                 }
                 Log.d("result", "11");
             }
