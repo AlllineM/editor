@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         catchSoundPlayer.setVolume(buttonVolume, buttonVolume);
         missSoundPlayer.setVolume(buttonVolume, buttonVolume);
 
-        volumeK = 0;
+        volumeK = 1;
         mainSoundPlayer = new MediaPlayer();
         AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.rain);
         try {
@@ -69,12 +69,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
 
-            if (volumeK < 10) {
+            if (volumeK < 20) {
                 missSoundPlayer.start();
             } else {
                 Log.d("result", "gotcha");
                 catchSoundPlayer.start();
                 mainSoundPlayer.stop();
+                timer.purge();
+                timer.cancel();
             }
 
             // Intent quizIntent = new Intent(this, QuizActivity.class);
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onPrepared(MediaPlayer player) {
         Log.d("result", "onPrepared");
 
-        float volume = (float) (volumeK * 0.05);
+        float volume = (float) (volumeK * 0.025);
         Log.d("volume", String.valueOf(volume));
         mainSoundPlayer.setVolume(volume, volume);
         mainSoundPlayer.start();
@@ -103,13 +105,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 Log.d("volumeK", String.valueOf(volumeK));
 
-                float volume = (float) (volumeK * 0.05);
+                float volume = (float) (volumeK * 0.025);
 
                 Log.d("volume", String.valueOf(volume));
                 mainSoundPlayer.setVolume(volume, volume);
                 volumeK = volumeK + 1;
 
-                if (volumeK > 19) {
+                if (volumeK > 39) {
                     Log.d("volumeK", String.valueOf(volumeK));
                     timer.purge();
                     timer.cancel();
@@ -117,6 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 Log.d("result", "11");
             }
-        }, 5000, 5000);
+        }, 1200, 1200);
     }
 }
