@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MediaPlayer mainSoundPlayer, catchSoundPlayer, missSoundPlayer;
     private Timer timer;
 
-    private int volumeK;
+    private int volumeK = 8, timerSpeed = 1200;
 
-    private float buttonVolume;
+    private float buttonVolume = 0.1F;
 
 
     @SuppressLint("ResourceAsColor")
@@ -43,13 +43,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainButton = findViewById(R.id.main_button);
         mainButton.setOnClickListener(this);
 
+      //  setSettings(); //этот метод обязательно первым
+        setPlayers();
+    }
+
+    public void setSettings() {
+        volumeK = 8;
+        buttonVolume = 0.2F;
+        timerSpeed = 1200;
+    }
+
+    public void setPlayers() {
         catchSoundPlayer = MediaPlayer.create(this, R.raw.crunch);
         missSoundPlayer = MediaPlayer.create(this, R.raw.flap);
-        buttonVolume = 0.2F;
+
         catchSoundPlayer.setVolume(buttonVolume, buttonVolume);
         missSoundPlayer.setVolume(buttonVolume, buttonVolume);
 
-        volumeK = 1;
         mainSoundPlayer = new MediaPlayer();
         AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.rain);
         try {
@@ -69,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (clickedButtonId == R.id.main_button) {
             Log.d("result", String.valueOf(clickedButtonId));
 
-            if (volumeK < 20) {
+            if (volumeK < 30) {
                 missSoundPlayer.start();
             } else {
                 Log.d("result", "gotcha");
@@ -119,6 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 Log.d("result", "11");
             }
-        }, 1200, 1200);
+        }, timerSpeed, timerSpeed);
     }
 }
