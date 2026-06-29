@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -112,6 +113,8 @@ public class HeaderActivity extends BaseActivity {
             @Override
             public void run() {
                 String response = getLastVersion();
+                Log.d("response", response);
+                Log.d("response", "111");
                 String lastVersion = parseResponse(response);
 
                 boolean localIsNeedUpdate = sharedPreferences.getBoolean("isNeedUpdate", false);

@@ -26,7 +26,7 @@ import java.util.Base64;
 
 public class BaseActivity extends AppCompatActivity {
 
-    public final String baseUrl = "https://test-constructor.ru/api/v.0/";
+    public final String baseUrl = "https://levelmaker.site/api/v.0/";
     private static final SecureRandom secureRandom = new SecureRandom(); //threadsafe
     private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
     @SuppressLint("MissingInflatedId")
