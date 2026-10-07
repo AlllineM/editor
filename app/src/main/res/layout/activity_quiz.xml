@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wooden_fon_new"
+    android:background="@color/snake_cream"
     tools:context=".QuizActivity">
 
     <include android:id="@+id/header"
@@ -38,12 +38,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <!-- Счёт: синий, как надпись "Score" на картинке -->
         <TextView
             android:id="@+id/scoreTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textColor="@color/md_theme_onBackground"
+            android:textColor="@color/snake_blue_text"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
@@ -100,7 +101,7 @@
             android:id="@+id/topBtn"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:background="@color/md_theme_primary"
+            android:background="@color/snake_green_dark"
             android:src="@drawable/up"/>
 
         <LinearLayout
@@ -115,23 +116,24 @@
                 android:id="@+id/leftBtn"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
-                android:background="@color/md_theme_primary"
+                android:background="@color/snake_green_dark"
                 android:src="@drawable/left"/>
 
+            <!-- Пауза: розовая, как большая кнопка с сердечком -->
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/pause"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/md_theme_primary"
+                android:background="@color/snake_pink"
                 android:src="@drawable/pause"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/rightBtn"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
-                android:background="@color/md_theme_primary"
+                android:background="@color/snake_green_dark"
                 android:src="@drawable/right"/>
 
         </LinearLayout>
@@ -140,7 +142,7 @@
             android:id="@+id/bottomBtn"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:background="@color/md_theme_primary"
+            android:background="@color/snake_green_dark"
             android:src="@drawable/down"/>
     </LinearLayout>
 
