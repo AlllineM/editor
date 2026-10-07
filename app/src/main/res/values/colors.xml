@@ -143,4 +143,23 @@
     <color name="md_theme_surfaceContainer_highContrast">#ECEFE5</color>
     <color name="md_theme_surfaceContainerHigh_highContrast">#E6E9E0</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#E1E4DA</color>
+
+
+    <color name="snake_green_light">#8BE04E</color>   <!-- светлая секция змейки, голова -->
+    <color name="snake_green_main">#5CC23A</color>    <!-- логотип "Snake" -->
+    <color name="snake_green_dark">#2E9E48</color>    <!-- тёмные секции змейки -->
+    <color name="snake_bush">#6DBE45</color>          <!-- кусты по рамке -->
+
+    <color name="snake_blue_light">#BFDDF5</color>    <!-- голубые клетки -->
+    <color name="snake_blue_border">#A9D0F2</color>   <!-- голубая рамка поля -->
+    <color name="snake_blue_text">#3F6EA8</color>     <!-- текст "Score" -->
+
+    <color name="snake_cream">#F6EFD8</color>         <!-- кремовые клетки -->
+    <color name="snake_white">#FFFFFF</color>         <!-- облака, цветы -->
+
+    <color name="snake_apple_red">#E8334A</color>     <!-- яблоко -->
+    <color name="snake_pink">#F0566E</color>          <!-- розовая кнопка -->
+
+    <color name="snake_wood">#E8B77A</color>          <!-- деревянные таблички -->
+    <color name="snake_wood_text">#7A4A2A</color>     <!-- коричневый текст табличек -->
 </resources>
