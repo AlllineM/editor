@@ -14,6 +14,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -32,6 +33,8 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private final List<SnakePoints> blockPointsList = new ArrayList<>();
     //Вспомогательный массив с блоками 2 * 2, чисто для редактора
     private List<SnakePoints> bigBlockPointsList = new ArrayList<>();
+    private static final int DEFAULT_SNAKE_SPEED = 700;
+    EditText snakeSpeedInput;
 
     Button saveLevel, publishLevel, clearLevel;
     private SurfaceView surfaceView;
@@ -58,6 +61,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         saveLevel = findViewById(R.id.save_level);
         publishLevel = findViewById(R.id.publish_level);
         clearLevel = findViewById(R.id.clear_level);
+        snakeSpeedInput = findViewById(R.id.snake_speed);
 
         setHeaderButtons();
 
@@ -82,11 +86,12 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         saveLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final int snakeSpeed = getSnakeSpeed();
                 Thread thread = new Thread(new Runnable(){
                     @Override
                     public void run() {
                         try {
-                            String levelData = prepareLevelData("draft");
+                            String levelData = prepareLevelData("draft", snakeSpeed);
                             String response;
                             if (levelId == -1) {
                                 //если уровень новый, создаем
@@ -126,11 +131,12 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         publishLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final int snakeSpeed = getSnakeSpeed();
                 Thread thread = new Thread(new Runnable(){
                     @Override
                     public void run() {
                         try {
-                            String levelData = prepareLevelData("publish");
+                            String levelData = prepareLevelData("publish", snakeSpeed);
                             String response;
                             if (levelId == -1) {
                                 //если уровень новый, создаем
@@ -257,12 +263,25 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     }
 
     /**
+     * Возвращает начальную скорость змейки из поля ввода.
+     * Если поле пустое или значение некорректное, возвращает значение по умолчанию.
+     */
+    private int getSnakeSpeed() {
+        try {
+            int value = Integer.parseInt(snakeSpeedInput.getText().toString().trim());
+            return value > 0 ? value : DEFAULT_SNAKE_SPEED;
+        } catch (NumberFormatException e) {
+            return DEFAULT_SNAKE_SPEED;
+        }
+    }
+
+    /**
      * Подготавливает данные уровня для сохранения
      * todo: рефакторинг конечно нужен)
      * @return
      * @throws JSONException
      */
-    public String prepareLevelData(String type) throws JSONException {
+    public String prepareLevelData(String type, int snakeSpeed) throws JSONException {
         JSONArray blocks = new JSONArray();
         for (SnakePoints block : bigBlockPointsList) {
             JSONObject jsonBlock = new JSONObject();
@@ -291,6 +310,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             params.put("level_id", levelId);
         }
         params.put("blocks", blocks);
+        params.put("snake_speed", snakeSpeed);
         params.put("user_token", sharedPreferences.getString("userToken", "0"));
         params.put("type", type);
 
