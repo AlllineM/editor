@@ -72,6 +72,16 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/run_level"
+            android:tag="0"
+            app:backgroundTint="@color/md_theme_seed"
+            android:textColor="@color/md_theme_onPrimary"
+            android:layout_margin="5dp"
+            android:text="Запустить уровень"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/save_level"
             android:tag="0"
             app:backgroundTint="@color/md_theme_seed"

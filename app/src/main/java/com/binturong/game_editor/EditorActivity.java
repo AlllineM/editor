@@ -36,7 +36,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private static final int DEFAULT_SNAKE_SPEED = 700;
     EditText snakeSpeedInput;
 
-    Button saveLevel, publishLevel, clearLevel;
+    Button saveLevel, publishLevel, clearLevel, runLevel;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
 
@@ -62,6 +62,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         publishLevel = findViewById(R.id.publish_level);
         clearLevel = findViewById(R.id.clear_level);
         snakeSpeedInput = findViewById(R.id.snake_speed);
+        runLevel = findViewById(R.id.run_level);
 
         setHeaderButtons();
 
@@ -81,6 +82,20 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                 }
 
                 surfaceHolder.unlockCanvasAndPost(canvas);
+            }
+        });
+        runLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent quizIntent = new Intent(EditorActivity.this, QuizActivity.class);
+                    quizIntent.putExtra("mode", "test_level");
+                    quizIntent.putExtra("level_blocks", buildBlocksJson().toString());
+                    quizIntent.putExtra("snake_speed", getSnakeSpeed());
+                    startActivity(quizIntent);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         saveLevel.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +288,36 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         } catch (NumberFormatException e) {
             return DEFAULT_SNAKE_SPEED;
         }
+    }
+
+    /**
+     * Собирает блоки уровня в JSON-массив [{"x":..,"y":..}, ...]
+     * (тот же формат, что уходит на бекенд и хранится в SharedPreferences для уровней)
+     */
+    private JSONArray buildBlocksJson() throws JSONException {
+        JSONArray blocks = new JSONArray();
+        for (SnakePoints block : bigBlockPointsList) {
+            int x = block.getPositionX() / pointsSize;
+            int y = block.getPositionY() / pointsSize;
+
+            blocks.put(new JSONObject().put("x", x).put("y", y));
+            blocks.put(new JSONObject().put("x", x + 2).put("y", y));
+            blocks.put(new JSONObject().put("x", x).put("y", y + 2));
+            blocks.put(new JSONObject().put("x", x + 2).put("y", y + 2));
+        }
+        return blocks;
+    }
+
+    public String prepareLevelData(String type, int snakeSpeed) throws JSONException {
+        JSONObject params = new JSONObject();
+        if (levelId != -1) {
+            params.put("level_id", levelId);
+        }
+        params.put("blocks", buildBlocksJson());
+        params.put("snake_speed", snakeSpeed);
+        params.put("user_token", sharedPreferences.getString("userToken", "0"));
+        params.put("type", type);
+        return params.toString();
     }
 
     /**
