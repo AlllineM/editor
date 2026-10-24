@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends HeaderActivity implements View.OnClickListener {
 
-    Button quiz1, play, levelCreate;
+    Button quiz1, play, levelCreate, customLevelList;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -35,9 +35,18 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         quiz1 = findViewById(R.id.quiz_1);
         play = findViewById(R.id.play);
         levelCreate = findViewById(R.id.level_create);
+        customLevelList = findViewById(R.id.custom_level_list);
 
         quiz1.setOnClickListener(this);
         play.setOnClickListener(this);
+
+        customLevelList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editorIntent = new Intent(MainActivity.this, EditorActivity.class);
+                startActivity(editorIntent);
+            }
+        });
         levelCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
