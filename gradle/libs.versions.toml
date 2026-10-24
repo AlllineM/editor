@@ -16,6 +16,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 mobileads = { group = "com.yandex.android", name = "mobileads", version.ref = "mobileads" }
 room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+compil = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -34,7 +34,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.mobileads)
     implementation(libs.room)
-    ksp()
+    annotationProcessor(libs.compil)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
