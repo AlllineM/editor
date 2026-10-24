@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.binturong.game_editor.R;
+import com.binturong.game_editor.backend.data.SnakePoints;
 
 import org.json.JSONArray;
 import org.json.JSONException;

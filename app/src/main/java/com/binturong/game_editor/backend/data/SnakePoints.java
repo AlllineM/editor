@@ -1,4 +1,4 @@
-package com.binturong.game_editor.frontend;
+package com.binturong.game_editor.backend.data;
 
 public class SnakePoints {
 
