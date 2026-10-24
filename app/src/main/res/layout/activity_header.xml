@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/md_theme_primaryContainer"
-    tools:context=".HeaderActivity">
+    tools:context=".frontend.HeaderActivity">
 
     <LinearLayout
         android:id="@+id/header_line"

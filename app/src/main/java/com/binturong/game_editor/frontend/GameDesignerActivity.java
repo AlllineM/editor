@@ -1,4 +1,4 @@
-package com.binturong.game_editor;
+package com.binturong.game_editor.frontend;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
-public class CustomLevelListActivity extends HeaderActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+import com.binturong.game_editor.R;
+
+public class GameDesignerActivity extends HeaderActivity implements View.OnClickListener {
 
     Button home;
 
@@ -25,39 +26,24 @@ public class CustomLevelListActivity extends HeaderActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_game_designer);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
 
         Button play = findViewById(R.id.play);
-        Button gameDesigner = findViewById(R.id.game_designer);
         AppCompatImageButton gift = findViewById(R.id.gift);
         AppCompatImageButton giftReady = findViewById(R.id.giftReady);
         AppCompatImageButton homeHead = findViewById(R.id.homeHead);
-
-        vibrationButton = findViewById(R.id.vibrationButton);
-        vibrationButton.setOnCheckedChangeListener(this);
-
-        boolean isVibrateOn = sharedPreferences.getBoolean("vibration", true);
-        vibrationButton.setChecked(isVibrateOn);
 
         changeGiftVisibility();
         changeGiftReadyVisibility();
 
         play.setOnClickListener(this);
-
-        gameDesigner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent gameDesignerIntent = new Intent(CustomLevelListActivity.this, GameDesignerActivity.class);
-                startActivity(gameDesignerIntent);
-            }
-        });
         homeHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(CustomLevelListActivity.this, MainActivity.class);
+                Intent mainIntent = new Intent(GameDesignerActivity.this, MainActivity.class);
                 startActivity(mainIntent);
             }
         });
@@ -65,14 +51,14 @@ public class CustomLevelListActivity extends HeaderActivity implements View.OnCl
         gift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showUpdateDialog(CustomLevelListActivity.this);
+                showUpdateDialog(GameDesignerActivity.this);
             }
         });
 
         giftReady.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showExtraLiveDialog(CustomLevelListActivity.this);
+                showExtraLiveDialog(GameDesignerActivity.this);
             }
         });
 
@@ -81,7 +67,7 @@ public class CustomLevelListActivity extends HeaderActivity implements View.OnCl
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(CustomLevelListActivity.this, MainActivity.class));
+        startActivity(new Intent(GameDesignerActivity.this, MainActivity.class));
         super.onBackPressed();
     }
 
@@ -94,9 +80,7 @@ public class CustomLevelListActivity extends HeaderActivity implements View.OnCl
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        editor.putBoolean("vibration", isChecked);
-        editor.commit();
+    public void getLevels() {
+        sendGET("level/get/all-base");
     }
 }

@@ -20,31 +20,31 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".QuizActivity"
+            android:name=".frontend.QuizActivity"
             android:exported="false" />
         <activity
-            android:name=".EditorActivity"
+            android:name=".frontend.EditorActivity"
             android:exported="false" />
         <activity
-            android:name=".ResultActivity"
+            android:name=".frontend.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".HeaderActivity"
+            android:name=".frontend.HeaderActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".frontend.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".CustomLevelListActivity"
+            android:name=".frontend.CustomLevelListActivity"
             android:exported="false" />
         <activity
-            android:name=".GameDesignerActivity"
+            android:name=".frontend.GameDesignerActivity"
             android:exported="false" />
         <activity
-            android:name=".BaseActivity"
+            android:name=".frontend.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".frontend.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

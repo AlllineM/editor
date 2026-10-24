@@ -1,4 +1,4 @@
-package com.binturong.game_editor;
+package com.binturong.game_editor.frontend;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
+
+import com.binturong.game_editor.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

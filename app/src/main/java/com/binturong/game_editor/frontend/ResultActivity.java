@@ -1,4 +1,4 @@
-package com.binturong.game_editor;
+package com.binturong.game_editor.frontend;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
-import com.yandex.mobile.ads.banner.BannerAdSize;
-import com.yandex.mobile.ads.banner.BannerAdView;
-import com.yandex.mobile.ads.common.AdRequest;
+import com.binturong.game_editor.R;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.binturong.game_editor;
+package com.binturong.game_editor.frontend;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,11 +12,9 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
-import com.yandex.mobile.ads.banner.BannerAdSize;
-import com.yandex.mobile.ads.banner.BannerAdView;
-import com.yandex.mobile.ads.common.AdRequest;
+import com.binturong.game_editor.R;
 
-public class SettingsActivity extends HeaderActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class CustomLevelListActivity extends HeaderActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     Button home;
 
@@ -54,14 +52,14 @@ public class SettingsActivity extends HeaderActivity implements View.OnClickList
         gameDesigner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent gameDesignerIntent = new Intent(SettingsActivity.this, GameDesignerActivity.class);
+                Intent gameDesignerIntent = new Intent(CustomLevelListActivity.this, GameDesignerActivity.class);
                 startActivity(gameDesignerIntent);
             }
         });
         homeHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(SettingsActivity.this, MainActivity.class);
+                Intent mainIntent = new Intent(CustomLevelListActivity.this, MainActivity.class);
                 startActivity(mainIntent);
             }
         });
@@ -69,14 +67,14 @@ public class SettingsActivity extends HeaderActivity implements View.OnClickList
         gift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showUpdateDialog(SettingsActivity.this);
+                showUpdateDialog(CustomLevelListActivity.this);
             }
         });
 
         giftReady.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showExtraLiveDialog(SettingsActivity.this);
+                showExtraLiveDialog(CustomLevelListActivity.this);
             }
         });
 
@@ -85,7 +83,7 @@ public class SettingsActivity extends HeaderActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+        startActivity(new Intent(CustomLevelListActivity.this, MainActivity.class));
         super.onBackPressed();
     }
 
