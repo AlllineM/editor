@@ -43,8 +43,8 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         customLevelList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent editorIntent = new Intent(MainActivity.this, EditorActivity.class);
-                startActivity(editorIntent);
+                Intent customLevelListIntent = new Intent(MainActivity.this, CustomLevelListActivity.class);
+                startActivity(customLevelListIntent);
             }
         });
         levelCreate.setOnClickListener(new View.OnClickListener() {
