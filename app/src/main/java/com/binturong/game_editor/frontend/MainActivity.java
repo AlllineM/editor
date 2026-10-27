@@ -11,6 +11,9 @@ import android.widget.Button;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.binturong.game_editor.R;
+import com.binturong.game_editor.backend.dao.LevelDao;
+import com.binturong.game_editor.backend.service.AppDatabase;
+import com.binturong.game_editor.backend.service.DatabaseClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +25,9 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    AppDatabase db;
+    LevelDao levelDao;
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,9 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
+
+        db = DatabaseClient.getInstance(this);
+        levelDao = db.levelDao();
 
         setUserToken();
         setLevels();
