@@ -1,118 +1,60 @@
 package com.binturong.game_editor.frontend;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ToggleButton;
-
-import androidx.appcompat.widget.AppCompatImageButton;
-
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.binturong.game_editor.R;
 import com.binturong.game_editor.backend.dao.LevelDao;
-import com.binturong.game_editor.backend.entity.Level;
 import com.binturong.game_editor.backend.service.AppDatabase;
+import com.binturong.game_editor.backend.entity.Level;
 import com.binturong.game_editor.backend.service.DatabaseClient;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
-public class CustomLevelListActivity extends HeaderActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class CustomLevelListActivity extends AppCompatActivity {
 
-    Button home;
-
-    ToggleButton vibrationButton;
-
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-
-    AppDatabase db;
+    private RecyclerView recyclerView;
+    private LevelAdapter adapter;
+    private AppDatabase db;
     LevelDao levelDao;
-    List<Level> levels;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_custom_level_list); // Убедитесь, что в этой разметке есть RecyclerView с id recyclerView
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        editor = sharedPreferences.edit();
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         db = DatabaseClient.getInstance(this);
         levelDao = db.levelDao();
-        levels = levelDao.getAll();
 
-        Button play = findViewById(R.id.play);
-        Button gameDesigner = findViewById(R.id.game_designer);
-        AppCompatImageButton gift = findViewById(R.id.gift);
-        AppCompatImageButton giftReady = findViewById(R.id.giftReady);
-        AppCompatImageButton homeHead = findViewById(R.id.homeHead);
-
-        vibrationButton = findViewById(R.id.vibrationButton);
-        vibrationButton.setOnCheckedChangeListener(this);
-
-        boolean isVibrateOn = sharedPreferences.getBoolean("vibration", true);
-        vibrationButton.setChecked(isVibrateOn);
-
-        changeGiftVisibility();
-        changeGiftReadyVisibility();
-
-        play.setOnClickListener(this);
-
-        gameDesigner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent gameDesignerIntent = new Intent(CustomLevelListActivity.this, GameDesignerActivity.class);
-                startActivity(gameDesignerIntent);
-            }
-        });
-        homeHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mainIntent = new Intent(CustomLevelListActivity.this, MainActivity.class);
-                startActivity(mainIntent);
-            }
-        });
-
-        gift.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showUpdateDialog(CustomLevelListActivity.this);
-            }
-        });
-
-        giftReady.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showExtraLiveDialog(CustomLevelListActivity.this);
-            }
-        });
-
-        setAddBanner();
+        loadLevels();
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(CustomLevelListActivity.this, MainActivity.class));
-        super.onBackPressed();
-    }
+    private void loadLevels() {
+        // Запрос к БД в фоновом потоке
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Level> levels = db.levelDao().getAll();
 
-    @Override
-    public void onClick(View view) {
-        Button clickedButton = (Button) view;
-        if (clickedButton.getId() == R.id.play) {
-            Intent playIntent = new Intent(this, QuizActivity.class);
-            startActivity(playIntent);
-        }
-    }
+            // Возвращаемся в главный поток для обновления UI
+            runOnUiThread(() -> {
+                adapter = new LevelAdapter(levels, level -> {
+                    // Обработка нажатия "Играть"
+                    Toast.makeText(this, "Запуск уровня ID: " + level.id, Toast.LENGTH_SHORT).show();
 
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        editor.putBoolean("vibration", isChecked);
-        editor.commit();
+                    // Пример перехода на активити с игрой и передача данных
+                    // Intent intent = new Intent(CustomLevelListActivity.this, GameActivity.class);
+                    // intent.putExtra("LEVEL_ID", level.id);
+                    // intent.putExtra("BLOCKS_DATA", level.blocks);
+                    // startActivity(intent);
+                });
+                recyclerView.setAdapter(adapter);
+            });
+        });
     }
 }
