@@ -41,23 +41,9 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         db = DatabaseClient.getInstance(this);
         levelDao = db.levelDao();
 
-        setCustomLevelCount();
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int customLevelCount = levelDao.getCount();
-                if (customLevelCount != sharedPreferences.getInt("customLevelCount", -1)) {
-                    setCustomLevels();
-                    editor.putInt("customLevelCount", customLevelCount);
-                    editor.commit();
-                }
-            }
-        });
-        thread.start();
-
         setUserToken();
         setLevels();
+        setCustomLevels();
 
         quiz1 = findViewById(R.id.quiz_1);
         play = findViewById(R.id.play);
@@ -163,10 +149,6 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
             }
         });
         thread.start();
-    }
-
-    private void setCustomLevelCount() {
-
     }
 
     private void saveLevels(JSONArray levels) {
