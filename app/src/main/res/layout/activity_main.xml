@@ -53,13 +53,13 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/quiz_1"
+                android:id="@+id/level_create"
                 android:tag="0"
                 app:backgroundTint="@color/md_theme_primary"
                 android:textColor="@color/md_theme_onPrimary"
                 android:layout_margin="5dp"
                 android:textSize="20sp"
-                android:text="Классическая змейка"/>
+                android:text="Создать свой уровень"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -70,18 +70,18 @@
                 android:textColor="@color/md_theme_onPrimary"
                 android:layout_margin="5dp"
                 android:textSize="20sp"
-                android:text="Кастомные уровни"/>
+                android:text="Созданные уровни"/>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/level_create"
+                android:id="@+id/quiz_1"
                 android:tag="0"
                 app:backgroundTint="@color/md_theme_primary"
                 android:textColor="@color/md_theme_onPrimary"
                 android:layout_margin="5dp"
                 android:textSize="20sp"
-                android:text="Создать свой уровень"/>
+                android:text="Классическая змейка"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

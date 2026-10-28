@@ -13,6 +13,12 @@ import android.widget.ToggleButton;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.binturong.game_editor.R;
+import com.binturong.game_editor.backend.dao.LevelDao;
+import com.binturong.game_editor.backend.entity.Level;
+import com.binturong.game_editor.backend.service.AppDatabase;
+import com.binturong.game_editor.backend.service.DatabaseClient;
+
+import java.util.List;
 
 public class CustomLevelListActivity extends HeaderActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -23,6 +29,10 @@ public class CustomLevelListActivity extends HeaderActivity implements View.OnCl
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    AppDatabase db;
+    LevelDao levelDao;
+    List<Level> levels;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +41,10 @@ public class CustomLevelListActivity extends HeaderActivity implements View.OnCl
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
+
+        db = DatabaseClient.getInstance(this);
+        levelDao = db.levelDao();
+        levels = levelDao.getAll();
 
         Button play = findViewById(R.id.play);
         Button gameDesigner = findViewById(R.id.game_designer);
