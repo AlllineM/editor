@@ -41,10 +41,23 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         db = DatabaseClient.getInstance(this);
         levelDao = db.levelDao();
 
-        editor.putInt("customLevelCount", levelDao.getCount());
-        editor.commit();
+        setCustomLevelCount();
 
-        setData();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int customLevelCount = levelDao.getCount();
+                if (customLevelCount != sharedPreferences.getInt("customLevelCount", -1)) {
+                    setCustomLevels();
+                    editor.putInt("customLevelCount", customLevelCount);
+                    editor.commit();
+                }
+            }
+        });
+        thread.start();
+
+        setUserToken();
+        setLevels();
 
         quiz1 = findViewById(R.id.quiz_1);
         play = findViewById(R.id.play);
@@ -111,14 +124,6 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         startActivity(quizIntent);
     }
 
-    private void setData() {
-        setUserToken();
-        setLevels();
-
-        if (levelDao.getCount() != sharedPreferences.getInt("customLevelCount", -1)) {
-            setCustomLevels();
-        }
-    }
     private void setUserToken() {
         String userToken = sharedPreferences.getString("userToken", "");
         if (userToken.isEmpty()) {
@@ -151,11 +156,17 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
                 String response = getCustomLevels();
                 JSONArray levels = parseResponse(response);
                 if (levels.length() > 0) {
-                    saveCustomLevels(levels);
+                    if (levels.length() != levelDao.getCount()) {
+                        saveCustomLevels(levels);
+                    }
                 }
             }
         });
         thread.start();
+    }
+
+    private void setCustomLevelCount() {
+
     }
 
     private void saveLevels(JSONArray levels) {
@@ -177,9 +188,14 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         try {
             for (int i=0; i < levels.length(); i++) {
                 JSONObject level = levels.getJSONObject(i);
+                if (level.isNull("id")) return;
 
-                Level levelObj = new Level();
-                levelObj.id = level.isNull("id") ? 0 : level.getInt("id");
+                int levelId = level.getInt("id");
+                Level levelObj = levelDao.getById(levelId);
+                if (levelObj != null) return;
+
+                levelObj = new Level();
+                levelObj.id = levelId;
                 levelObj.blocks = level.isNull("blocks") ? null : level.getString("blocks");
                 levelObj.startSpeed = level.isNull("startSpeed") ? 805 :  level.getInt("startSpeed");
                 levelObj.author_name = level.isNull("user_name") ? "Аноним" : level.getString("user_name");
