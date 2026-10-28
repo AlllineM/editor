@@ -41,9 +41,10 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         db = DatabaseClient.getInstance(this);
         levelDao = db.levelDao();
 
-        setUserToken();
-        setLevels();
-        setCustomLevels();
+        editor.putInt("customLevelCount", levelDao.getCount());
+        editor.commit();
+
+        setData();
 
         quiz1 = findViewById(R.id.quiz_1);
         play = findViewById(R.id.play);
@@ -110,6 +111,14 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         startActivity(quizIntent);
     }
 
+    private void setData() {
+        setUserToken();
+        setLevels();
+
+        if (levelDao.getCount() != sharedPreferences.getInt("customLevelCount", -1)) {
+            setCustomLevels();
+        }
+    }
     private void setUserToken() {
         String userToken = sharedPreferences.getString("userToken", "");
         if (userToken.isEmpty()) {

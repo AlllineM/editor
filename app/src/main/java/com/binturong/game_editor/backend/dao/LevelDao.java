@@ -19,6 +19,9 @@ public interface LevelDao {
     @Query("SELECT * FROM level WHERE id = :id")
     Level getById(long id);
 
+    @Query("SELECT COUNT(*) FROM level")
+    Integer getCount();
+
     @Insert
     void insert(Level employee);
 
