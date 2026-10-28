@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.binturong.game_editor.R;
 import com.binturong.game_editor.backend.dao.LevelDao;
+import com.binturong.game_editor.backend.entity.Level;
 import com.binturong.game_editor.backend.service.AppDatabase;
 import com.binturong.game_editor.backend.service.DatabaseClient;
 
@@ -42,6 +43,7 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
 
         setUserToken();
         setLevels();
+        setCustomLevels();
 
         quiz1 = findViewById(R.id.quiz_1);
         play = findViewById(R.id.play);
@@ -132,6 +134,21 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         thread.start();
     }
 
+    private void setCustomLevels() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //todo: Сильно нужен рефакторинг, но сейчас влом)
+                String response = getCustomLevels();
+                JSONArray levels = parseResponse(response);
+                if (levels.length() > 0) {
+                    saveCustomLevels(levels);
+                }
+            }
+        });
+        thread.start();
+    }
+
     private void saveLevels(JSONArray levels) {
         try {
             for (int i=0; i < levels.length(); i++) {
@@ -146,6 +163,27 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
             throw new RuntimeException(e);
         }
     }
+
+    private void saveCustomLevels(JSONArray levels) {
+        try {
+            for (int i=0; i < levels.length(); i++) {
+                JSONObject level = levels.getJSONObject(i);
+
+                Level levelObj = new Level();
+                levelObj.id = level.getInt("id");
+                levelObj.blocks = level.getString("blocks");
+                levelObj.startSpeed = level.getInt("startSpeed");
+                levelObj.author_name = level.getString("user_name");
+                levelObj.rating = level.getInt("rating");
+                levelObj.targetScore = level.getInt("targetScore");
+
+                levelDao.insert(levelObj);
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private JSONArray parseResponse(String response) {
         try {
             //{"status":200,"result":[{"id":1,"blocks":[{"x":1,"y":2}]}]}
@@ -162,5 +200,9 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
 
     private String getLevels() {
         return sendGET("level/get/all-base");
+    }
+
+    private String getCustomLevels() {
+        return sendGET("level/get/all-custom");
     }
 }

@@ -5,13 +5,16 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "level")
 public class Level {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int id;
 
     public String name;
     public int author;
+    public int startSpeed;
+    public int targetScore;
     public int difficulty;
     public int rating;
 
     public String blocks;
+    public String author_name;
 }
