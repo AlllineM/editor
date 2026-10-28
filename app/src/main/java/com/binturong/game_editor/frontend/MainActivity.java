@@ -170,12 +170,12 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
                 JSONObject level = levels.getJSONObject(i);
 
                 Level levelObj = new Level();
-                levelObj.id = level.getInt("id");
-                levelObj.blocks = level.getString("blocks");
-                levelObj.startSpeed = level.getInt("startSpeed");
-                levelObj.author_name = level.getString("user_name");
-                levelObj.rating = level.getInt("rating");
-                levelObj.targetScore = level.getInt("targetScore");
+                levelObj.id = level.isNull("id") ? 0 : level.getInt("id");
+                levelObj.blocks = level.isNull("blocks") ? null : level.getString("blocks");
+                levelObj.startSpeed = level.isNull("startSpeed") ? 805 :  level.getInt("startSpeed");
+                levelObj.author_name = level.isNull("user_name") ? "Аноним" : level.getString("user_name");
+                levelObj.rating = level.isNull("rating") ? 0 : level.getInt("rating");
+                levelObj.targetScore = level.isNull("targetScore") ? 12 : level.getInt("targetScore");
 
                 levelDao.insert(levelObj);
             }
