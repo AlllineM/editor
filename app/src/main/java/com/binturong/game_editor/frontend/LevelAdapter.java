@@ -51,6 +51,11 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHol
         return levelList != null ? levelList.size() : 0;
     }
 
+    public void setLevels(List<Level> newLevels) {
+        this.levelList = newLevels;
+        notifyDataSetChanged(); // Уведомляет список, что данные обновились
+    }
+
     public static class LevelViewHolder extends RecyclerView.ViewHolder {
         TextView tvLevelId;
         TextView tvAuthorName;

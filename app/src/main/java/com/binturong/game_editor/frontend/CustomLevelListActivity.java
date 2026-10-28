@@ -12,6 +12,7 @@ import com.binturong.game_editor.backend.service.AppDatabase;
 import com.binturong.game_editor.backend.entity.Level;
 import com.binturong.game_editor.backend.service.DatabaseClient;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -30,6 +31,15 @@ public class CustomLevelListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // 1. Инициализируем адаптер ПУСТЫМ списком сразу, чтобы не было ошибки "No adapter attached"
+        adapter = new LevelAdapter(new ArrayList<>(), level -> {
+            Toast.makeText(this, "Запуск уровня ID: " + level.id, Toast.LENGTH_SHORT).show();
+            // Ваша логика старта игры...
+        });
+
+        // 2. Сразу привязываем адаптер к RecyclerView
+        recyclerView.setAdapter(adapter);
+
         db = DatabaseClient.getInstance(this);
         levelDao = db.levelDao();
 
@@ -43,6 +53,9 @@ public class CustomLevelListActivity extends AppCompatActivity {
 
             // Возвращаемся в главный поток для обновления UI
             runOnUiThread(() -> {
+                if (levels != null) {
+                    adapter.setLevels(levels);
+                }
                 adapter = new LevelAdapter(levels, level -> {
                     // Обработка нажатия "Играть"
                     Toast.makeText(this, "Запуск уровня ID: " + level.id, Toast.LENGTH_SHORT).show();
