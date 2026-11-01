@@ -34,6 +34,12 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.binturong.game_editor.backend.entity.Level;
+import com.binturong.game_editor.backend.service.DatabaseClient;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
 public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
     private List<SnakePoints> snakePointsList = new ArrayList<>();
@@ -94,6 +100,9 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     private MediaPlayer mediaPlayer;
 
+    private int customLevelId = -1;
+    private JSONArray customBlocks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +121,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mode = extras.getString("mode");
+            customLevelId = extras.getInt("levelId", -1);
         }
 
         if (Objects.equals(mode, "level")) {
@@ -121,6 +131,16 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
             scoreTv.setText("0/" + targetScore);
             levelView.setVisibility(View.VISIBLE);
             levelView.setText("ур " + currentLevel);
+
+            if (Objects.equals(mode, "custom")) {
+                if (!setCustomLevelData()) {
+                    finish();
+                    return;
+                }
+                scoreTv.setText("0/" + targetScore);
+                levelView.setVisibility(View.VISIBLE);
+                levelView.setText("ур #" + customLevelId);
+            }
         } else {
             levelView.setVisibility(View.GONE);
         }
@@ -139,6 +159,60 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
         setSurfaceView();
     }
+
+    private boolean isLevelMode() {
+        return Objects.equals(mode, "level") || Objects.equals(mode, "custom");
+    }
+
+    /**
+     * Загружает уровень из локальной БД. Запрос маленький (по первичному ключу),
+     * поэтому ждём результат, чтобы targetScore и скорость были готовы до старта игры.
+     */
+    private boolean setCustomLevelData() {
+        if (customLevelId < 0) return false;
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        try {
+            Level level = executor.submit(new java.util.concurrent.Callable<Level>() {
+                @Override
+                public Level call() {
+                    return DatabaseClient.getInstance(QuizActivity.this)
+                            .levelDao().getById(customLevelId);
+                }
+            }).get();
+
+            if (level == null || level.blocks == null || level.blocks.isEmpty()) {
+                return false;
+            }
+
+            targetScore = level.targetScore > 0 ? level.targetScore : 12;
+            // допустимые значения скорости 1 - 1000, при 1000 задержка таймера будет 0
+            snakeMovingSpeed = (level.startSpeed >= 1 && level.startSpeed < 1000)
+                    ? level.startSpeed : 805;
+
+            customBlocks = new JSONArray(level.blocks);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            executor.shutdown();
+        }
+    }
+
+    /** Вызывать только после того, как посчитан pointsSize (то есть из init()) */
+    private void addCustomBlocks() {
+        try {
+            for (int i = 0; i < customBlocks.length(); i++) {
+                JSONObject c = customBlocks.getJSONObject(i);
+                blockPointsList.add(new SnakePoints(
+                        pointsSize * c.getInt("x"),
+                        pointsSize * c.getInt("y")
+                ));
+            }
+        } catch (JSONException ignored) {
+        }
+    }
+
 
     private void setSurfaceView() {
         surfaceView = findViewById(R.id.surfaceView);
@@ -300,11 +374,15 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         surfaceView.getHolder().setFixedSize(surfaceSize, surfaceSize);
 
         snakePointsList.clear();
+        if (Objects.equals(mode, "custom")) {
+            blockPointsList.clear();
+            addCustomBlocks();
+        }
         setBlockPointsList();
-        if (Objects.equals(mode, "level")) {
+        if (isLevelMode()) {                       // было: Objects.equals(mode, "level")
             scoreTv.setText("0/" + targetScore);
             levelView.setVisibility(View.VISIBLE);
-            levelView.setText("ур " + currentLevel);
+            levelView.setText(Objects.equals(mode, "custom") ? "ур #" + customLevelId : "ур " + currentLevel);
         } else {
             scoreTv.setText("0");
             levelView.setVisibility(View.GONE);
@@ -562,7 +640,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (Objects.equals(mode, "level")) {
+                if (isLevelMode()) {
                     scoreTv.setText(score + "/" + targetScore);
                 } else {
                     scoreTv.setText(String.valueOf(score));
