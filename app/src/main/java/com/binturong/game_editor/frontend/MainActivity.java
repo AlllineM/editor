@@ -170,11 +170,11 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
         try {
             for (int i=0; i < levels.length(); i++) {
                 JSONObject level = levels.getJSONObject(i);
-                if (level.isNull("id")) return;
+                if (level.isNull("id")) continue;
 
                 int levelId = level.getInt("id");
                 Level levelObj = levelDao.getById(levelId);
-                if (levelObj != null) return;
+                if (levelObj != null) continue;
 
                 levelObj = new Level();
                 levelObj.id = levelId;
