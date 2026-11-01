@@ -56,6 +56,10 @@ public class CustomLevelAdapter extends RecyclerView.Adapter<CustomLevelAdapter.
             holder.difficulty.setVisibility(View.GONE);
         }
 
+        String author = (level.author_name == null || level.author_name.trim().isEmpty())
+                ? "Аноним" : level.author_name;
+        holder.author.setText("Автор: " + author);
+
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,13 +74,14 @@ public class CustomLevelAdapter extends RecyclerView.Adapter<CustomLevelAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView levelId, difficulty;
+        final TextView levelId, difficulty, author;
         final Button play;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             levelId = itemView.findViewById(R.id.level_id);
             difficulty = itemView.findViewById(R.id.level_difficulty);
+            author = itemView.findViewById(R.id.level_author);
             play = itemView.findViewById(R.id.level_play);
         }
     }
