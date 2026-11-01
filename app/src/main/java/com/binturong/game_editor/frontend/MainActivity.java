@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -40,6 +41,9 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
 
         db = DatabaseClient.getInstance(this);
         levelDao = db.levelDao();
+        String test1 = String.valueOf(levelDao.getClass());
+        Log.d("test1", "1-------------------------");
+        Log.d("test1", test1);
 
         setUserToken();
         setLevels();
@@ -139,10 +143,18 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
             @Override
             public void run() {
                 //todo: Сильно нужен рефакторинг, но сейчас влом)
+                Log.d("test2", "2-------------------------");
                 String response = getCustomLevels();
+                Log.d("test3", "3-------------------------");
+                Log.d("response", response);
+
                 JSONArray levels = parseResponse(response);
                 if (levels.length() > 0) {
-                    if (levels.length() != levelDao.getCount()) {
+                    int testCount = levelDao.getCount();
+                    Log.d("test4", "4-------------------------");
+                    Log.d("testCount", String.valueOf(testCount));
+                    Log.d("testCount", String.valueOf(levels.length()));
+                    if (levels.length() != testCount) {
                         saveCustomLevels(levels);
                     }
                 }
@@ -173,10 +185,14 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
                 if (level.isNull("id")) continue;
 
                 int levelId = level.getInt("id");
+                Log.d("test5", "5-------------------------");
+                Log.d("levelId", String.valueOf(levelId));
                 Level levelObj = levelDao.getById(levelId);
                 if (levelObj != null) continue;
 
                 levelObj = new Level();
+                Log.d("test6", "6-------------------------");
+                Log.d("levelId", String.valueOf(levelObj.id));
                 levelObj.id = levelId;
                 levelObj.blocks = level.isNull("blocks") ? null : level.getString("blocks");
                 levelObj.startSpeed = level.isNull("startSpeed") ? 805 :  level.getInt("startSpeed");
@@ -186,6 +202,8 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
 
                 levelDao.insert(levelObj);
             }
+            int testCount = levelDao.getCount();
+            Log.d("testCount", String.valueOf(testCount));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
