@@ -45,9 +45,10 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private static int pointsSize;
     private static final int defaultTailPints = 3;
 
-    private static final int snakeColor = Color.GREEN;
-    private static final int blockColor = Color.parseColor("#3DBFF2");
-    private static final int meatColor = Color.YELLOW;
+    //private static final int snakeColor = Color.GREEN;
+    private static final int snakeColor = Color.parseColor("#406835");
+    private static final int blockColor = Color.parseColor("#43AEB5");
+    private static final int meatColor = Color.parseColor("#DA342E");
     private Canvas canvas = null;
 
     //Цвет еды/одного звена змеи
@@ -59,7 +60,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         setContentView(R.layout.activity_editor);
 
         saveLevel = findViewById(R.id.save_level);
-        publishLevel = findViewById(R.id.publish_level);
+       // publishLevel = findViewById(R.id.publish_level);
         clearLevel = findViewById(R.id.clear_level);
 
         setHeaderButtons();
@@ -103,8 +104,8 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                             //todo: тоже рефакторинг уже просится)
                             AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
                             if (isResponseOk(response)) {
-                                builder.setTitle("Уровень сохранен в черновики");
-                                builder.setMessage("Посмотреть свои уровни вы можете в профиле");
+                                builder.setTitle("Уровень сохранен");
+                                builder.setMessage("Чтобы его запустить, перейдите в созданные уровни");
                                 builder.setCancelable(true);
                             } else {
                                 builder.setTitle("Что-то пошло не так");
@@ -126,6 +127,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             }
         });
 
+        /**
         publishLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,6 +171,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                 thread.start();
             }
         });
+         */
 
         setAddBanner();
         setSurfaceView();

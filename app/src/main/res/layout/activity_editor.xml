@@ -77,17 +77,7 @@
             app:backgroundTint="@color/md_theme_seed"
             android:textColor="@color/md_theme_onPrimary"
             android:layout_margin="5dp"
-            android:text="Сохранить"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/publish_level"
-            android:tag="0"
-            app:backgroundTint="@color/md_theme_seed"
-            android:textColor="@color/md_theme_onPrimary"
-            android:layout_margin="5dp"
-            android:text="Опубликовать"/>
+            android:text="Сохранить и опубликовать"/>
 
         <Button
             android:layout_width="match_parent"

@@ -546,6 +546,9 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                 if (checkGameOver(headPositionX, headPositionY)) {
                     liveCount--;
                     restart = true;
+                    if (isVibrateOn) {
+                        vibrator.vibrate(100);
+                    }
                 }
 
                 //Если игра закончена
