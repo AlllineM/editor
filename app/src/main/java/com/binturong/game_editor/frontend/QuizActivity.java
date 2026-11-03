@@ -61,12 +61,12 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     private static final int defaultTailPints = 3;
 
-    private static final int snakeColor = Color.parseColor("#406835");
+    private static final String snakeColor = "#406835";
     //private static final int blockColor = Color.parseColor("#5BF244");
     //private static final int blockColor = Color.parseColor("#3DBFF2");
-    private static final int blockColor = Color.parseColor("#43AEB5");
+    private static final String blockColor = "#43AEB5";
     //private static final int meatColor = Color.parseColor("#F241C3");
-    private static final int meatColor = Color.parseColor("#DA342E");
+    private static final String meatColor ="#DA342E";
 
     //Допустимые значение 1 - 1000
     private int snakeMovingSpeed = 805;
@@ -598,14 +598,14 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                     canvas.drawColor(Color.YELLOW, PorterDuff.Mode.CLEAR);
 
                     //Отрисовка рандомной точки - еды
-                    drawCircleWithVolume(3, positionX, positionY, pointsSize,"meat");
+                    drawCircleWithVolume(3, positionX, positionY, pointsSize,meatColor);
 
                     //Меняет положение головы. Остальные звенья змеи будут идти следом + рисует голову чуть больше остального))
                     canvas.drawCircle(
                             snakePointsList.get(0).getPositionX(),
                             snakePointsList.get(0).getPositionY(),
                             (float) (pointsSize * 1.3),
-                            createPointColor("snake")
+                            createPointColor(snakeColor)
                     );
 
                     //Движение звеньев за головой, позиция 1 - это глова
@@ -615,7 +615,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
                         snakePointsList.get(i).setPositionX(headPositionX);
                         snakePointsList.get(i).setPositionY(headPositionY);
-                        canvas.drawCircle(snakePointsList.get(i).getPositionX(), snakePointsList.get(i).getPositionY(), pointsSize, createPointColor("snake"));
+                        canvas.drawCircle(snakePointsList.get(i).getPositionX(), snakePointsList.get(i).getPositionY(), pointsSize, createPointColor(snakeColor));
 
                         headPositionX = getTempPositionX;
                         headPositionY = getTempPositionY;
@@ -623,7 +623,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
                     //отрисовка блоков
                     for (int i = 0; i < blockPointsList.size(); i++) {
-                        canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
+                        canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor(blockColor));
                     }
 
                     surfaceHolder.unlockCanvasAndPost(canvas);
@@ -632,10 +632,29 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }, 1000 - snakeMovingSpeed, 1000 - snakeMovingSpeed);
     }
 
-    private void drawCircleWithVolume (int volumeSize, float positionX, float positionY, float pointsSize, String colorType) {
-        canvas.drawCircle(positionX + volumeSize, positionY - volumeSize, pointsSize, createPointColor("snake"));
-        canvas.drawCircle(positionX - volumeSize, positionY + volumeSize, pointsSize, createPointColor("snake"));
-        canvas.drawCircle(positionX, positionY, pointsSize, createPointColor(colorType));
+    private void drawCircleWithVolume (int volumeSize, float positionX, float positionY, float pointsSize, String color) {
+        canvas.drawCircle(positionX + volumeSize, positionY - volumeSize, pointsSize, createPointColor(calculateShadowColor(color)));
+        canvas.drawCircle(positionX - volumeSize, positionY + volumeSize, pointsSize, createPointColor(color));
+        canvas.drawCircle(positionX, positionY, pointsSize, createPointColor(color));
+    }
+
+    private String calculateShadowColor(String color) {
+        int[]rgb = hex2rgb(color);
+
+        String shadowColor = "";
+        return shadowColor;
+    }
+
+    private int[] hex2rgb(String colorStr) {
+        int r = Integer.valueOf(colorStr.substring(1, 3), 16);
+        int g = Integer.valueOf(colorStr.substring(3, 5), 16);
+        int b = Integer.valueOf(colorStr.substring(5, 7), 16);
+        int[]rgb = new int[3];
+        rgb[0] = r;
+        rgb[1] = g;
+        rgb[2] = b;
+
+        return rgb;
     }
 
     private void growShake() {
@@ -698,27 +717,13 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         return false;
     }
 
-    private Paint createPointColor(String type) {
+    private Paint createPointColor(String color) {
         if (pointColor == null) {
             pointColor = new Paint();
             pointColor.setStyle(Paint.Style.FILL);
             pointColor.setAntiAlias(true); //гладкое
         }
-
-        switch (type) {
-            case "snake":
-                pointColor.setColor(snakeColor);
-                break;
-            case "block":
-                pointColor.setColor(blockColor);
-                break;
-            case "meat":
-                pointColor.setColor(meatColor);
-                break;
-            default:
-                pointColor.setColor(snakeColor);
-                break;
-        }
+        pointColor.setColor(Color.parseColor(color));
 
         return pointColor;
     }
