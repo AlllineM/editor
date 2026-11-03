@@ -2,6 +2,7 @@ package com.binturong.game_editor.frontend;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class CustomLevelListActivity extends HeaderActivity {
             public void onPlay(Level level) {
                 Intent playIntent = new Intent(CustomLevelListActivity.this, QuizActivity.class);
                 playIntent.putExtra("mode", "custom");
+                Log.d("customLevelId", String.valueOf(level.id));
                 playIntent.putExtra("levelId", level.id);
                 startActivity(playIntent);
             }

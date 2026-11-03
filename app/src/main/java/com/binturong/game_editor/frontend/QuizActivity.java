@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -125,18 +126,13 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }
 
         if (Objects.equals(mode, "level")) {
-            if (!setLevelData()) {
-                return;
+            if (setLevelData()) {
+                scoreTv.setText("0/" + targetScore);
+                levelView.setVisibility(View.VISIBLE);
+                levelView.setText("ур " + currentLevel);
             }
-            scoreTv.setText("0/" + targetScore);
-            levelView.setVisibility(View.VISIBLE);
-            levelView.setText("ур " + currentLevel);
-
-            if (Objects.equals(mode, "custom")) {
-                if (!setCustomLevelData()) {
-                    finish();
-                    return;
-                }
+        } else if (Objects.equals(mode, "custom")) {
+            if (setCustomLevelData()) {
                 scoreTv.setText("0/" + targetScore);
                 levelView.setVisibility(View.VISIBLE);
                 levelView.setText("ур #" + customLevelId);
@@ -169,6 +165,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
      * поэтому ждём результат, чтобы targetScore и скорость были готовы до старта игры.
      */
     private boolean setCustomLevelData() {
+        Log.d("idLevelCustom", String.valueOf(customLevelId));
         if (customLevelId < 0) return false;
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -191,6 +188,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                     ? level.startSpeed : 805;
 
             customBlocks = new JSONArray(level.blocks);
+            Log.d("customBloack", String.valueOf(customBlocks));
             return true;
         } catch (Exception e) {
             return false;
