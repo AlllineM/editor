@@ -615,7 +615,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
                         snakePointsList.get(i).setPositionX(headPositionX);
                         snakePointsList.get(i).setPositionY(headPositionY);
-                        canvas.drawCircle(snakePointsList.get(i).getPositionX(), snakePointsList.get(i).getPositionY(), pointsSize, createPointColor(snakeColor));
+                        drawCircleWithVolume(snakePointsList.get(i).getPositionX(), snakePointsList.get(i).getPositionY(), pointsSize, snakeColor);
 
                         headPositionX = getTempPositionX;
                         headPositionY = getTempPositionY;
@@ -623,7 +623,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
                     //отрисовка блоков
                     for (int i = 0; i < blockPointsList.size(); i++) {
-                        canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor(blockColor));
+                        drawCircleWithVolume(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, blockColor);
                     }
 
                     surfaceHolder.unlockCanvasAndPost(canvas);
