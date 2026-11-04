@@ -598,7 +598,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                     canvas.drawColor(Color.YELLOW, PorterDuff.Mode.CLEAR);
 
                     //Отрисовка рандомной точки - еды
-                    drawCircleWithVolume(3, positionX, positionY, pointsSize,meatColor);
+                    drawCircleWithVolume(3, positionX, positionY, pointsSize, meatColor);
 
                     //Меняет положение головы. Остальные звенья змеи будут идти следом + рисует голову чуть больше остального))
                     canvas.drawCircle(
@@ -634,15 +634,40 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     private void drawCircleWithVolume (int volumeSize, float positionX, float positionY, float pointsSize, String color) {
         canvas.drawCircle(positionX + volumeSize, positionY - volumeSize, pointsSize, createPointColor(calculateShadowColor(color)));
-        canvas.drawCircle(positionX - volumeSize, positionY + volumeSize, pointsSize, createPointColor(color));
+        canvas.drawCircle(positionX - volumeSize, positionY + volumeSize, pointsSize, createPointColor(calculateLightColor(color)));
         canvas.drawCircle(positionX, positionY, pointsSize, createPointColor(color));
     }
 
     private String calculateShadowColor(String color) {
         int[]rgb = hex2rgb(color);
+        int coeff = 30;
+        rgb[0] = calculateShadow(rgb[0], 30);
+        rgb[1] = calculateShadow(rgb[1], 30);
+        rgb[2] = calculateShadow(rgb[2], 30);
 
-        String shadowColor = "";
-        return shadowColor;
+        return rgb2hex(rgb);
+    }
+
+    private String calculateLightColor(String color) {
+        int[]rgb = hex2rgb(color);
+        int coeff = 30;
+        rgb[0] = calculateLight(rgb[0], 30);
+        rgb[1] = calculateLight(rgb[1], 30);
+        rgb[2] = calculateLight(rgb[2], 30);
+
+        return rgb2hex(rgb);
+    }
+
+    private int calculateShadow(int val, int coeff) {
+        return (int)(val + (int)((255 - val) * coeff / 100));
+    }
+
+    private int calculateLight(int val, int coeff) {
+        return (int)(val - (int)(val * coeff / 100));
+    }
+
+    private String rgb2hex(int[] rgb) {
+        return String.format("#%02X%02X%02X", rgb[0], rgb[1], rgb[2]);
     }
 
     private int[] hex2rgb(String colorStr) {
