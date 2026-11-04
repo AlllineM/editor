@@ -633,9 +633,9 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     }
 
     private void drawCircleWithVolume (float positionX, float positionY, float pointsSize, String color) {
-        canvas.drawCircle(positionX - 3, positionY + 3, pointsSize, createPointColor(calculateShadowColor(color, 50)));
-        canvas.drawCircle(positionX - 2, positionY + 2, pointsSize, createPointColor(calculateShadowColor(color, 30)));
-        canvas.drawCircle(positionX + 1, positionY - 1, pointsSize, createPointColor(calculateLightColor(color)));
+        canvas.drawCircle(positionX - 2, positionY + 2, pointsSize, createPointColor(calculateShadowColor(color, 50)));
+        canvas.drawCircle(positionX - 1, positionY + 1, pointsSize, createPointColor(calculateShadowColor(color, 30)));
+        canvas.drawCircle(positionX + 1, positionY - 1, pointsSize, createPointColor(calculateLightColor(color, 70)));
         canvas.drawCircle(positionX, positionY, pointsSize, createPointColor(color));
     }
 
@@ -648,9 +648,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         return rgb2hex(rgb);
     }
 
-    private String calculateLightColor(String color) {
+    private String calculateLightColor(String color, int coeff) {
         int[]rgb = hex2rgb(color);
-        int coeff = 70;
         rgb[0] = calculateLight(rgb[0], coeff);
         rgb[1] = calculateLight(rgb[1], coeff);
         rgb[2] = calculateLight(rgb[2], coeff);
