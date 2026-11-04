@@ -90,7 +90,7 @@ public class CustomLevelListActivity extends HeaderActivity {
                 final List<Level> levels = DatabaseClient
                         .getInstance(CustomLevelListActivity.this)
                         .levelDao()
-                        .getAll();
+                        .getAllDesc();
 
                 runOnUiThread(new Runnable() {
                     @Override

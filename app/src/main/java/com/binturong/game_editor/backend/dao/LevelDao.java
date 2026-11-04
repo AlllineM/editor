@@ -16,6 +16,9 @@ public interface LevelDao {
     @Query("SELECT * FROM level")
     List<Level> getAll();
 
+    @Query("SELECT * FROM level ORDER BY id DESC")
+    List<Level> getAllDesc();
+
     @Query("SELECT * FROM level WHERE id = :id")
     Level getById(long id);
 
