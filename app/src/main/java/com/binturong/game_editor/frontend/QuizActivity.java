@@ -598,14 +598,14 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                     canvas.drawColor(Color.YELLOW, PorterDuff.Mode.CLEAR);
 
                     //Отрисовка рандомной точки - еды
-                    drawCircleWithVolume(3, positionX, positionY, pointsSize, meatColor);
+                    drawCircleWithVolume(positionX, positionY, pointsSize, meatColor);
 
                     //Меняет положение головы. Остальные звенья змеи будут идти следом + рисует голову чуть больше остального))
-                    canvas.drawCircle(
+                    drawCircleWithVolume(
                             snakePointsList.get(0).getPositionX(),
                             snakePointsList.get(0).getPositionY(),
                             (float) (pointsSize * 1.3),
-                            createPointColor(snakeColor)
+                            snakeColor
                     );
 
                     //Движение звеньев за головой, позиция 1 - это глова
@@ -632,38 +632,38 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         }, 1000 - snakeMovingSpeed, 1000 - snakeMovingSpeed);
     }
 
-    private void drawCircleWithVolume (int volumeSize, float positionX, float positionY, float pointsSize, String color) {
-        canvas.drawCircle(positionX + volumeSize, positionY - volumeSize, pointsSize, createPointColor(calculateShadowColor(color)));
-        canvas.drawCircle(positionX - volumeSize, positionY + volumeSize, pointsSize, createPointColor(calculateLightColor(color)));
+    private void drawCircleWithVolume (float positionX, float positionY, float pointsSize, String color) {
+        canvas.drawCircle(positionX - 3, positionY + 3, pointsSize, createPointColor(calculateShadowColor(color, 50)));
+        canvas.drawCircle(positionX - 2, positionY + 2, pointsSize, createPointColor(calculateShadowColor(color, 30)));
+        canvas.drawCircle(positionX + 1, positionY - 1, pointsSize, createPointColor(calculateLightColor(color)));
         canvas.drawCircle(positionX, positionY, pointsSize, createPointColor(color));
     }
 
-    private String calculateShadowColor(String color) {
+    private String calculateShadowColor(String color, int coeff) {
         int[]rgb = hex2rgb(color);
-        int coeff = 30;
-        rgb[0] = calculateShadow(rgb[0], 30);
-        rgb[1] = calculateShadow(rgb[1], 30);
-        rgb[2] = calculateShadow(rgb[2], 30);
+        rgb[0] = calculateShadow(rgb[0], coeff);
+        rgb[1] = calculateShadow(rgb[1], coeff);
+        rgb[2] = calculateShadow(rgb[2], coeff);
 
         return rgb2hex(rgb);
     }
 
     private String calculateLightColor(String color) {
         int[]rgb = hex2rgb(color);
-        int coeff = 30;
-        rgb[0] = calculateLight(rgb[0], 30);
-        rgb[1] = calculateLight(rgb[1], 30);
-        rgb[2] = calculateLight(rgb[2], 30);
+        int coeff = 70;
+        rgb[0] = calculateLight(rgb[0], coeff);
+        rgb[1] = calculateLight(rgb[1], coeff);
+        rgb[2] = calculateLight(rgb[2], coeff);
 
         return rgb2hex(rgb);
     }
 
     private int calculateShadow(int val, int coeff) {
-        return (int)(val + (int)((255 - val) * coeff / 100));
+        return (int)(val - (int)(val * coeff / 100));
     }
 
     private int calculateLight(int val, int coeff) {
-        return (int)(val - (int)(val * coeff / 100));
+        return (int)(val + (int)((255 - val) * coeff / 100));
     }
 
     private String rgb2hex(int[] rgb) {
