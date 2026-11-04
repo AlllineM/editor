@@ -55,8 +55,8 @@ public class HeaderActivity extends BaseActivity {
     public void showUpdateDialog(Activity context) {
         //Диалог для обновление игры
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Обнови игру и получили подарок - 15 минут игры с 4мя жизнями");
-        builder.setTitle("Подарок");
+        builder.setMessage("Нужно обновиться. Обновления важные, на неважные у разработчика отчаянно не хватает времени :)");
+        builder.setTitle("Обновление");
         builder.setCancelable(true);
         builder.setPositiveButton("ОБНОВИТЬ", new DialogInterface.OnClickListener() {
             @Override
