@@ -63,6 +63,33 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="Ваше имя"
+                android:textColor="@color/md_theme_onBackground"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/user_name"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:hint="Ваше имя"
+                android:textColor="@color/md_theme_onBackground"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Начальная скорость змейки (от 1 до 1000)"
                 android:textColor="@color/md_theme_onBackground"
                 android:textSize="16sp"/>

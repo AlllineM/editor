@@ -38,7 +38,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private List<SnakePoints> bigBlockPointsList = new ArrayList<>();
 
     Button saveLevel, publishLevel, clearLevel;
-    private EditText snakeSpeedInput;
+    private EditText snakeSpeedInput, userNameInput;
     private static final int DEFAULT_SNAKE_SPEED = 805;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
@@ -66,6 +66,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         // publishLevel = findViewById(R.id.publish_level);
         clearLevel = findViewById(R.id.clear_level);
         snakeSpeedInput = findViewById(R.id.snake_speed);
+        userNameInput = findViewById(R.id.user_name);
 
         setHeaderButtons();
 
@@ -92,11 +93,12 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             public void onClick(View view) {
                 //значение читаем в UI-потоке, до запуска фонового потока
                 final int snakeSpeed = getSnakeSpeed();
+                final String userName = getUserName();
                 Thread thread = new Thread(new Runnable(){
                     @Override
                     public void run() {
                         try {
-                            String levelData = prepareLevelData("draft", snakeSpeed);
+                            String levelData = prepareLevelData("draft", snakeSpeed, userName);
                             String response;
                             if (levelId == -1) {
                                 //если уровень новый, создаем
@@ -138,11 +140,12 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         @Override
         public void onClick(View view) {
         final int snakeSpeed = getSnakeSpeed();
+        final String userName = getUserName();
         Thread thread = new Thread(new Runnable(){
         @Override
         public void run() {
         try {
-        String levelData = prepareLevelData("publish", snakeSpeed);
+        String levelData = prepareLevelData("publish", snakeSpeed, userName);
         String response;
         if (levelId == -1) {
         //если уровень новый, создаем
@@ -275,7 +278,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
      * @return
      * @throws JSONException
      */
-    public String prepareLevelData(String type, int snakeSpeed) throws JSONException {
+    public String prepareLevelData(String type, int snakeSpeed, String userName) throws JSONException {
         JSONArray blocks = new JSONArray();
         for (SnakePoints block : bigBlockPointsList) {
             JSONObject jsonBlock = new JSONObject();
@@ -307,6 +310,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         params.put("user_token", sharedPreferences.getString("userToken", "0"));
         params.put("type", type);
         params.put("start_speed", snakeSpeed);
+        params.put("user_name", userName);
 
         return params.toString();
     }
@@ -321,6 +325,13 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         } catch (NumberFormatException e) {
             return DEFAULT_SNAKE_SPEED;
         }
+    }
+
+    /**
+     * Имя автора уровня из поля ввода
+     */
+    private String getUserName() {
+        return userNameInput.getText().toString().trim();
     }
 
     private void drawBlocks() {
