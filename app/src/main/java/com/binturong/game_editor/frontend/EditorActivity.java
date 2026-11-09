@@ -306,7 +306,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         params.put("blocks", blocks);
         params.put("user_token", sharedPreferences.getString("userToken", "0"));
         params.put("type", type);
-        params.put("snake_speed", snakeSpeed);
+        params.put("start_speed", snakeSpeed);
 
         return params.toString();
     }
@@ -317,7 +317,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private int getSnakeSpeed() {
         try {
             int speed = Integer.parseInt(snakeSpeedInput.getText().toString().trim());
-            return speed > 0 ? speed : DEFAULT_SNAKE_SPEED;
+            return (speed > 0) & (speed <= 1000) ? speed : DEFAULT_SNAKE_SPEED;
         } catch (NumberFormatException e) {
             return DEFAULT_SNAKE_SPEED;
         }
