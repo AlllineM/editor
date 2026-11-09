@@ -14,6 +14,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -37,6 +38,8 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private List<SnakePoints> bigBlockPointsList = new ArrayList<>();
 
     Button saveLevel, publishLevel, clearLevel;
+    private EditText snakeSpeedInput;
+    private static final int DEFAULT_SNAKE_SPEED = 805;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
 
@@ -60,8 +63,9 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         setContentView(R.layout.activity_editor);
 
         saveLevel = findViewById(R.id.save_level);
-       // publishLevel = findViewById(R.id.publish_level);
+        // publishLevel = findViewById(R.id.publish_level);
         clearLevel = findViewById(R.id.clear_level);
+        snakeSpeedInput = findViewById(R.id.snake_speed);
 
         setHeaderButtons();
 
@@ -86,11 +90,13 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         saveLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //значение читаем в UI-потоке, до запуска фонового потока
+                final int snakeSpeed = getSnakeSpeed();
                 Thread thread = new Thread(new Runnable(){
                     @Override
                     public void run() {
                         try {
-                            String levelData = prepareLevelData("draft");
+                            String levelData = prepareLevelData("draft", snakeSpeed);
                             String response;
                             if (levelId == -1) {
                                 //если уровень новый, создаем
@@ -128,48 +134,49 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         });
 
         /**
-        publishLevel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Thread thread = new Thread(new Runnable(){
-                    @Override
-                    public void run() {
-                        try {
-                            String levelData = prepareLevelData("publish");
-                            String response;
-                            if (levelId == -1) {
-                                //если уровень новый, создаем
-                                response = sendPOST("level/create", levelData);
-                            } else {
-                                //иначе редактируем старый
-                                response = sendPOST("level/edit", levelData);
-                            }
-                            Log.d("result", response);
+         publishLevel.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        final int snakeSpeed = getSnakeSpeed();
+        Thread thread = new Thread(new Runnable(){
+        @Override
+        public void run() {
+        try {
+        String levelData = prepareLevelData("publish", snakeSpeed);
+        String response;
+        if (levelId == -1) {
+        //если уровень новый, создаем
+        response = sendPOST("level/create", levelData);
+        } else {
+        //иначе редактируем старый
+        response = sendPOST("level/edit", levelData);
+        }
+        Log.d("result", response);
 
-                            //todo: тоже рефакторинг уже просится)
-                            AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
-                            if (isResponseOk(response)) {
-                                builder.setTitle("Уровень отправлен на модерацию");
-                                builder.setMessage("Модерация занимает до 2ух суток. Посмотреть свои уровни и их статус вы можете в профиле");
-                                builder.setCancelable(true);
-                            } else {
-                                builder.setTitle("Что-то пошло не так");
-                                builder.setMessage("Пожалуйста проверьте подключение к интернету и попробуйте позже");
-                                builder.setCancelable(true);
-                            }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    builder.show();
-                                }
-                            });
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
-                thread.start();
-            }
+        //todo: тоже рефакторинг уже просится)
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
+        if (isResponseOk(response)) {
+        builder.setTitle("Уровень отправлен на модерацию");
+        builder.setMessage("Модерация занимает до 2ух суток. Посмотреть свои уровни и их статус вы можете в профиле");
+        builder.setCancelable(true);
+        } else {
+        builder.setTitle("Что-то пошло не так");
+        builder.setMessage("Пожалуйста проверьте подключение к интернету и попробуйте позже");
+        builder.setCancelable(true);
+        }
+        runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+        builder.show();
+        }
+        });
+        } catch (JSONException e) {
+        throw new RuntimeException(e);
+        }
+        }
+        });
+        thread.start();
+        }
         });
          */
 
@@ -268,7 +275,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
      * @return
      * @throws JSONException
      */
-    public String prepareLevelData(String type) throws JSONException {
+    public String prepareLevelData(String type, int snakeSpeed) throws JSONException {
         JSONArray blocks = new JSONArray();
         for (SnakePoints block : bigBlockPointsList) {
             JSONObject jsonBlock = new JSONObject();
@@ -299,8 +306,21 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         params.put("blocks", blocks);
         params.put("user_token", sharedPreferences.getString("userToken", "0"));
         params.put("type", type);
+        params.put("snake_speed", snakeSpeed);
 
         return params.toString();
+    }
+
+    /**
+     * Скорость змейки из поля ввода; если поле пустое или некорректное - значение по умолчанию
+     */
+    private int getSnakeSpeed() {
+        try {
+            int speed = Integer.parseInt(snakeSpeedInput.getText().toString().trim());
+            return speed > 0 ? speed : DEFAULT_SNAKE_SPEED;
+        } catch (NumberFormatException e) {
+            return DEFAULT_SNAKE_SPEED;
+        }
     }
 
     private void drawBlocks() {
