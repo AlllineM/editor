@@ -2,11 +2,13 @@ package com.binturong.game_editor.frontend;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.ContextCompat;
 
 import com.binturong.game_editor.R;
 import com.binturong.game_editor.backend.data.SnakePoints;
@@ -84,6 +87,10 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
     //Цвет еды/одного звена змеи
     private Paint pointColor = null;
+
+    //Звенья змейки: заранее отрисованные картинки (тёмное/светлое), чередуются
+    private Bitmap segmentDarkBitmap, segmentLightBitmap;
+    private final Paint segmentPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
 
     private int liveCount = 3;
     boolean restart = false;
@@ -369,6 +376,10 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
         surfaceSize = surfaceView.getWidth(); //квадрат по ширине экрана
         pointsSize = surfaceSize / surfaceSizeInPoints;
+        //тело звена в svg занимает 88 из 100, поэтому увеличиваем, чтобы соседние звенья касались друг друга
+        int segmentSize = Math.round(pointsSize * 2 * 100f / 88f);
+        segmentDarkBitmap = createSegmentBitmap(R.drawable.snake_segment_dark, segmentSize);
+        segmentLightBitmap = createSegmentBitmap(R.drawable.snake_segment_light, segmentSize);
         surfaceView.getHolder().setFixedSize(surfaceSize, surfaceSize);
 
         snakePointsList.clear();
@@ -615,7 +626,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
                         snakePointsList.get(i).setPositionX(headPositionX);
                         snakePointsList.get(i).setPositionY(headPositionY);
-                        drawCircleWithVolume(snakePointsList.get(i).getPositionX(), snakePointsList.get(i).getPositionY(), pointsSize, snakeColor);
+                        drawSnakeSegment(snakePointsList.get(i).getPositionX(), snakePointsList.get(i).getPositionY(), i);
 
                         headPositionX = getTempPositionX;
                         headPositionY = getTempPositionY;
@@ -630,6 +641,23 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                 }
             }
         }, 1000 - snakeMovingSpeed, 1000 - snakeMovingSpeed);
+    }
+
+    private Bitmap createSegmentBitmap(int drawableId, int size) {
+        Drawable drawable = ContextCompat.getDrawable(this, drawableId);
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        Canvas bitmapCanvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, size, size);
+        drawable.draw(bitmapCanvas);
+        return bitmap;
+    }
+
+    /**
+     * Рисует звено змейки; чётные звенья светлые, нечётные тёмные (голова - индекс 0, рисуется отдельно)
+     */
+    private void drawSnakeSegment(float positionX, float positionY, int index) {
+        Bitmap bitmap = (index % 2 == 0) ? segmentLightBitmap : segmentDarkBitmap;
+        canvas.drawBitmap(bitmap, positionX - bitmap.getWidth() / 2f, positionY - bitmap.getHeight() / 2f, segmentPaint);
     }
 
     private void drawCircleWithVolume (float positionX, float positionY, float pointsSize, String color) {
