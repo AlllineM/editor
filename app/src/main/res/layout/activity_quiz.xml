@@ -98,10 +98,12 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/topBtn"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@color/md_theme_primary"
-            android:src="@drawable/up"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:padding="0dp"
+            android:src="@drawable/btn_up"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,35 +115,43 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/leftBtn"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:background="@color/md_theme_primary"
-                android:src="@drawable/left"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:padding="0dp"
+                android:src="@drawable/btn_left"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/pause"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/md_theme_primary"
-                android:src="@drawable/pause"/>
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:padding="0dp"
+                android:src="@drawable/btn_pause"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/rightBtn"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:background="@color/md_theme_primary"
-                android:src="@drawable/right"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:padding="0dp"
+                android:src="@drawable/btn_right"/>
 
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/bottomBtn"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:background="@color/md_theme_primary"
-            android:src="@drawable/down"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:padding="0dp"
+            android:src="@drawable/btn_down"/>
     </LinearLayout>
 
 </RelativeLayout>
