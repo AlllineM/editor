@@ -75,7 +75,9 @@
                 android:maxLength="30"
                 android:gravity="center"
                 android:importantForAutofill="no"
-                android:hint="Ваше имя"
+                android:text="Аноним"
+                android:hint="Аноним"
+                android:textColorHint="@color/md_theme_onBackground"
                 android:textColor="@color/md_theme_onBackground"/>
         </LinearLayout>
 
@@ -105,6 +107,7 @@
                 android:selectAllOnFocus="true"
                 android:importantForAutofill="no"
                 android:hint="805"
+                android:textColorHint="@color/md_theme_onBackground"
                 android:textColor="@color/md_theme_onBackground"/>
         </LinearLayout>
 
