@@ -7,158 +7,240 @@
     android:background="@drawable/wooden_fon_new"
     tools:context=".frontend.EditorActivity">
 
-    <include android:id="@+id/header"
+    <include
+        android:id="@+id/header"
         layout="@layout/activity_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
 
     <RelativeLayout
         android:id="@+id/banner_placeholder"
-        android:layout_below="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:padding="6dp"/>
+        android:layout_below="@+id/header"
+        android:padding="6dp" />
 
     <com.yandex.mobile.ads.banner.BannerAdView
         android:id="@+id/banner"
-        android:layout_below="@id/header"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:layout_below="@id/header" />
 
+    <!-- Игровая плашка-подсказка с плотным шрифтом и объемной тенью -->
     <TextView
         android:id="@+id/editor_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/banner_placeholder"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="6dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="#55000000"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="2dp"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="8dp"
+        android:shadowColor="#CC000000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="1.5"
         android:text="Чтобы расположить блок, нажми на любое место на поле"
-        android:textColor="@color/md_theme_onBackground"
-        android:textSize="14sp"/>
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <SurfaceView
         android:id="@+id/surfaceViewEditor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editor_hint"/>
+        android:layout_below="@+id/editor_hint" />
 
+    <!-- Блок настроек уровня -->
     <LinearLayout
+        android:id="@+id/quizzes_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/quizzes_layout"
         android:layout_below="@id/surfaceViewEditor"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp">
 
+        <!-- Строка 1: Ваше имя -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginVertical="5dp"
+            android:background="#33000000"
             android:gravity="center_vertical"
-            android:layout_margin="5dp">
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:shadowColor="#CC000000"
+                android:shadowDx="0"
+                android:shadowDy="2"
+                android:shadowRadius="1.5"
                 android:text="Ваше имя"
-                android:textColor="@color/md_theme_onBackground"
-                android:textSize="16sp"/>
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/user_name"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="#E6FFFFFF"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:hint="Аноним"
+                android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:maxLength="30"
-                android:gravity="center"
-                android:importantForAutofill="no"
+                android:paddingHorizontal="8dp"
                 android:text="Аноним"
-                android:hint="Аноним"
-                android:textColorHint="@color/md_theme_onBackground"
-                android:textColor="@color/md_theme_onBackground"/>
+                android:textColor="#261A12"
+                android:textColorHint="#80261A12"
+                android:textSize="15sp" />
         </LinearLayout>
 
+        <!-- Строка 2: Начальная скорость -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginVertical="5dp"
+            android:background="#33000000"
             android:gravity="center_vertical"
-            android:layout_margin="5dp">
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:lineSpacingExtra="1dp"
+                android:shadowColor="#CC000000"
+                android:shadowDx="0"
+                android:shadowDy="2"
+                android:shadowRadius="1.5"
                 android:text="Начальная скорость змейки (от 1 до 1000)"
-                android:textColor="@color/md_theme_onBackground"
-                android:textSize="16sp"/>
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/snake_speed"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="96dp"
+                android:layout_height="40dp"
+                android:background="#E6FFFFFF"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:hint="805"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:maxLength="5"
-                android:gravity="center"
-                android:text="805"
                 android:selectAllOnFocus="true"
-                android:importantForAutofill="no"
-                android:hint="805"
-                android:textColorHint="@color/md_theme_onBackground"
-                android:textColor="@color/md_theme_onBackground"/>
+                android:text="805"
+                android:textColor="#261A12"
+                android:textColorHint="#80261A12"
+                android:textSize="16sp" />
         </LinearLayout>
 
+        <!-- Строка 3: Количество очков -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginVertical="5dp"
+            android:background="#33000000"
             android:gravity="center_vertical"
-            android:layout_margin="5dp">
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:lineSpacingExtra="1dp"
+                android:shadowColor="#CC000000"
+                android:shadowDx="0"
+                android:shadowDy="2"
+                android:shadowRadius="1.5"
                 android:text="Количество очков, которые нужно набрать"
-                android:textColor="@color/md_theme_onBackground"
-                android:textSize="16sp"/>
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/target_score"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="96dp"
+                android:layout_height="40dp"
+                android:background="#E6FFFFFF"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:hint="10"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:maxLength="5"
-                android:gravity="center"
-                android:text="10"
                 android:selectAllOnFocus="true"
-                android:importantForAutofill="no"
-                android:hint="10"
-                android:textColorHint="@color/md_theme_onBackground"
-                android:textColor="@color/md_theme_onBackground"/>
+                android:text="10"
+                android:textColor="#261A12"
+                android:textColorHint="#80261A12"
+                android:textSize="16sp" />
         </LinearLayout>
 
+        <!-- Главная игровая кнопка: крупный капс, плотный шрифт sans-serif-black и тень текста -->
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/save_level"
-            android:tag="0"
-            app:backgroundTint="@color/md_theme_seed"
-            android:textColor="@color/md_theme_onPrimary"
-            android:layout_margin="5dp"
-            android:text="Сохранить и опубликовать"/>
-
-        <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/clear_level"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif-black"
+            android:letterSpacing="0.04"
+            android:shadowColor="#66000000"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="1"
             android:tag="0"
-            app:backgroundTint="@color/md_theme_seed"
+            android:text="Сохранить и опубликовать"
+            android:textAllCaps="true"
             android:textColor="@color/md_theme_onPrimary"
-            android:layout_margin="5dp"
-            android:text="Очистить всё"/>
+            android:textSize="15sp"
+            app:backgroundTint="@color/md_theme_seed"
+            app:cornerRadius="16dp" />
+
+        <!-- Второстепенная игровая кнопка: чуть компактнее и спокойнее по тону -->
+        <Button
+            android:id="@+id/clear_level"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-bold"
+            android:letterSpacing="0.03"
+            android:tag="0"
+            android:text="Очистить всё"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            app:backgroundTint="#66000000"
+            app:cornerRadius="14dp"
+            app:strokeColor="#99FFFFFF"
+            app:strokeWidth="1.5dp" />
     </LinearLayout>
 </RelativeLayout>
