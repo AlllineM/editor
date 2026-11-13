@@ -102,6 +102,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                     public void run() {
                         try {
                             String levelData = prepareLevelData("draft", snakeSpeed, targetScore, userName);
+                            Log.d("levelData", levelData);
                             String response;
                             if (levelId == -1) {
                                 //если уровень новый, создаем
@@ -282,6 +283,10 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
      * @throws JSONException
      */
     public String prepareLevelData(String type, int snakeSpeed, int targetScore, String userName) throws JSONException {
+        Log.d("1111", String.valueOf(snakeSpeed));
+        Log.d("1111", String.valueOf(targetScore));
+        Log.d("1111", String.valueOf(userName));
+
         JSONArray blocks = new JSONArray();
         for (SnakePoints block : bigBlockPointsList) {
             JSONObject jsonBlock = new JSONObject();
