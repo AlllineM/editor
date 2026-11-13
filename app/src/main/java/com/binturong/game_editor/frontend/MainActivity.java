@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
@@ -33,6 +34,41 @@ public class MainActivity extends HeaderActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (isInternetAvailable()) {
+            startApp();
+        } else {
+            showNoInternetScreen();
+        }
+    }
+
+    private static final String NO_INTERNET_MESSAGE = "Необходимо подключение к интернету";
+
+    /**
+     * Экран "нет интернета": сообщение и кнопка повторной проверки
+     */
+    private void showNoInternetScreen() {
+        setContentView(R.layout.activity_no_internet);
+
+        Button retry = findViewById(R.id.no_internet_retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isInternetAvailable()) {
+                    checkIfNeedUpdate(); //при старте без сети он был пропущен
+                    startApp();
+                } else {
+                    Toast.makeText(MainActivity.this, NO_INTERNET_MESSAGE, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    /**
+     * Обычный запуск приложения (то, что раньше было в onCreate)
+     */
+    @SuppressLint("ResourceAsColor")
+    private void startApp() {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());

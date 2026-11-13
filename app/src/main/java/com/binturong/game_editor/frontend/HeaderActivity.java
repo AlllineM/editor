@@ -2,9 +2,13 @@ package com.binturong.game_editor.frontend;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -49,7 +53,26 @@ public class HeaderActivity extends BaseActivity {
         settings = findViewById(R.id.settingsHead);
         gift = findViewById(R.id.gift);
 
-        checkIfNeedUpdate();
+        //без интернета запрос версии не делаем (иначе упадёт); MainActivity вызовет его после появления сети
+        if (isInternetAvailable()) {
+            checkIfNeedUpdate();
+        }
+    }
+
+    /**
+     * Проверяет, что есть активное соединение, через которое реально доступен интернет
+     */
+    protected boolean isInternetAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+
+        Network network = cm.getActiveNetwork();
+        if (network == null) return false;
+
+        NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
+        return capabilities != null
+                && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
     }
 
     public void showUpdateDialog(Activity context) {
