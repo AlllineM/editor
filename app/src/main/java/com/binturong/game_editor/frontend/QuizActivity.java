@@ -89,7 +89,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private Paint pointColor = null;
 
     //Звенья змейки: заранее отрисованные картинки (тёмное/светлое), чередуются
-    private Bitmap segmentDarkBitmap, segmentLightBitmap;
+    private Bitmap segmentDarkBitmap, segmentLightBitmap, appleBitmap;
     private final Paint segmentPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
 
     private int liveCount = 3;
@@ -380,6 +380,8 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         int segmentSize = Math.round(pointsSize * 2 * 100f / 88f);
         segmentDarkBitmap = createSegmentBitmap(R.drawable.snake_segment_dark, segmentSize);
         segmentLightBitmap = createSegmentBitmap(R.drawable.snake_segment_light, segmentSize);
+        appleBitmap = createSegmentBitmap(R.drawable.apple, segmentSize + 10);
+
         surfaceView.getHolder().setFixedSize(surfaceSize, surfaceSize);
 
         snakePointsList.clear();
@@ -609,7 +611,9 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                     canvas.drawColor(Color.YELLOW, PorterDuff.Mode.CLEAR);
 
                     //Отрисовка рандомной точки - еды
-                    drawCircleWithVolume(positionX, positionY, pointsSize, meatColor);
+                  //  drawCircleWithVolume(positionX, positionY, pointsSize, meatColor);
+                    canvas.drawBitmap(appleBitmap, positionX - appleBitmap.getWidth() / 2f, positionY - appleBitmap.getHeight() / 2f, segmentPaint);
+
 
                     //Меняет положение головы. Остальные звенья змеи будут идти следом + рисует голову чуть больше остального))
                     drawCircleWithVolume(
