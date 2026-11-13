@@ -38,8 +38,9 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private List<SnakePoints> bigBlockPointsList = new ArrayList<>();
 
     Button saveLevel, publishLevel, clearLevel;
-    private EditText snakeSpeedInput, userNameInput;
+    private EditText snakeSpeedInput, snakeTargetScoreInput, userNameInput;
     private static final int DEFAULT_SNAKE_SPEED = 805;
+    private static final int DEFAULT_TARGET_SCORE = 10;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
 
@@ -66,6 +67,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         // publishLevel = findViewById(R.id.publish_level);
         clearLevel = findViewById(R.id.clear_level);
         snakeSpeedInput = findViewById(R.id.snake_speed);
+        snakeTargetScoreInput = findViewById(R.id.target_score);
         userNameInput = findViewById(R.id.user_name);
 
         setHeaderButtons();
@@ -93,12 +95,13 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             public void onClick(View view) {
                 //значение читаем в UI-потоке, до запуска фонового потока
                 final int snakeSpeed = getSnakeSpeed();
+                final int targetScore = getTargetScore();
                 final String userName = getUserName();
                 Thread thread = new Thread(new Runnable(){
                     @Override
                     public void run() {
                         try {
-                            String levelData = prepareLevelData("draft", snakeSpeed, userName);
+                            String levelData = prepareLevelData("draft", snakeSpeed, targetScore, userName);
                             String response;
                             if (levelId == -1) {
                                 //если уровень новый, создаем
@@ -278,7 +281,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
      * @return
      * @throws JSONException
      */
-    public String prepareLevelData(String type, int snakeSpeed, String userName) throws JSONException {
+    public String prepareLevelData(String type, int snakeSpeed, int targetScore, String userName) throws JSONException {
         JSONArray blocks = new JSONArray();
         for (SnakePoints block : bigBlockPointsList) {
             JSONObject jsonBlock = new JSONObject();
@@ -310,6 +313,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
         params.put("user_token", sharedPreferences.getString("userToken", "0"));
         params.put("type", type);
         params.put("start_speed", snakeSpeed);
+        params.put("target_score", targetScore);
         params.put("user_name", userName);
 
         return params.toString();
@@ -324,6 +328,18 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
             return (speed > 0) & (speed <= 1000) ? speed : DEFAULT_SNAKE_SPEED;
         } catch (NumberFormatException e) {
             return DEFAULT_SNAKE_SPEED;
+        }
+    }
+
+    /**
+     * Скорость змейки из поля ввода; если поле пустое или некорректное - значение по умолчанию
+     */
+    private int getTargetScore() {
+        try {
+            int targetScore = Integer.parseInt(snakeTargetScoreInput.getText().toString().trim());
+            return targetScore > 0 ? targetScore : DEFAULT_TARGET_SCORE;
+        } catch (NumberFormatException e) {
+            return DEFAULT_TARGET_SCORE;
         }
     }
 
