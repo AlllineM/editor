@@ -27,83 +27,12 @@
         android:layout_height="50dp"
         android:layout_below="@id/header" />
 
-    <!-- Игровая плашка-подсказка с плотным шрифтом и объемной тенью -->
-    <TextView
-        android:id="@+id/editor_hint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/banner_placeholder"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:background="#55000000"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:letterSpacing="0.01"
-        android:lineSpacingExtra="2dp"
-        android:paddingHorizontal="14dp"
-        android:paddingVertical="8dp"
-        android:shadowColor="#CC000000"
-        android:shadowDx="0"
-        android:shadowDy="2"
-        android:shadowRadius="1.5"
-        android:text="Чтобы расположить препятствие, нажми на любое место на поле"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <SurfaceView
-        android:id="@+id/surfaceViewEditor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/banner_placeholder" />
-
-    <!-- Главная игровая кнопка: крупный капс, плотный шрифт sans-serif-black и тень текста -->
-    <Button
-        android:id="@+id/save_level"
-        android:layout_below="@id/surfaceViewEditor"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="sans-serif-black"
-        android:letterSpacing="0.04"
-        android:shadowColor="#66000000"
-        android:shadowDx="0"
-        android:shadowDy="2"
-        android:shadowRadius="1"
-        android:tag="0"
-        android:text="Сохранить и опубликовать"
-        android:textAllCaps="true"
-        android:textColor="@color/md_theme_onPrimary"
-        android:textSize="15sp"
-        app:backgroundTint="@color/md_theme_seed"
-        app:cornerRadius="16dp" />
-
-    <!-- Второстепенная игровая кнопка: чуть компактнее и спокойнее по тону -->
-    <Button
-        android:id="@+id/clear_level"
-        android:layout_width="match_parent"
-        android:layout_below="@id/save_level"
-        android:layout_height="46dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="sans-serif-bold"
-        android:letterSpacing="0.03"
-        android:tag="0"
-        android:text="Очистить всё"
-        android:textAllCaps="true"
-        android:textColor="#FFFFFF"
-        android:textSize="13sp"
-        app:backgroundTint="#66000000"
-        app:cornerRadius="14dp"
-        app:strokeColor="#99FFFFFF"
-        app:strokeWidth="1.5dp" />
-
     <ScrollView
+        android:id="@+id/settings"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/clear_level">
+        android:layout_height="100dp"
+        android:layout_below="@id/banner_placeholder">
 
         <!-- Блок настроек уровня -->
         <LinearLayout
@@ -251,4 +180,76 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <!-- Игровая плашка-подсказка с плотным шрифтом и объемной тенью -->
+    <TextView
+        android:id="@+id/editor_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="#55000000"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="2dp"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="8dp"
+        android:shadowColor="#CC000000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="1.5"
+        android:text="Чтобы расположить препятствие, нажми на любое место на поле"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <SurfaceView
+        android:id="@+id/surfaceViewEditor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings" />
+
+    <!-- Главная игровая кнопка: крупный капс, плотный шрифт sans-serif-black и тень текста -->
+    <Button
+        android:id="@+id/save_level"
+        android:layout_below="@id/surfaceViewEditor"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="0.04"
+        android:shadowColor="#66000000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="1"
+        android:tag="0"
+        android:text="Сохранить и опубликовать"
+        android:textAllCaps="true"
+        android:textColor="@color/md_theme_onPrimary"
+        android:textSize="15sp"
+        app:backgroundTint="@color/md_theme_seed"
+        app:cornerRadius="16dp" />
+
+    <!-- Второстепенная игровая кнопка: чуть компактнее и спокойнее по тону -->
+    <Button
+        android:id="@+id/clear_level"
+        android:layout_width="match_parent"
+        android:layout_below="@id/save_level"
+        android:layout_height="46dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-bold"
+        android:letterSpacing="0.03"
+        android:tag="0"
+        android:text="Очистить всё"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        app:backgroundTint="#66000000"
+        app:cornerRadius="14dp"
+        app:strokeColor="#99FFFFFF"
+        app:strokeWidth="1.5dp" />
 </RelativeLayout>
