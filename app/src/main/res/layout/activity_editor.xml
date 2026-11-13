@@ -47,7 +47,7 @@
         android:shadowDx="0"
         android:shadowDy="2"
         android:shadowRadius="1.5"
-        android:text="Чтобы расположить блок, нажми на любое место на поле"
+        android:text="Чтобы расположить препятствие, нажми на любое место на поле"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         android:textStyle="bold" />
@@ -56,14 +56,55 @@
         android:id="@+id/surfaceViewEditor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editor_hint" />
+        android:layout_below="@+id/banner_placeholder" />
+
+    <!-- Главная игровая кнопка: крупный капс, плотный шрифт sans-serif-black и тень текста -->
+    <Button
+        android:id="@+id/save_level"
+        android:layout_below="@id/surfaceViewEditor"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="0.04"
+        android:shadowColor="#66000000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="1"
+        android:tag="0"
+        android:text="Сохранить и опубликовать"
+        android:textAllCaps="true"
+        android:textColor="@color/md_theme_onPrimary"
+        android:textSize="15sp"
+        app:backgroundTint="@color/md_theme_seed"
+        app:cornerRadius="16dp" />
+
+    <!-- Второстепенная игровая кнопка: чуть компактнее и спокойнее по тону -->
+    <Button
+        android:id="@+id/clear_level"
+        android:layout_width="match_parent"
+        android:layout_below="@id/save_level"
+        android:layout_height="46dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-bold"
+        android:letterSpacing="0.03"
+        android:tag="0"
+        android:text="Очистить всё"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        app:backgroundTint="#66000000"
+        app:cornerRadius="14dp"
+        app:strokeColor="#99FFFFFF"
+        app:strokeWidth="1.5dp" />
 
     <!-- Блок настроек уровня -->
     <LinearLayout
         android:id="@+id/quizzes_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/surfaceViewEditor"
+        android:layout_below="@id/clear_level"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
@@ -203,44 +244,5 @@
                 android:textColorHint="#80261A12"
                 android:textSize="16sp" />
         </LinearLayout>
-
-        <!-- Главная игровая кнопка: крупный капс, плотный шрифт sans-serif-black и тень текста -->
-        <Button
-            android:id="@+id/save_level"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="4dp"
-            android:fontFamily="sans-serif-black"
-            android:letterSpacing="0.04"
-            android:shadowColor="#66000000"
-            android:shadowDx="0"
-            android:shadowDy="2"
-            android:shadowRadius="1"
-            android:tag="0"
-            android:text="Сохранить и опубликовать"
-            android:textAllCaps="true"
-            android:textColor="@color/md_theme_onPrimary"
-            android:textSize="15sp"
-            app:backgroundTint="@color/md_theme_seed"
-            app:cornerRadius="16dp" />
-
-        <!-- Второстепенная игровая кнопка: чуть компактнее и спокойнее по тону -->
-        <Button
-            android:id="@+id/clear_level"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif-bold"
-            android:letterSpacing="0.03"
-            android:tag="0"
-            android:text="Очистить всё"
-            android:textAllCaps="true"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp"
-            app:backgroundTint="#66000000"
-            app:cornerRadius="14dp"
-            app:strokeColor="#99FFFFFF"
-            app:strokeWidth="1.5dp" />
     </LinearLayout>
 </RelativeLayout>
