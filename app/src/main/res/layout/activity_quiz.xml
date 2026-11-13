@@ -98,8 +98,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/topBtn"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:background="@null"
             android:scaleType="fitCenter"
             android:padding="0dp"
@@ -109,14 +109,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center">
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/leftBtn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
                 android:padding="0dp"
@@ -124,8 +124,8 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/pause"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@null"
@@ -135,8 +135,8 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/rightBtn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
                 android:padding="0dp"
@@ -146,8 +146,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/bottomBtn"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:background="@null"
             android:scaleType="fitCenter"
             android:padding="0dp"
