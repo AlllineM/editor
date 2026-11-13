@@ -113,7 +113,7 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
                             AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
                             if (isResponseOk(response)) {
                                 builder.setTitle("Уровень сохранен");
-                                builder.setMessage("Чтобы его запустить, перейдите в созданные уровни");
+                                builder.setMessage("Чтобы его запустить, перейди в 'выбрать уровень'");
                                 builder.setCancelable(true);
                             } else {
                                 builder.setTitle("Что-то пошло не так");
