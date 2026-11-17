@@ -2,11 +2,13 @@ package com.binturong.game_editor.frontend;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.ContextCompat;
 
 import com.binturong.game_editor.R;
 import com.binturong.game_editor.backend.data.SnakePoints;
@@ -53,6 +56,10 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private static final int snakeColor = Color.parseColor("#406835");
     private static final int blockColor = Color.parseColor("#43AEB5");
     private static final int meatColor = Color.parseColor("#DA342E");
+
+    private Bitmap wallBushBitmap;
+    private final Paint segmentPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+
     private Canvas canvas = null;
 
     //Цвет еды/одного звена змеи
@@ -84,7 +91,8 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
                 //отрисовка рамки
                 for (int i = 0; i < blockPointsList.size(); i++) {
-                    canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
+                    canvas.drawBitmap(wallBushBitmap, blockPointsList.get(i).getPositionX() - wallBushBitmap.getWidth() / 2f, blockPointsList.get(i).getPositionY() - wallBushBitmap.getHeight() / 2f, segmentPaint);
+                    //canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
                 }
 
                 surfaceHolder.unlockCanvasAndPost(canvas);
@@ -362,35 +370,60 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
         //отрисовка рамки
         for (int i = 0; i < blockPointsList.size(); i++) {
-            canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
+            canvas.drawBitmap(wallBushBitmap, blockPointsList.get(i).getPositionX() - wallBushBitmap.getWidth() / 2f, blockPointsList.get(i).getPositionY() - wallBushBitmap.getHeight() / 2f, segmentPaint);
+            //canvas.drawCircle(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, createPointColor("block"));
         }
 
         //отрисовка больших блоков
         for (int i = 0; i < bigBlockPointsList.size(); i++) {
             //большой блок - квадрат из 4 мелких блоков
-            canvas.drawCircle(
-                    bigBlockPointsList.get(i).getPositionX(),
-                    bigBlockPointsList.get(i).getPositionY(),
-                    pointsSize,
-                    createPointColor("block")
+            canvas.drawBitmap(
+                    wallBushBitmap,
+                    bigBlockPointsList.get(i).getPositionX() - wallBushBitmap.getWidth() / 2f,
+                    bigBlockPointsList.get(i).getPositionY() - wallBushBitmap.getHeight() / 2f,
+                    segmentPaint
             );
-            canvas.drawCircle(
-                    bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
-                    bigBlockPointsList.get(i).getPositionY(),
-                    pointsSize,
-                    createPointColor("block")
+//            canvas.drawCircle(
+//                    bigBlockPointsList.get(i).getPositionX(),
+//                    bigBlockPointsList.get(i).getPositionY(),
+//                    pointsSize,
+//                    createPointColor("block")
+//            );
+            canvas.drawBitmap(
+                    wallBushBitmap,
+                    bigBlockPointsList.get(i).getPositionX() - wallBushBitmap.getWidth() / 2f + pointsSize * 2,
+                    bigBlockPointsList.get(i).getPositionY() - wallBushBitmap.getHeight() / 2f,
+                    segmentPaint
             );
-            canvas.drawCircle(
-                    bigBlockPointsList.get(i).getPositionX(),
-                    bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
-                    pointsSize,
-                    createPointColor("block")
+//            canvas.drawCircle(
+//                    bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
+//                    bigBlockPointsList.get(i).getPositionY(),
+//                    pointsSize,
+//                    createPointColor("block")
+//            );
+            canvas.drawBitmap(
+                    wallBushBitmap,
+                    bigBlockPointsList.get(i).getPositionX() - wallBushBitmap.getWidth() / 2f,
+                    bigBlockPointsList.get(i).getPositionY() - wallBushBitmap.getHeight() / 2f + pointsSize * 2,
+                    segmentPaint
             );
-            canvas.drawCircle(
-                    bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
-                    bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
-                    pointsSize,
-                    createPointColor("block")
+//            canvas.drawCircle(
+//                    bigBlockPointsList.get(i).getPositionX(),
+//                    bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
+//                    pointsSize,
+//                    createPointColor("block")
+//            );
+//            canvas.drawCircle(
+//                    bigBlockPointsList.get(i).getPositionX() + pointsSize * 2,
+//                    bigBlockPointsList.get(i).getPositionY() + pointsSize * 2,
+//                    pointsSize,
+//                    createPointColor("block")
+//            );
+            canvas.drawBitmap(
+                    wallBushBitmap,
+                    bigBlockPointsList.get(i).getPositionX() - wallBushBitmap.getWidth() / 2f + pointsSize * 2,
+                    bigBlockPointsList.get(i).getPositionY() - wallBushBitmap.getHeight() / 2f + pointsSize * 2,
+                    segmentPaint
             );
         }
         surfaceHolder.unlockCanvasAndPost(canvas);
@@ -414,6 +447,12 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
     private void init() {
         surfaceSize = surfaceView.getWidth(); //квадрат по ширине экрана
         pointsSize = surfaceSize / surfaceSizeInPoints;
+
+        //тело звена в svg занимает 88 из 100, поэтому увеличиваем, чтобы соседние звенья касались друг друга
+        int segmentSize = Math.round(pointsSize * 2 * 100f / 88f);
+        wallBushBitmap = createSegmentBitmap(R.drawable.wall_bush, segmentSize);
+
+
         surfaceView.getHolder().setFixedSize(surfaceSize, surfaceSize);
 
         setBlockPointsList();
@@ -423,11 +462,11 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 
         //отрисовка блоков
         for (int i = 0; i < blockPointsList.size(); i++) {
-            canvas.drawCircle(
-                    blockPointsList.get(i).getPositionX(),
-                    blockPointsList.get(i).getPositionY(),
-                    pointsSize,
-                    createPointColor("block")
+            canvas.drawBitmap(
+                    wallBushBitmap,
+                    blockPointsList.get(i).getPositionX() - wallBushBitmap.getWidth() / 2f,
+                    blockPointsList.get(i).getPositionY() - wallBushBitmap.getHeight() / 2f,
+                    segmentPaint
             );
         }
 
@@ -444,6 +483,15 @@ public class EditorActivity extends HeaderActivity implements SurfaceHolder.Call
 //
 //            startPositionX = startPositionX - (pointsSize * 2);
 //        }
+    }
+
+    private Bitmap createSegmentBitmap(int drawableId, int size) {
+        Drawable drawable = ContextCompat.getDrawable(this, drawableId);
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        Canvas bitmapCanvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, size, size);
+        drawable.draw(bitmapCanvas);
+        return bitmap;
     }
 
     private void setBlockPointsList() {
