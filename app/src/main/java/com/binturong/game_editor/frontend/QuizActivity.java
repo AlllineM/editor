@@ -380,7 +380,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         int segmentSize = Math.round(pointsSize * 2 * 100f / 88f);
         segmentDarkBitmap = createSegmentBitmap(R.drawable.snake_segment_dark, segmentSize);
         segmentLightBitmap = createSegmentBitmap(R.drawable.snake_segment_light, segmentSize);
-        appleBitmap = createSegmentBitmap(R.drawable.apple, segmentSize + 10);
+        appleBitmap = createSegmentBitmap(R.drawable.apple, segmentSize + 15);
 
         surfaceView.getHolder().setFixedSize(surfaceSize, surfaceSize);
 
