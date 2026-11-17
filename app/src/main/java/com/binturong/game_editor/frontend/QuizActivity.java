@@ -89,7 +89,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private Paint pointColor = null;
 
     //Звенья змейки: заранее отрисованные картинки (тёмное/светлое), чередуются
-    private Bitmap segmentDarkBitmap, segmentLightBitmap, appleBitmap, wallBushBitmap;
+    private Bitmap segmentDarkBitmap, segmentLightBitmap, appleBitmap, wallBushBitmap, snakeHeadBitmap;
     private final Paint segmentPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
 
     private int liveCount = 3;
@@ -379,9 +379,11 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         //тело звена в svg занимает 88 из 100, поэтому увеличиваем, чтобы соседние звенья касались друг друга
         int segmentSize = Math.round(pointsSize * 2 * 100f / 88f);
         segmentDarkBitmap = createSegmentBitmap(R.drawable.snake_segment_dark, segmentSize);
-        segmentLightBitmap = createSegmentBitmap(R.drawable.snake_segment_light, segmentSize);
+        //пока делаем все звенья темными, но оставляем логику чередования темного-светлого. Да, говнокод)
+        segmentLightBitmap = createSegmentBitmap(R.drawable.snake_segment_dark, segmentSize);
         appleBitmap = createSegmentBitmap(R.drawable.apple, segmentSize + 15);
         wallBushBitmap = createSegmentBitmap(R.drawable.wall_bush, segmentSize);
+        snakeHeadBitmap = createSegmentBitmap(R.drawable.snake_segment_dark, segmentSize+ 15);
 
         surfaceView.getHolder().setFixedSize(surfaceSize, surfaceSize);
 
@@ -616,13 +618,14 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
                     canvas.drawBitmap(appleBitmap, positionX - appleBitmap.getWidth() / 2f, positionY - appleBitmap.getHeight() / 2f, segmentPaint);
 
 
+                    canvas.drawBitmap(snakeHeadBitmap, snakePointsList.get(0).getPositionX() - snakeHeadBitmap.getWidth() / 2f, snakePointsList.get(0).getPositionY() - snakeHeadBitmap.getHeight() / 2f, segmentPaint);
                     //Меняет положение головы. Остальные звенья змеи будут идти следом + рисует голову чуть больше остального))
-                    drawCircleWithVolume(
-                            snakePointsList.get(0).getPositionX(),
-                            snakePointsList.get(0).getPositionY(),
-                            (float) (pointsSize * 1.3),
-                            snakeColor
-                    );
+//                    drawCircleWithVolume(
+//                            snakePointsList.get(0).getPositionX(),
+//                            snakePointsList.get(0).getPositionY(),
+//                            (float) (pointsSize * 1.3),
+//                            snakeColor
+//                    );
 
                     //Движение звеньев за головой, позиция 1 - это глова
                     for (int i = 1; i < snakePointsList.size(); i++) {
