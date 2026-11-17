@@ -89,7 +89,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
     private Paint pointColor = null;
 
     //Звенья змейки: заранее отрисованные картинки (тёмное/светлое), чередуются
-    private Bitmap segmentDarkBitmap, segmentLightBitmap, appleBitmap;
+    private Bitmap segmentDarkBitmap, segmentLightBitmap, appleBitmap, wallBushBitmap;
     private final Paint segmentPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
 
     private int liveCount = 3;
@@ -381,6 +381,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
         segmentDarkBitmap = createSegmentBitmap(R.drawable.snake_segment_dark, segmentSize);
         segmentLightBitmap = createSegmentBitmap(R.drawable.snake_segment_light, segmentSize);
         appleBitmap = createSegmentBitmap(R.drawable.apple, segmentSize + 15);
+        wallBushBitmap = createSegmentBitmap(R.drawable.wall_bush, segmentSize);
 
         surfaceView.getHolder().setFixedSize(surfaceSize, surfaceSize);
 
@@ -638,7 +639,7 @@ public class QuizActivity extends HeaderActivity implements SurfaceHolder.Callba
 
                     //отрисовка блоков
                     for (int i = 0; i < blockPointsList.size(); i++) {
-                        drawCircleWithVolume(blockPointsList.get(i).getPositionX(), blockPointsList.get(i).getPositionY(), pointsSize, blockColor);
+                        canvas.drawBitmap(wallBushBitmap, blockPointsList.get(i).getPositionX() - wallBushBitmap.getWidth() / 2f, blockPointsList.get(i).getPositionY() - wallBushBitmap.getHeight() / 2f, segmentPaint);
                     }
 
                     surfaceHolder.unlockCanvasAndPost(canvas);
